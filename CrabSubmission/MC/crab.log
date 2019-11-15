@@ -1,0 +1,116 @@
+DEBUG 2019-09-27 13:40:15.087 UTC: 	 Executing command: 'submit'
+DEBUG 2019-09-27 13:40:15.087 UTC: 	 Found CRAB cache file /lustre/home/venditti/.crab3
+DEBUG 2019-09-27 13:40:15.097 UTC: 	 Checking credentials
+DEBUG 2019-09-27 13:40:15.097 UTC: 	 Found proxy file /tmp/x509up_u50797
+DEBUG 2019-09-27 13:40:15.097 UTC: 	 Getting proxy life time left
+DEBUG 2019-09-27 13:40:15.800 UTC: 	 Executing : 
+ command : voms-proxy-info -file /tmp/x509up_u50797 -timeleft
+ output : 40503
+
+ error: 
+ retcode : 0
+DEBUG 2019-09-27 13:40:16.504 UTC: 	 Executing : 
+ command : voms-proxy-info -file /tmp/x509up_u50797 -actimeleft
+ output : 40502
+
+ error: 
+ retcode : 0
+DEBUG 2019-09-27 13:40:16.504 UTC: 	 Proxy lifetime 40503 secs is different from voms extension lifetime 40502 secs for proxy: /tmp/x509up_u50797
+DEBUG 2019-09-27 13:40:16.505 UTC: 	 Proxy valid for 11:15:02 hours
+INFO 2019-09-27 13:40:16.505 UTC: 	 Will use CRAB configuration file crabTreeMaker_QCDDoubleMu_cfg.py
+DEBUG 2019-09-27 13:40:16.505 UTC: 	 Loading CRAB configuration file.
+DEBUG 2019-09-27 13:40:19.171 UTC: 	 Will use CRAB Analysis plugin (i.e. will run an analysis job type).
+ERROR 2019-09-27 13:40:19.172 UTC: 	 Working area '/lustrehome/venditti/Tau3Mu2018/CMSSW_10_3_0/src/CrabSubmission/MC/crab_projects/crab_TreeMaker_QCD_DoubleMu4' already exists 
+Please change the requestName in the config file
+ERROR 2019-09-27 13:40:19.172 UTC: 	 Caught exception
+Traceback (most recent call last):
+  File "/cvmfs/cms.cern.ch/crab3/slc6_amd64_gcc493/cms/crabclient/3.3.1909/bin/crab", line 160, in <module>
+    client()
+  File "/cvmfs/cms.cern.ch/crab3/slc6_amd64_gcc493/cms/crabclient/3.3.1909/bin/crab", line 145, in __call__
+    self.cmd = sub_cmd(self.logger, args[1:])
+  File "/cvmfs/cms.cern.ch/crab3/slc6_amd64_gcc493/cms/crabclient/3.3.1909/lib/python2.7/site-packages/CRABClient/Commands/submit.py", line 34, in __init__
+    SubCommand.__init__(self, logger, cmdargs, disable_interspersed_args=True)
+  File "/cvmfs/cms.cern.ch/crab3/slc6_amd64_gcc493/cms/crabclient/3.3.1909/lib/python2.7/site-packages/CRABClient/Commands/SubCommand.py", line 315, in __init__
+    getattr(self.configuration.General, 'requestName', None))
+  File "/cvmfs/cms.cern.ch/crab3/slc6_amd64_gcc493/cms/crabclient/3.3.1909/lib/python2.7/site-packages/CRABClient/ClientUtilities.py", line 408, in createWorkArea
+    raise ConfigException("Working area '%s' already exists \nPlease change the requestName in the config file" % fullpath)
+ConfigException: Working area '/lustrehome/venditti/Tau3Mu2018/CMSSW_10_3_0/src/CrabSubmission/MC/crab_projects/crab_TreeMaker_QCD_DoubleMu4' already exists 
+Please change the requestName in the config file
+DEBUG 2019-09-27 14:18:15.197 UTC: 	 Executing command: 'proceed'
+DEBUG 2019-09-27 14:18:15.202 UTC: 	 Found CRAB cache file /lustre/home/venditti/.crab3
+ERROR 2019-09-27 14:18:15.239 UTC: 	 Cannot find .requestcache file in CRAB project directory /lustrehome/venditti/Tau3MU_29072019/CMSSW_9_4_4/src/CrabSubmission/MC/crab_projects/crab_DsToPhiPi_ToMuMu_MuFilter_SkimPhiPi_MC_Official_2017_v1
+ERROR 2019-09-27 14:18:15.239 UTC: 	 Caught exception
+Traceback (most recent call last):
+  File "/cvmfs/cms.cern.ch/crab3/slc6_amd64_gcc493/cms/crabclient/3.3.1909/bin/crab", line 160, in <module>
+    client()
+  File "/cvmfs/cms.cern.ch/crab3/slc6_amd64_gcc493/cms/crabclient/3.3.1909/bin/crab", line 145, in __call__
+    self.cmd = sub_cmd(self.logger, args[1:])
+  File "/cvmfs/cms.cern.ch/crab3/slc6_amd64_gcc493/cms/crabclient/3.3.1909/lib/python2.7/site-packages/CRABClient/Commands/proceed.py", line 14, in __init__
+    SubCommand.__init__(self, logger, cmdargs)
+  File "/cvmfs/cms.cern.ch/crab3/slc6_amd64_gcc493/cms/crabclient/3.3.1909/lib/python2.7/site-packages/CRABClient/Commands/SubCommand.py", line 268, in __init__
+    SubCommand.validateOptions(self)
+  File "/cvmfs/cms.cern.ch/crab3/slc6_amd64_gcc493/cms/crabclient/3.3.1909/lib/python2.7/site-packages/CRABClient/Commands/SubCommand.py", line 590, in validateOptions
+    self.loadLocalCache()
+  File "/cvmfs/cms.cern.ch/crab3/slc6_amd64_gcc493/cms/crabclient/3.3.1909/lib/python2.7/site-packages/CRABClient/Commands/SubCommand.py", line 452, in loadLocalCache
+    raise ex
+CachefileNotFoundException: Cannot find .requestcache file in CRAB project directory /lustrehome/venditti/Tau3MU_29072019/CMSSW_9_4_4/src/CrabSubmission/MC/crab_projects/crab_DsToPhiPi_ToMuMu_MuFilter_SkimPhiPi_MC_Official_2017_v1
+DEBUG 2019-11-06 12:30:28.464 UTC: 	 Running on: Linux ui03.recas.ba.infn.it 3.10.0-862.14.4.el7.x86_64 #1 SMP Wed Sep 26 15:12:11 UTC 2018 x86_64 x86_64 x86_64 GNU/Linux
+Description:	CentOS Linux release 7.6.1810 (Core) 
+
+DEBUG 2019-11-06 12:30:28.464 UTC: 	 Executing command: 'resubmit'
+DEBUG 2019-11-06 12:30:28.465 UTC: 	 Found CRAB cache file /lustre/home/venditti/.crab3
+ERROR 2019-11-06 12:30:28.475 UTC: 	 Error: crab_projects/crab_TreeMaker_QCD_DoubleMu4_v1 is not a valid CRAB project directory.
+ERROR 2019-11-06 12:30:28.475 UTC: 	 Caught exception
+Traceback (most recent call last):
+  File "/cvmfs/cms.cern.ch/crab3/slc6_amd64_gcc493/cms/crabclient/3.3.1910.patch2/bin/crab", line 160, in <module>
+    client()
+  File "/cvmfs/cms.cern.ch/crab3/slc6_amd64_gcc493/cms/crabclient/3.3.1910.patch2/bin/crab", line 145, in __call__
+    self.cmd = sub_cmd(self.logger, args[1:])
+  File "/cvmfs/cms.cern.ch/crab3/slc6_amd64_gcc493/cms/crabclient/3.3.1910.patch2/lib/python2.7/site-packages/CRABClient/Commands/resubmit.py", line 28, in __init__
+    SubCommand.__init__(self, logger, cmdargs)
+  File "/cvmfs/cms.cern.ch/crab3/slc6_amd64_gcc493/cms/crabclient/3.3.1910.patch2/lib/python2.7/site-packages/CRABClient/Commands/SubCommand.py", line 262, in __init__
+    SubCommand.validateOptions(self)
+  File "/cvmfs/cms.cern.ch/crab3/slc6_amd64_gcc493/cms/crabclient/3.3.1910.patch2/lib/python2.7/site-packages/CRABClient/Commands/SubCommand.py", line 580, in validateOptions
+    raise ConfigurationException(msg)
+ConfigurationException: [91mError[0m: crab_projects/crab_TreeMaker_QCD_DoubleMu4_v1 is not a valid CRAB project directory.
+DEBUG 2019-11-06 12:32:05.405 UTC: 	 Running on: Linux ui03.recas.ba.infn.it 3.10.0-862.14.4.el7.x86_64 #1 SMP Wed Sep 26 15:12:11 UTC 2018 x86_64 x86_64 x86_64 GNU/Linux
+Description:	CentOS Linux release 7.6.1810 (Core) 
+
+DEBUG 2019-11-06 12:32:05.405 UTC: 	 Executing command: 'submit'
+DEBUG 2019-11-06 12:32:05.406 UTC: 	 Found CRAB cache file /lustre/home/venditti/.crab3
+DEBUG 2019-11-06 12:32:05.413 UTC: 	 Checking credentials
+DEBUG 2019-11-06 12:32:05.414 UTC: 	 Found proxy file /tmp/x509up_u50797
+DEBUG 2019-11-06 12:32:05.414 UTC: 	 Getting proxy life time left
+DEBUG 2019-11-06 12:32:07.021 UTC: 	 Executing : 
+ command : voms-proxy-info -file /tmp/x509up_u50797 -timeleft
+ output : 42481
+
+ error: 
+ retcode : 0
+DEBUG 2019-11-06 12:32:09.134 UTC: 	 Executing : 
+ command : voms-proxy-info -file /tmp/x509up_u50797 -actimeleft
+ output : 42477
+
+ error: 
+ retcode : 0
+DEBUG 2019-11-06 12:32:09.135 UTC: 	 Proxy lifetime 42481 secs is different from voms extension lifetime 42477 secs for proxy: /tmp/x509up_u50797
+DEBUG 2019-11-06 12:32:09.135 UTC: 	 Proxy valid for 11:47:57 hours
+INFO 2019-11-06 12:32:09.135 UTC: 	 Will use CRAB configuration file crabTreeMaker_QCDDoubleMu_cfg.py
+DEBUG 2019-11-06 12:32:09.135 UTC: 	 Loading CRAB configuration file.
+DEBUG 2019-11-06 12:32:14.848 UTC: 	 Will use CRAB Analysis plugin (i.e. will run an analysis job type).
+ERROR 2019-11-06 12:32:14.849 UTC: 	 Working area '/lustrehome/venditti/Tau3Mu2018/CMSSW_10_3_0/src/CrabSubmission/MC/crab_projects/crab_TreeMaker_QCD_DoubleMu4_v1' already exists 
+Please change the requestName in the config file
+ERROR 2019-11-06 12:32:14.849 UTC: 	 Caught exception
+Traceback (most recent call last):
+  File "/cvmfs/cms.cern.ch/crab3/slc6_amd64_gcc493/cms/crabclient/3.3.1910.patch2/bin/crab", line 160, in <module>
+    client()
+  File "/cvmfs/cms.cern.ch/crab3/slc6_amd64_gcc493/cms/crabclient/3.3.1910.patch2/bin/crab", line 145, in __call__
+    self.cmd = sub_cmd(self.logger, args[1:])
+  File "/cvmfs/cms.cern.ch/crab3/slc6_amd64_gcc493/cms/crabclient/3.3.1910.patch2/lib/python2.7/site-packages/CRABClient/Commands/submit.py", line 34, in __init__
+    SubCommand.__init__(self, logger, cmdargs, disable_interspersed_args=True)
+  File "/cvmfs/cms.cern.ch/crab3/slc6_amd64_gcc493/cms/crabclient/3.3.1910.patch2/lib/python2.7/site-packages/CRABClient/Commands/SubCommand.py", line 309, in __init__
+    getattr(self.configuration.General, 'requestName', None))
+  File "/cvmfs/cms.cern.ch/crab3/slc6_amd64_gcc493/cms/crabclient/3.3.1910.patch2/lib/python2.7/site-packages/CRABClient/ClientUtilities.py", line 413, in createWorkArea
+    raise ConfigException("Working area '%s' already exists \nPlease change the requestName in the config file" % fullpath)
+ConfigException: Working area '/lustrehome/venditti/Tau3Mu2018/CMSSW_10_3_0/src/CrabSubmission/MC/crab_projects/crab_TreeMaker_QCD_DoubleMu4_v1' already exists 
+Please change the requestName in the config file
