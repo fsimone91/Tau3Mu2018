@@ -125,6 +125,10 @@
 #include "CondFormats/L1TObjects/interface/L1TUtmTriggerMenu.h"
 #include "CondFormats/DataRecord/interface/L1TGlobalPrescalesVetosRcd.h"
 #include "CondFormats/L1TObjects/interface/L1TGlobalPrescalesVetos.h"
+
+#include "DataFormats/TrackReco/interface/TrackToTrackMap.h"
+#include "DataFormats/TrackReco/interface/Track.h"
+#include "DataFormats/TrackReco/interface/TrackFwd.h"
 ////
 class MiniAna2017Tree : public edm::one::EDAnalyzer<edm::one::SharedResources>  {
 public:
@@ -191,8 +195,10 @@ private:
 
     std::vector<int>  Muon_simPdgId, Muon_simMotherPdgId, Muon_simFlavour,  Muon_simType, Muon_simBX, Muon_simTpEvent, Muon_simMatchQuality;
     std::vector<double>  Mu1_Pt,  Mu1_Eta,  Mu1_Phi,  Mu2_Pt,  Mu2_Eta,  Mu2_Phi,  Mu3_Pt,  Mu3_Eta,  Mu3_Phi, GenMatchMu1_SimPt, GenMatchMu2_SimPt, GenMatchMu3_SimPt,GenMatchMu1_SimEta, GenMatchMu2_SimEta, GenMatchMu3_SimEta, GenMatchMu1_SimPhi, GenMatchMu2_SimPhi, GenMatchMu3_SimPhi,  GenMatchMu1_Pt,  GenMatchMu2_Pt,  GenMatchMu3_Pt,  GenMatchMu1_Eta,  GenMatchMu2_Eta,  GenMatchMu3_Eta,  GenMatchMu1_Phi,  GenMatchMu2_Phi,  GenMatchMu3_Phi;
-    std::vector<float> Mu1_dRtriggerMatch, Mu2_dRtriggerMatch, Mu3_dRtriggerMatch;
- 
+  std::vector<float> Mu1_dRtriggerMatch, Mu2_dRtriggerMatch, Mu3_dRtriggerMatch;
+  std::vector<float> Mu1_dRtriggerMatch_Mu7, Mu2_dRtriggerMatch_Mu7, Mu3_dRtriggerMatch_Mu7;
+  std::vector<float> Mu1_dRtriggerMatch_Mu8, Mu2_dRtriggerMatch_Mu8, Mu3_dRtriggerMatch_Mu8; 
+
     std::vector<double>     Muon_emEt03, Muon_hadEt03, Muon_nJets03, Muon_nTracks03, Muon_sumPt03, Muon_emEt05,    Muon_hadEt05, Muon_nJets05, Muon_nTracks05, Muon_sumPt05,
     Muon_hadVetoEt03,Muon_emVetoEt03,    Muon_trackerVetoPt03,    Muon_hadVetoEt05,    Muon_emVetoEt05,    Muon_trackerVetoPt05;
     //dd  Mu1_SimPt,  Mu1_SimEta,  Mu1_SimPhi,  Mu2_SimPt,  Mu2_SimEta,  Mu2_SimPhi, Mu3_SimPt,  Mu3_SimEta,  Mu3_SimPhi,
@@ -403,7 +409,7 @@ private:
 	    for (size_t i_l1t = 0; i_l1t < initialDecisions.size(); i_l1t++) 
 	      {
 		string l1tName = (initialDecisions.at(i_l1t)).first;
-		if(l1tName.find("DoubleMu") != string::npos || l1tName.find("TripleMu") != string::npos){
+		if(l1tName.find("DoubleMu") != string::npos || l1tName.find("TripleMu") != string::npos ||  l1tName.find("SingleMu")!= string::npos ){
 		  Trigger_l1name.push_back( l1tName );
 		  Trigger_l1decision.push_back( initialDecisions.at(i_l1t).second );
 		  Trigger_l1prescale.push_back( 1 );
@@ -418,7 +424,7 @@ private:
 	    int columnN= gtUtil_->prescaleColumn();
 	    for (size_t i_l1t = 0; i_l1t < initialDecisions.size(); i_l1t++) {
 	      string l1tName = (initialDecisions.at(i_l1t)).first;
-	      if(l1tName.find("DoubleMu") != string::npos || l1tName.find("TripleMu") != string::npos){
+	      if(l1tName.find("DoubleMu") != string::npos || l1tName.find("TripleMu") != string::npos ||  l1tName.find("SingleMu")!= string::npos){
 		//cout<<"L1Seed="<<l1tName<<" decision="<<initialDecisions.at(i_l1t).second<<" prescale="<<(psAndVetos->prescale_table_)[columnN][i_l1t]<<endl;
 		Trigger_l1name.push_back( l1tName );
 		Trigger_l1decision.push_back( initialDecisions.at(i_l1t).second );
@@ -431,7 +437,7 @@ private:
 	const TriggerNames &triggerNames = iEvent.triggerNames( *triggerResults );
 	for (size_t i_hlt = 0; i_hlt != triggerResults->size(); ++i_hlt){
 	    string hltName = triggerNames.triggerName(i_hlt);
-	    if(hltName.find("HLT_DoubleMu") != string::npos){
+	    if(hltName.find("HLT_DoubleMu3") != string::npos  || hltName.find("HLT_Mu8_IP") != string::npos || hltName.find("HLT_Mu7_IP") != string::npos ){
 	      //cout<<" HLTPath="<<hltName<<" isPassed="<<triggerResults->accept(i_hlt )<<endl;
 	      Trigger_hltname.push_back(hltName);
 	      Trigger_hltdecision.push_back(triggerResults->accept(i_hlt ));
@@ -624,10 +630,21 @@ private:
 
 	    ///////////////Check Trigger Matching///////////////
             float dR1 = 999., dR2 = 999., dR3 = 999.;
+	    float dR1_Mu7=999.,dR2_Mu7 = 999., dR3_Mu7 = 999.;
+	    float dR1_Mu8=999.,dR2_Mu8 = 999., dR3_Mu8 = 999.;
             std::vector<trigger::TriggerObject> trgobjs = triggerSummary->getObjects();
             trigger::TriggerObjectCollection MuonsObjects;
-            edm::InputTag MuonFilterTag = edm::InputTag("hltTau3muTkVertexFilter", "", "HLT");
+            trigger::TriggerObjectCollection MuonsObjects_BPMu7;
+            trigger::TriggerObjectCollection MuonsObjects_BPMu8;
+            //edm::InputTag MuonFilterTag = edm::InputTag("hltTau3muTkVertexFilter", "", "HLT"); //2017
+	    edm::InputTag MuonFilterTag = edm::InputTag("hltdstau3muDisplaced3muFltr", "", "HLT"); //2018
+	    edm::InputTag MuonFilterTagBPHMu8 = edm::InputTag("hltL3fL1sMu22OrParkL1f0L2f10QL3Filtered8Q", "", "HLT");
+	    edm::InputTag MuonFilterTagBPHMu7 = edm::InputTag("hltL3fL1sMu22OrParkL1f0L2f10QL3Filtered7IP4Q", "", "HLT");
+
+
             size_t MuonFilterIndex = (*triggerSummary).filterIndex(MuonFilterTag); //find the index corresponding to the event
+	    size_t MuonFilterIndex_BPHMu8 = (*triggerSummary).filterIndex(MuonFilterTagBPHMu8);
+	    size_t MuonFilterIndex_BPHMu7 = (*triggerSummary).filterIndex(MuonFilterTagBPHMu7);
             if(MuonFilterIndex < (*triggerSummary).sizeFilters()) { //check if the trigger object is present
             //save the trigger objetcs corresponding to muon leg
                 const trigger::Keys &KEYS = (*triggerSummary).filterKeys(MuonFilterIndex);
@@ -642,6 +659,39 @@ private:
             Mu1_dRtriggerMatch.push_back(dR1);
             Mu2_dRtriggerMatch.push_back(dR2);
             Mu3_dRtriggerMatch.push_back(dR3);
+
+
+	    if(MuonFilterIndex_BPHMu8 < (*triggerSummary).sizeFilters()) { //check if the trigger object is present                                                              
+	      //save the trigger objetcs corresponding to muon leg                                                                                                          
+	      const trigger::Keys &KEYS = (*triggerSummary).filterKeys(MuonFilterIndex_BPHMu8);
+	      for (unsigned int ipart = 0; ipart < KEYS.size(); ipart++) {
+		trigger::TriggerObject foundObject = (trgobjs)[KEYS[ipart]];
+		MuonsObjects_BPMu8.push_back(foundObject);
+	      }
+	      dR1_Mu8 = MiniAna2017Tree::dRtriggerMatch(*mu1, MuonsObjects_BPMu8);
+	      dR2_Mu8 = MiniAna2017Tree::dRtriggerMatch(*mu2, MuonsObjects_BPMu8);
+	      dR3_Mu8 = MiniAna2017Tree::dRtriggerMatch(*mu3, MuonsObjects_BPMu8);
+            }
+            Mu1_dRtriggerMatch_Mu8.push_back(dR1_Mu8);
+            Mu2_dRtriggerMatch_Mu8.push_back(dR2_Mu8);
+            Mu3_dRtriggerMatch_Mu8.push_back(dR3_Mu8);
+	     
+	    if(MuonFilterIndex_BPHMu7 < (*triggerSummary).sizeFilters()) {
+              //save the trigger objetcs corresponding to muon leg                                                                                                       
+              const trigger::Keys &KEYS = (*triggerSummary).filterKeys(MuonFilterIndex_BPHMu7);
+              for (unsigned int ipart = 0; ipart < KEYS.size(); ipart++) {
+		trigger::TriggerObject foundObject = (trgobjs)[KEYS[ipart]];
+                MuonsObjects_BPMu7.push_back(foundObject);
+              }
+              dR1_Mu7 = MiniAna2017Tree::dRtriggerMatch(*mu1, MuonsObjects_BPMu7);
+              dR2_Mu7 = MiniAna2017Tree::dRtriggerMatch(*mu2, MuonsObjects_BPMu7);
+              dR3_Mu7 = MiniAna2017Tree::dRtriggerMatch(*mu3, MuonsObjects_BPMu7);
+            }
+            Mu1_dRtriggerMatch_Mu7.push_back(dR1_Mu7);           
+            Mu2_dRtriggerMatch_Mu7.push_back(dR2_Mu7);
+            Mu3_dRtriggerMatch_Mu7.push_back(dR3_Mu7);
+
+
 
             if(isMc){
                 bool isMatch1=false; bool isMatch2=false; bool isMatch3=false;
@@ -922,6 +972,16 @@ private:
 		  Mu1_dRtriggerMatch.push_back(-99);
 		  Mu2_dRtriggerMatch.push_back(-99);
 		  Mu3_dRtriggerMatch.push_back(-99);
+
+
+		  Mu1_dRtriggerMatch_Mu7.push_back(-99);
+                  Mu2_dRtriggerMatch_Mu7.push_back(-99);
+                  Mu3_dRtriggerMatch_Mu7.push_back(-99);
+
+
+		  Mu1_dRtriggerMatch_Mu8.push_back(-99);
+                  Mu2_dRtriggerMatch_Mu8.push_back(-99);
+                  Mu3_dRtriggerMatch_Mu8.push_back(-99);
 
                     FlightDistPVSV.push_back(-99);
                     FlightDistPVSV_Err.push_back(-99);
@@ -1374,18 +1434,25 @@ private:
         Mu1_Phi.clear();
         Mu1_NTracks03iso.clear();
         Mu1_dRtriggerMatch.clear();
+        Mu1_dRtriggerMatch_Mu7.clear();
+        Mu1_dRtriggerMatch_Mu8.clear();
         
         Mu2_Pt.clear();
         Mu2_Eta.clear();
         Mu2_Phi.clear();
         Mu2_NTracks03iso.clear();
         Mu2_dRtriggerMatch.clear();
-        
+        Mu2_dRtriggerMatch_Mu7.clear();
+	Mu2_dRtriggerMatch_Mu8.clear();
+
         Mu3_Pt.clear();
         Mu3_Eta.clear();
         Mu3_Phi.clear();
         Mu3_NTracks03iso.clear();
         Mu3_dRtriggerMatch.clear();
+	Mu2_dRtriggerMatch_Mu7.clear();
+	Mu3_dRtriggerMatch_Mu8.clear();
+
         
         Mu1_TripletIndex.clear();
         Mu2_TripletIndex.clear();
@@ -1622,6 +1689,8 @@ private:
         tree_->Branch("Mu1_Phi", &Mu1_Phi);
         tree_->Branch("Mu1_NTracks03iso", &Mu1_NTracks03iso); 
         tree_->Branch("Mu1_dRtriggerMatch", &Mu1_dRtriggerMatch); 
+        tree_->Branch("Mu1_dRtriggerMatch_Mu7", &Mu1_dRtriggerMatch_Mu7); 
+        tree_->Branch("Mu1_dRtriggerMatch_Mu8", &Mu1_dRtriggerMatch_Mu8); 
         tree_->Branch("Mu1_TripletIndex", &Mu1_TripletIndex);
  
         tree_->Branch("Mu2_Pt", &Mu2_Pt);
@@ -1629,6 +1698,8 @@ private:
         tree_->Branch("Mu2_Phi", &Mu2_Phi);
         tree_->Branch("Mu2_NTracks03iso", &Mu2_NTracks03iso); 
         tree_->Branch("Mu2_dRtriggerMatch", &Mu2_dRtriggerMatch); 
+	tree_->Branch("Mu2_dRtriggerMatch_Mu7", &Mu2_dRtriggerMatch_Mu7);
+	tree_->Branch("Mu2_dRtriggerMatch_Mu8", &Mu2_dRtriggerMatch_Mu8);
         tree_->Branch("Mu2_TripletIndex", &Mu2_TripletIndex); 
         
         tree_->Branch("Mu3_Pt", &Mu3_Pt);
@@ -1636,6 +1707,8 @@ private:
         tree_->Branch("Mu3_Phi", &Mu3_Phi);
         tree_->Branch("Mu3_NTracks03iso", &Mu3_NTracks03iso); 
         tree_->Branch("Mu3_dRtriggerMatch", &Mu3_dRtriggerMatch); 
+	tree_->Branch("Mu3_dRtriggerMatch_Mu7", &Mu3_dRtriggerMatch_Mu7);
+	tree_->Branch("Mu3_dRtriggerMatch_Mu8", &Mu3_dRtriggerMatch_Mu8);
         tree_->Branch("Mu3_TripletIndex", &Mu3_TripletIndex); 
 
 	tree_->Branch("dxy_mu1", &dxy_mu1);
