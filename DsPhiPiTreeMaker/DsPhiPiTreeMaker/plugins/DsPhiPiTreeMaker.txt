@@ -177,8 +177,8 @@ private:
     std::vector<float>  MuonPt, MuonEta, MuonPhi, MuonChi2P, MuonChi2LocalPosition, MuonGlbTrackProbability, MuonTrkRelChi2, MuonTrkKink;
     std::vector<double> MuonEnergy,  MuonCharge;
     
-  std::vector<int> GenParticle_PdgId, GenParticle_MotherPdgId, GenParticle_isDs, GenParticle_isB, GenParticle_isBdecay, GenParticle_GrandMotherPdgId;
-  std::vector<double> GenParticle_Pt, GenParticle_Eta, GenParticle_Phi;
+    std::vector<int> GenParticle_PdgId, GenParticle_MotherPdgId, GenParticle_isDs, GenParticle_isB, GenParticle_isBdecay;
+    std::vector<double> GenParticle_Pt, GenParticle_Eta, GenParticle_Phi;
     
     //Vtx position
     std::vector<double>  Muon_vx,  Muon_vy,  Muon_vz;
@@ -203,11 +203,6 @@ private:
     std::vector<double>  Mu01_Pt,  Mu01_Eta,  Mu01_Phi,  Mu02_Pt,  Mu02_Eta,  Mu02_Phi, GenMatchMu01_SimPt, GenMatchMu02_SimPt, GenMatchMu01_SimEta, GenMatchMu02_SimEta, GenMatchMu01_SimPhi, GenMatchMu02_SimPhi, GenMatchMu01_Pt, GenMatchMu02_Pt, GenMatchMu01_Eta,  GenMatchMu02_Eta, GenMatchMu01_Phi,  GenMatchMu02_Phi,  GenMatchMu03_Phi;
 
     std::vector<float> Mu01_dRtriggerMatch, Mu02_dRtriggerMatch, Tr_dRtriggerMatch;
-  std::vector<float> Mu1_dRtriggerMatch_Mu7, Mu2_dRtriggerMatch_Mu7, Mu3_dRtriggerMatch_Mu7;
-  std::vector<float> Mu1_dRtriggerMatch_Mu8, Mu2_dRtriggerMatch_Mu8, Mu3_dRtriggerMatch_Mu8;
-  std::vector<float> Mu1_dRtriggerMatch_Mu8_IP5, Mu1_dRtriggerMatch_Mu8_IP6, Mu1_dRtriggerMatch_Mu9_IP0, Mu1_dRtriggerMatch_Mu9_IP3, Mu1_dRtriggerMatch_Mu9_IP4, Mu1_dRtriggerMatch_Mu9_IP5, Mu1_dRtriggerMatch_Mu12_IP6, Mu1_dRtriggerMatch_Mu9_IP6;
-
-
 
     std::vector<double>  Tr_Pt, Tr_Phi, Tr_Eta;
 
@@ -247,8 +242,7 @@ private:
 	
     std::vector<string>  Trigger_hltname;
     std::vector<int> Trigger_hltdecision;
-    std::vector<int> NGoodTriplets;
-  
+  std::vector<int> NGoodTriplets;
     //SyncTree
     /*  TTree*      SyncTree_;
      std::vector<float>  allmuons_pt, leadmuon_pt, leadmuon_phi, leadmuon_eta;
@@ -431,7 +425,7 @@ private:
 	   for (size_t i_l1t = 0; i_l1t < initialDecisions.size(); i_l1t++) 
 	      {
 	      string l1tName = (initialDecisions.at(i_l1t)).first;
-	      if(l1tName.find("DoubleMu") != string::npos || l1tName.find("TripleMu") != string::npos ||  l1tName.find("SingleMu")!= string::npos){
+	      if(l1tName.find("DoubleMu") != string::npos || l1tName.find("TripleMu") != string::npos){
 	         Trigger_l1name.push_back( l1tName );
 		 Trigger_l1decision.push_back( initialDecisions.at(i_l1t).second );
 		 Trigger_l1prescale.push_back( 1 );
@@ -446,7 +440,7 @@ private:
 	   int columnN= gtUtil_->prescaleColumn();
 	   for (size_t i_l1t = 0; i_l1t < initialDecisions.size(); i_l1t++) {
 	      string l1tName = (initialDecisions.at(i_l1t)).first;
-	      if(l1tName.find("DoubleMu") != string::npos || l1tName.find("TripleMu") != string::npos ||  l1tName.find("SingleMu")!= string::npos){
+	      if(l1tName.find("DoubleMu") != string::npos || l1tName.find("TripleMu") != string::npos){
 	   //    cout<<"L1Seed="<<l1tName<<" decision="<<initialDecisions.at(i_l1t).second<<" prescale="<<(psAndVetos->prescale_table_)[columnN][i_l1t]<<endl;
 	         Trigger_l1name.push_back( l1tName );
 		 Trigger_l1decision.push_back( initialDecisions.at(i_l1t).second );
@@ -457,8 +451,8 @@ private:
 	 const TriggerNames &triggerNames = iEvent.triggerNames( *triggerResults );
 	 for (size_t i_hlt = 0; i_hlt != triggerResults->size(); ++i_hlt){
 	    string hltName = triggerNames.triggerName(i_hlt);
-	    if(hltName.find("HLT_DoubleMu") != string::npos || hltName.find("HLT_Mu8_IP") != string::npos || hltName.find("HLT_Mu7_IP") != string::npos || (hltName.find("HLT_Mu9_IP") != string::npos) || (hltName.find("HLT_Mu12_IP") != string::npos)){
-	      //cout<<" HLTPath="<<hltName<<" isPassed="<<triggerResults->accept(i_hlt )<<endl;
+	    if(hltName.find("HLT_DoubleMu") != string::npos){
+	  //   cout<<" HLTPath="<<hltName<<" isPassed="<<triggerResults->accept(i_hlt )<<endl;
 	       Trigger_hltname.push_back(hltName);
 	       Trigger_hltdecision.push_back(triggerResults->accept(i_hlt ));
 	    }
@@ -481,7 +475,7 @@ private:
                    isB=0;
                    isBdecay=0;
                    for(uint t=0; t<gp->numberOfMothers(); t++) {
-		     //cout<<"  gp->mother("<<t<<")->pdgId() = "<<gp->mother(t)->pdgId()<<endl;
+                      cout<<"  gp->mother("<<t<<")->pdgId() = "<<gp->mother(t)->pdgId()<<endl;
                       if( fabs(gp->mother(t)->pdgId()) == 513 || fabs(gp->mother(t)->pdgId()) == 523 || fabs(gp->mother(t)->pdgId()) == 533 || fabs(gp->mother(t)->pdgId()) == 535 ) { //B*
                          for(uint i=0; i<gp->mother(t)->numberOfMothers(); i++) {
 			   //        cout<<"    gp->mother("<<t<<")->mother("<<i<<")->pdgId() = "<<gp->mother(t)->mother(i)->pdgId()<<endl;
@@ -497,7 +491,7 @@ private:
                          }
                       }
                    }
-                   //cout<<"B->"<<endl;
+                   cout<<"B->"<<endl;
                    for(uint b=0; b<gp->numberOfDaughters(); b++) {
                       if ( fabs(gp->daughter(b)->pdgId()) == 431 || fabs(gp->daughter(b)->pdgId()) == 433 || fabs(gp->daughter(b)->pdgId()) == 435 ) {
 			//cout<<"   Ds"<<endl;
@@ -506,15 +500,15 @@ private:
                    }
                 }
                 if ( fabs(gp->pdgId()) == 431 ) { //Ds
-		  //cout<<"D_s meson"<<endl;
+                   cout<<"D_s meson"<<endl;
                    isDs=0;
                    for(uint t=0; t<gp->numberOfMothers(); t++) {
-		     //cout<<"  gp->mother("<<t<<")->pdgId() = "<<gp->mother(t)->pdgId()<<endl;
+                      cout<<"  gp->mother("<<t<<")->pdgId() = "<<gp->mother(t)->pdgId()<<endl;
                       if( fabs(gp->mother(t)->pdgId()) == 433 || fabs(gp->mother(t)->pdgId()) == 435 ) { //D*
                          for(uint i=0; i<gp->mother(t)->numberOfMothers(); i++) {
-			   //cout<<"    gp->mother("<<t<<")->mother("<<i<<")->pdgId() = "<<gp->mother(t)->mother(i)->pdgId()<<endl;
+                            cout<<"    gp->mother("<<t<<")->mother("<<i<<")->pdgId() = "<<gp->mother(t)->mother(i)->pdgId()<<endl;
                             if(fabs(gp->mother(t)->mother(i)->pdgId())==3 || fabs(gp->mother(t)->mother(i)->pdgId())==4) { //s or c quark
-			      //cout<<"    prompt"<<endl;
+                               cout<<"    prompt"<<endl;
                                isDs=1;
                             } else {
                                if(fabs(gp->mother(t)->mother(i)->pdgId())==521 || fabs(gp->mother(t)->mother(i)->pdgId())==511 || fabs(gp->mother(t)->mother(i)->pdgId())==531) {
@@ -529,7 +523,7 @@ private:
                             isDs=1;
                          }else{
                             if(fabs(gp->mother(t)->pdgId())==521 || fabs(gp->mother(t)->pdgId())==511 || fabs(gp->mother(t)->pdgId())==531 ){
-			      //cout<<"    from B decay"<<endl;
+                               cout<<"    from B decay"<<endl;
                                isDs=2;
                             }
                          }
@@ -546,18 +540,14 @@ private:
                     GenParticle_isB.push_back(isB);
                     GenParticle_isBdecay.push_back(isBdecay);
 
-
+                    if(fabs(gp->pdgId())==13 && gp->numberOfMothers() && fabs(gp->mother(0)->pdgId()) ==333 ){
+                        cout<<"Mu from phi pt="<<gp->pt()<<" vz="<<gp->vz()<<endl;
+                    
+                    }
                     if (gp->numberOfMothers()) {GenParticle_MotherPdgId.push_back(gp->mother(0)->pdgId());
-		      if(fabs(gp->pdgId())==13 && fabs(gp->mother(0)->pdgId())==211 ) cout<<"MuonMother="<<gp->mother(0)->pdgId()<<endl;
                     }else{
                         GenParticle_MotherPdgId.push_back(-99);
                     }
-		    if (gp->mother(0)->numberOfMothers()) {GenParticle_GrandMotherPdgId.push_back(gp->mother(0)->mother(0)->pdgId());
-		      if(fabs(gp->pdgId())==13 && fabs(gp->mother(0)->pdgId())==211 ) cout<<"Muon GrandMother="<<gp->mother(0)->mother(0)->pdgId()<<endl;
-                    }else{
-                        GenParticle_GrandMotherPdgId.push_back(-99);
-                    }
-
                 
                 }
             }
@@ -735,43 +725,10 @@ private:
 
               ///////////////Check Trigger Matching///////////////
               float dR1 = 999., dR2 = 999., dR3 = 999.;
-	      float dR1_Mu7=999.,dR2_Mu7 = 999., dR3_Mu7 = 999.;
-	      float dR1_Mu8=999.,dR2_Mu8 = 999., dR3_Mu8 = 999.;
-	      float dR1_Mu8_IP6=999., dR1_Mu12_IP6=999, dR1_Mu8_IP5=999.;
-	      float dR1_Mu9_IP0=999., dR1_Mu9_IP3=999.,  dR1_Mu9_IP4=999.,  dR1_Mu9_IP5=999., dR1_Mu9_IP6=999.;
               std::vector<trigger::TriggerObject> trgobjs = triggerSummary->getObjects();
               trigger::TriggerObjectCollection MuonsObjects;
-	      trigger::TriggerObjectCollection MuonsObjects_BPMu7, MuonsObjects_BPMu12_IP6;
-	      trigger::TriggerObjectCollection MuonsObjects_BPMu8, MuonsObjects_BPMu8_IP6, MuonsObjects_BPMu8_IP5;
-	      trigger::TriggerObjectCollection MuonsObjects_BPMu9_IP0, MuonsObjects_BPMu9_IP3, MuonsObjects_BPMu9_IP4, MuonsObjects_BPMu9_IP5, MuonsObjects_BPMu9_IP6;
-
               edm::InputTag MuonFilterTag = edm::InputTag("hltTau3muTkVertexFilter", "", "HLT");
-	      edm::InputTag MuonFilterTagBPHMu8 = edm::InputTag("hltL3fL1sMu22OrParkL1f0L2f10QL3Filtered8Q", "", "HLT");
-	      edm::InputTag MuonFilterTagBPHMu7 = edm::InputTag("hltL3fL1sMu22OrParkL1f0L2f10QL3Filtered7IP4Q", "", "HLT");
-
-	      edm::InputTag MuonFilterTagBPHMu8_IP5 = edm::InputTag("hltL3fL1sMu22OrParkL1f0L2f10QL3Filtered8IP5Q", "", "HLT");
-	      edm::InputTag MuonFilterTagBPHMu8_IP6 = edm::InputTag("hltL3fL1sMu22OrParkL1f0L2f10QL3Filtered8IP6Q", "", "HLT");
-
-	      edm::InputTag MuonFilterTagBPHMu9_IP0 = edm::InputTag("hltL3fL1sMu22OrParkL1f0L2f10QL3Filtered9IP0Q", "", "HLT");
-	      edm::InputTag MuonFilterTagBPHMu9_IP3 = edm::InputTag("hltL3fL1sMu22OrParkL1f0L2f10QL3Filtered9IP3Q", "", "HLT");
-	      edm::InputTag MuonFilterTagBPHMu9_IP4 = edm::InputTag("hltL3fL1sMu22OrParkL1f0L2f10QL3Filtered9IP4Q", "", "HLT");
-	      edm::InputTag MuonFilterTagBPHMu9_IP5 = edm::InputTag("hltL3fL1sMu22OrParkL1f0L2f10QL3Filtered9IP5Q", "", "HLT");
-	      edm::InputTag MuonFilterTagBPHMu9_IP6 = edm::InputTag("hltL3fL1sMu22OrParkL1f0L2f10QL3Filtered9Q", "", "HLT");
-	      edm::InputTag MuonFilterTagBPHMu12_IP6 = edm::InputTag("hltL3fL1sMu22OrParkL1f0L2f10QL3Filtered12Q", "", "HLT");
-
               size_t MuonFilterIndex = (*triggerSummary).filterIndex(MuonFilterTag); //find the index corresponding to the event
-	      size_t MuonFilterIndex_BPHMu8 = (*triggerSummary).filterIndex(MuonFilterTagBPHMu8);
-	      size_t MuonFilterIndex_BPHMu7 = (*triggerSummary).filterIndex(MuonFilterTagBPHMu7);
-
-	      size_t MuonFilterIndex_BPHMu8_IP5 = (*triggerSummary).filterIndex(MuonFilterTagBPHMu8_IP5);
-	      size_t MuonFilterIndex_BPHMu8_IP6 = (*triggerSummary).filterIndex(MuonFilterTagBPHMu8_IP6);
-	      size_t MuonFilterIndex_BPHMu9_IP0 = (*triggerSummary).filterIndex(MuonFilterTagBPHMu9_IP0);
-	      size_t MuonFilterIndex_BPHMu9_IP3 = (*triggerSummary).filterIndex(MuonFilterTagBPHMu9_IP3);
-	      size_t MuonFilterIndex_BPHMu9_IP4 = (*triggerSummary).filterIndex(MuonFilterTagBPHMu9_IP4);
-	      size_t MuonFilterIndex_BPHMu9_IP5 = (*triggerSummary).filterIndex(MuonFilterTagBPHMu9_IP5);
-	      size_t MuonFilterIndex_BPHMu9_IP6 = (*triggerSummary).filterIndex(MuonFilterTagBPHMu9_IP6);
-	      size_t MuonFilterIndex_BPHMu12_IP6 = (*triggerSummary).filterIndex(MuonFilterTagBPHMu12_IP6);
-
               if(MuonFilterIndex < (*triggerSummary).sizeFilters()) { //check if the trigger object is present
               //save the trigger objects corresponding to muon leg
                   const trigger::Keys &KEYS = (*triggerSummary).filterKeys(MuonFilterIndex);
@@ -786,130 +743,6 @@ private:
               Mu01_dRtriggerMatch.push_back(dR1);
               Mu02_dRtriggerMatch.push_back(dR2);
               Tr_dRtriggerMatch.push_back(dR3);
-
-	      if(MuonFilterIndex_BPHMu8 < (*triggerSummary).sizeFilters()) { //check if the trigger object is present                                                        \
-                                                                                                                                                                            
-		//save the trigger objetcs corresponding to muon leg                                                                                                         \
-                                                                                                                                                                            
-		const trigger::Keys &KEYS = (*triggerSummary).filterKeys(MuonFilterIndex_BPHMu8);
-		for (unsigned int ipart = 0; ipart < KEYS.size(); ipart++) {
-		  trigger::TriggerObject foundObject = (trgobjs)[KEYS[ipart]];
-		  MuonsObjects_BPMu8.push_back(foundObject);
-		}
-		dR1_Mu8 = DsPhiPiTreeMaker::dRtriggerMatch(*mu1, MuonsObjects_BPMu8);
-		dR2_Mu8 = DsPhiPiTreeMaker::dRtriggerMatch(*mu2, MuonsObjects_BPMu8);
-		dR3_Mu8 = DsPhiPiTreeMaker::dRtriggerMatchTrk(Track3, MuonsObjects_BPMu8);
-	      }
-	      Mu1_dRtriggerMatch_Mu8.push_back(dR1_Mu8);
-	      Mu2_dRtriggerMatch_Mu8.push_back(dR2_Mu8);
-	      Mu3_dRtriggerMatch_Mu8.push_back(dR3_Mu8);
-
-	      if(MuonFilterIndex_BPHMu7 < (*triggerSummary).sizeFilters()) {
-		//save the trigger objetcs corresponding to muon leg                                                                                                          
-		const trigger::Keys &KEYS = (*triggerSummary).filterKeys(MuonFilterIndex_BPHMu7);
-		for (unsigned int ipart = 0; ipart < KEYS.size(); ipart++) {
-		  trigger::TriggerObject foundObject = (trgobjs)[KEYS[ipart]];
-		  MuonsObjects_BPMu7.push_back(foundObject);
-		}
-		dR1_Mu7 = DsPhiPiTreeMaker::dRtriggerMatch(*mu1, MuonsObjects_BPMu7);
-		dR2_Mu7 = DsPhiPiTreeMaker::dRtriggerMatch(*mu2, MuonsObjects_BPMu7);
-		dR3_Mu7 = DsPhiPiTreeMaker::dRtriggerMatchTrk(Track3, MuonsObjects_BPMu7);
-	      }
-	      Mu1_dRtriggerMatch_Mu7.push_back(dR1_Mu7);
-	      Mu2_dRtriggerMatch_Mu7.push_back(dR2_Mu7);
-	      Mu3_dRtriggerMatch_Mu7.push_back(dR3_Mu7);
-
-
-	      if(MuonFilterIndex_BPHMu8_IP5 < (*triggerSummary).sizeFilters()) {
-                const trigger::Keys &KEYS = (*triggerSummary).filterKeys(MuonFilterIndex_BPHMu8_IP5);
-                for (unsigned int ipart = 0; ipart < KEYS.size(); ipart++) {
-		  trigger::TriggerObject foundObject = (trgobjs)[KEYS[ipart]];
-                  MuonsObjects_BPMu8_IP5.push_back(foundObject);
-                }
-                dR1_Mu8_IP5 = DsPhiPiTreeMaker::dRtriggerMatch(*mu1, MuonsObjects_BPMu8_IP5);
-              }
-              Mu1_dRtriggerMatch_Mu8_IP5.push_back(dR1_Mu8_IP5);
-
-
-	      if(MuonFilterIndex_BPHMu8_IP6 < (*triggerSummary).sizeFilters()) {
-		const trigger::Keys &KEYS = (*triggerSummary).filterKeys(MuonFilterIndex_BPHMu8_IP6);
-		for (unsigned int ipart = 0; ipart < KEYS.size(); ipart++) {
-		  trigger::TriggerObject foundObject = (trgobjs)[KEYS[ipart]];
-		  MuonsObjects_BPMu8_IP6.push_back(foundObject);
-		}
-		dR1_Mu8_IP6 = DsPhiPiTreeMaker::dRtriggerMatch(*mu1, MuonsObjects_BPMu8_IP6);
-	      }
-	      Mu1_dRtriggerMatch_Mu8_IP6.push_back(dR1_Mu8_IP6);
-
-
-	      if(MuonFilterIndex_BPHMu9_IP0 < (*triggerSummary).sizeFilters()) {
-		const trigger::Keys &KEYS = (*triggerSummary).filterKeys(MuonFilterIndex_BPHMu9_IP0);
-		for (unsigned int ipart = 0; ipart < KEYS.size(); ipart++) {
-		  trigger::TriggerObject foundObject = (trgobjs)[KEYS[ipart]];
-		  MuonsObjects_BPMu9_IP0.push_back(foundObject);
-		}
-		dR1_Mu9_IP0 = DsPhiPiTreeMaker::dRtriggerMatch(*mu1, MuonsObjects_BPMu9_IP0);
-	      }
-	      Mu1_dRtriggerMatch_Mu9_IP0.push_back(dR1_Mu9_IP0);
-
-
-	      if(MuonFilterIndex_BPHMu9_IP3 < (*triggerSummary).sizeFilters()) {
-		const trigger::Keys &KEYS = (*triggerSummary).filterKeys(MuonFilterIndex_BPHMu9_IP3);
-		for (unsigned int ipart = 0; ipart < KEYS.size(); ipart++) {
-		  trigger::TriggerObject foundObject = (trgobjs)[KEYS[ipart]];
-		  MuonsObjects_BPMu9_IP3.push_back(foundObject);
-		}
-		dR1_Mu9_IP3 = DsPhiPiTreeMaker::dRtriggerMatch(*mu1, MuonsObjects_BPMu9_IP3);
-	      }
-	      Mu1_dRtriggerMatch_Mu9_IP3.push_back(dR1_Mu9_IP3);
-
-
-
-	      if(MuonFilterIndex_BPHMu9_IP4 < (*triggerSummary).sizeFilters()) {
-		const trigger::Keys &KEYS = (*triggerSummary).filterKeys(MuonFilterIndex_BPHMu9_IP4);
-		for (unsigned int ipart = 0; ipart < KEYS.size(); ipart++) {
-		  trigger::TriggerObject foundObject = (trgobjs)[KEYS[ipart]];
-		  MuonsObjects_BPMu9_IP4.push_back(foundObject);
-		}
-		dR1_Mu9_IP4 = DsPhiPiTreeMaker::dRtriggerMatch(*mu1, MuonsObjects_BPMu9_IP4);
-	      }
-	      Mu1_dRtriggerMatch_Mu9_IP4.push_back(dR1_Mu9_IP4);
-
-
-	      if(MuonFilterIndex_BPHMu9_IP5 < (*triggerSummary).sizeFilters()) {
-		const trigger::Keys &KEYS = (*triggerSummary).filterKeys(MuonFilterIndex_BPHMu9_IP5);
-		for (unsigned int ipart = 0; ipart < KEYS.size(); ipart++) {
-		  trigger::TriggerObject foundObject = (trgobjs)[KEYS[ipart]];
-		  MuonsObjects_BPMu9_IP5.push_back(foundObject);
-		}
-		dR1_Mu9_IP5 = DsPhiPiTreeMaker::dRtriggerMatch(*mu1, MuonsObjects_BPMu9_IP5);
-	      }
-	      Mu1_dRtriggerMatch_Mu9_IP5.push_back(dR1_Mu9_IP5);
-
-
-	      if(MuonFilterIndex_BPHMu9_IP6 < (*triggerSummary).sizeFilters()) {
-		const trigger::Keys &KEYS = (*triggerSummary).filterKeys(MuonFilterIndex_BPHMu9_IP6);
-		for (unsigned int ipart = 0; ipart < KEYS.size(); ipart++) {
-		  trigger::TriggerObject foundObject = (trgobjs)[KEYS[ipart]];
-		  MuonsObjects_BPMu9_IP6.push_back(foundObject);
-		}
-		dR1_Mu9_IP6 = DsPhiPiTreeMaker::dRtriggerMatch(*mu1, MuonsObjects_BPMu9_IP6);
-	      }
-	      Mu1_dRtriggerMatch_Mu9_IP6.push_back(dR1_Mu9_IP6);
-
-
-	      if(MuonFilterIndex_BPHMu12_IP6 < (*triggerSummary).sizeFilters()) {
-		const trigger::Keys &KEYS = (*triggerSummary).filterKeys(MuonFilterIndex_BPHMu12_IP6);
-		for (unsigned int ipart = 0; ipart < KEYS.size(); ipart++) {
-		  trigger::TriggerObject foundObject = (trgobjs)[KEYS[ipart]];
-		  MuonsObjects_BPMu12_IP6.push_back(foundObject);
-		}
-		dR1_Mu12_IP6 = DsPhiPiTreeMaker::dRtriggerMatch(*mu1, MuonsObjects_BPMu12_IP6);
-	      }
-	      Mu1_dRtriggerMatch_Mu12_IP6.push_back(dR1_Mu12_IP6);
-
-
-
 
               if(isMc){ //if is TauPhiPi Monte Carlo
 		bool isMatch1=false; bool isMatch2=false; //bool isMatch3=false;
@@ -1173,23 +1006,6 @@ private:
 
     
 		  selectedTripletsIndex.push_back(-99);
-		  Mu1_dRtriggerMatch_Mu7.push_back(-99);
-                  Mu2_dRtriggerMatch_Mu7.push_back(-99);
-                  Mu3_dRtriggerMatch_Mu7.push_back(-99);
-
-
-                  Mu1_dRtriggerMatch_Mu8.push_back(-99);
-                  Mu2_dRtriggerMatch_Mu8.push_back(-99);
-                  Mu3_dRtriggerMatch_Mu8.push_back(-99);
-
-		  Mu1_dRtriggerMatch_Mu8_IP5.push_back(-99);
-		  Mu1_dRtriggerMatch_Mu8_IP6.push_back(-99);
-		  Mu1_dRtriggerMatch_Mu9_IP0.push_back(-99);
-		  Mu1_dRtriggerMatch_Mu9_IP3.push_back(-99);
-		  Mu1_dRtriggerMatch_Mu9_IP4.push_back(-99);
-		  Mu1_dRtriggerMatch_Mu9_IP5.push_back(-99);
-		  Mu1_dRtriggerMatch_Mu9_IP6.push_back(-99);
-		  Mu1_dRtriggerMatch_Mu12_IP6.push_back(-99);
 
 
 		}
@@ -1506,7 +1322,7 @@ private:
         GenParticle_isB.clear();
         GenParticle_isBdecay.clear();
         GenParticle_MotherPdgId.clear();
-        GenParticle_GrandMotherPdgId.clear();
+        
         MuonCollectionSize =0;
         MuonPt.clear();
         MuonEta.clear();
@@ -1717,21 +1533,6 @@ private:
         Mu01_dRtriggerMatch.clear();
         Mu02_dRtriggerMatch.clear();
         Tr_dRtriggerMatch.clear();
-	Mu1_dRtriggerMatch_Mu8_IP5.clear();
-	Mu1_dRtriggerMatch_Mu8_IP6.clear();
-        Mu1_dRtriggerMatch_Mu9_IP0.clear();
-        Mu1_dRtriggerMatch_Mu9_IP3.clear();
-        Mu1_dRtriggerMatch_Mu9_IP4.clear();
-        Mu1_dRtriggerMatch_Mu9_IP5.clear();
-        Mu1_dRtriggerMatch_Mu9_IP6.clear();
-        Mu1_dRtriggerMatch_Mu12_IP6.clear();
-
-	Mu1_dRtriggerMatch_Mu7.clear();
-        Mu1_dRtriggerMatch_Mu8.clear();
-	Mu2_dRtriggerMatch_Mu7.clear();
-        Mu2_dRtriggerMatch_Mu8.clear();
-	Mu3_dRtriggerMatch_Mu7.clear();
-        Mu3_dRtriggerMatch_Mu8.clear();
 
 	selectedTripletsIndex.clear();
         GenMatchMu01_SimPhi.clear();
@@ -1814,7 +1615,7 @@ private:
         tree_->Branch("GenParticle_isB", &GenParticle_isB);
         tree_->Branch("GenParticle_isBdecay", &GenParticle_isBdecay);
         tree_->Branch("GenParticle_MotherPdgId", &GenParticle_MotherPdgId);
-        tree_->Branch("GenParticle_GrandMotherPdgId", &GenParticle_GrandMotherPdgId);
+        
         tree_->Branch("MuonCollectionSize",&MuonCollectionSize);
         tree_->Branch("MuonPt",&MuonPt);
         tree_->Branch("MuonEnergy", &MuonEnergy);
@@ -2021,23 +1822,6 @@ private:
 	tree_->Branch("dxyErr_mu1", &dxyErr_mu1);
 	tree_->Branch("dxyErr_mu2", &dxyErr_mu2);
 	tree_->Branch("dxyErr_mu3", &dxyErr_mu3);
-
-
-	tree_->Branch("Mu1_dRtriggerMatch_Mu7", &Mu1_dRtriggerMatch_Mu7);
-        tree_->Branch("Mu1_dRtriggerMatch_Mu8", &Mu1_dRtriggerMatch_Mu8);
-	tree_->Branch("Mu2_dRtriggerMatch_Mu7", &Mu2_dRtriggerMatch_Mu7);
-	tree_->Branch("Mu2_dRtriggerMatch_Mu8", &Mu2_dRtriggerMatch_Mu8);
-	tree_->Branch("Mu3_dRtriggerMatch_Mu7", &Mu3_dRtriggerMatch_Mu7);
-	tree_->Branch("Mu3_dRtriggerMatch_Mu8", &Mu3_dRtriggerMatch_Mu8);
-
-	tree_->Branch("Mu1_dRtriggerMatch_Mu8_IP5", &Mu1_dRtriggerMatch_Mu8_IP5);
-	tree_->Branch("Mu1_dRtriggerMatch_Mu8_IP6", &Mu1_dRtriggerMatch_Mu8_IP6);
-        tree_->Branch("Mu1_dRtriggerMatch_Mu9_IP0", &Mu1_dRtriggerMatch_Mu9_IP0);
-        tree_->Branch("Mu1_dRtriggerMatch_Mu9_IP3", &Mu1_dRtriggerMatch_Mu9_IP3);
-        tree_->Branch("Mu1_dRtriggerMatch_Mu9_IP4", &Mu1_dRtriggerMatch_Mu9_IP4);
-        tree_->Branch("Mu1_dRtriggerMatch_Mu9_IP5", &Mu1_dRtriggerMatch_Mu9_IP5);
-        tree_->Branch("Mu1_dRtriggerMatch_Mu9_IP6", &Mu1_dRtriggerMatch_Mu9_IP6);
-        tree_->Branch("Mu1_dRtriggerMatch_Mu12_IP6", &Mu1_dRtriggerMatch_Mu12_IP6);
 
 
         /*  SyncTree_ = fs->make<TTree>("t","Sync ntuple");
