@@ -745,7 +745,7 @@ private:
 	      trigger::TriggerObjectCollection MuonsObjects_BPMu8, MuonsObjects_BPMu8_IP6, MuonsObjects_BPMu8_IP5;
 	      trigger::TriggerObjectCollection MuonsObjects_BPMu9_IP0, MuonsObjects_BPMu9_IP3, MuonsObjects_BPMu9_IP4, MuonsObjects_BPMu9_IP5, MuonsObjects_BPMu9_IP6;
 
-              edm::InputTag MuonFilterTag = edm::InputTag("hltTau3muTkVertexFilter", "", "HLT");
+              edm::InputTag MuonFilterTag = edm::InputTag("hltdstau3muDisplaced3muFltr", "", "HLT");
 	      edm::InputTag MuonFilterTagBPHMu8 = edm::InputTag("hltL3fL1sMu22OrParkL1f0L2f10QL3Filtered8Q", "", "HLT");
 	      edm::InputTag MuonFilterTagBPHMu7 = edm::InputTag("hltL3fL1sMu22OrParkL1f0L2f10QL3Filtered7IP4Q", "", "HLT");
 

@@ -13,6 +13,7 @@ from PhysicsTools.PatAlgos.selectionLayer1.muonSelector_cfi import *
 Tau3MuHLTFilter = copy.deepcopy(hltHighLevel)
 Tau3MuHLTFilter.throw = cms.bool(False)
 Tau3MuHLTFilter.HLTPaths = ["HLT_DoubleMu3_Trk_Tau3mu*", "HLT_DoubleMu3_TkMu_DsTau3Mu_v*", "HLT_DoubleMu3_Trk_Tau3mu_NoL1Mass_v*"]
+#Tau3MuHLTFilter.HLTPaths = ["HLT_DoubleMu3_TkMu_DsTau3Mu_v*"]
 #list taken from https://github.com/cms-sw/cmssw/blob/CMSSW_9_2_X/HLTrigger/Configuration/tables/GRun.txt
 
 
@@ -29,29 +30,7 @@ PatMuons = patMuons.clone(
 )
 
 
-#selectedPatMuons.src = cms.InputTag("PatMuons")
-#patTrigger.onlyStandAlone = cms.bool( True )
-##patTrigger.addL1Algos =cms.bool( False )
 
-
-"""
-muonTriggerMatchHLTMuons = cms.EDProducer(
-  # matching in DeltaR, sorting by best DeltaR
-  "PATTriggerMatcherDRDPtLessByR"
-  # matcher input collections
-, src     = cms.InputTag( 'selectedPatMuons' )
-, matched = cms.InputTag( 'patTrigger' )
-  # selections of trigger objects
-, matchedCuts = cms.string( 'type( "TriggerMuon" ) && path("HLT_DoubleMu3_TkMu_DsTau3Mu_v*" )' )
-  # selection of matches
-, maxDPtRel   = cms.double( 0.5 ) 
-, maxDeltaR   = cms.double( 0.5 )
-, maxDeltaEta = cms.double( 0.2 ) # no effect here
-  # definition of matcher output
-, resolveAmbiguities    = cms.bool( False )
-, resolveByMatchQuality = cms.bool( False )
-)
-"""
 looseMuons = cms.EDFilter("PATMuonSelector",
                           src = cms.InputTag("PatMuons"),
                           #cut = cms.string('pt > 0.5 &&  abs(eta)<2.4 && (innerTrack().isNonnull) && (charge!=0) && (innerTrack().hitPattern().numberOfValidPixelHits()>0) && innerTrack.quality("highPurity")'), 
@@ -128,7 +107,7 @@ PlotsAfterTauCandSel = cms.EDAnalyzer('RecoMuonAnalyzer',
 
 
 ThreeMuonSelSeq = cms.Sequence(InitialPlots *
-                               #Tau3MuHLTFilter *
+                               Tau3MuHLTFilter *
                                PatMuons *
                                PlotsAfterTrigger *
                                #selectedPatMuons *

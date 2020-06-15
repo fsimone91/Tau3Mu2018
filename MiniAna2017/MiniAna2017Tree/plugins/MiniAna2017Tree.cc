@@ -23,7 +23,7 @@
 // user include files
 #include "FWCore/Framework/interface/Frameworkfwd.h"
 #include "FWCore/Framework/interface/one/EDAnalyzer.h"
-
+#include "FWCore/Framework/interface/ConsumesCollector.h"
 #include "FWCore/Framework/interface/Event.h"
 #include "FWCore/Framework/interface/EventSetup.h"
 #include "FWCore/Framework/interface/MakerMacros.h"
@@ -129,7 +129,11 @@
 #include "DataFormats/TrackReco/interface/TrackToTrackMap.h"
 #include "DataFormats/TrackReco/interface/Track.h"
 #include "DataFormats/TrackReco/interface/TrackFwd.h"
+
+//#include "DataFormats/BeamSpot/interface/BeamSpot.h"
 ////
+//soft muon Id mva vars taken from:
+//https://github.com/cms-sw/cmssw/blob/master/PhysicsTools/PatAlgos/src/SoftMuonMvaEstimator.cc
 class MiniAna2017Tree : public edm::one::EDAnalyzer<edm::one::SharedResources>  {
 public:
     explicit MiniAna2017Tree(const edm::ParameterSet&);
@@ -137,6 +141,7 @@ public:
     static void fillDescriptions(edm::ConfigurationDescriptions& descriptions);
     float dR(float eta1, float eta2, float phi1, float phi2);
     float dRtriggerMatch(pat::Muon m, trigger::TriggerObjectCollection triggerObjects);
+    float dPtTriggerMatch(pat::Muon m, trigger::TriggerObjectCollection triggerObjects);
     void beginRun(edm::Run const &, edm::EventSetup const&, edm::Event const&);
     
     
@@ -154,13 +159,13 @@ private:
     edm::EDGetTokenT<edm::TriggerResults> triggerToken_;
     edm::EDGetTokenT<trigger::TriggerEvent> trigeventToken_;
     edm::EDGetToken algToken_;
+  // edm::EDGetTokenT<edm::Handle<reco::BeamSpot> > beamSpotHandle_;
+    edm::EDGetTokenT<reco::BeamSpot> token_BeamSpot;
     bool isMc;
     bool isAna;
-    //  edm::EDGetTokenT<edm::TriggerResults> trigResultsToken;
-    //  edm::EDGetTokenT<pat::TriggerObjectStandAloneCollection> trigObjCollToken;
+    bool isBParking;
     const TransientTrackBuilder* theTransientTrackBuilder_;
     HLTConfigProvider hltConfig;
-    //  TPMERegexp* _re;
     
     edm::Service<TFileService> fs;
     l1t::L1TGlobalUtil* gtUtil_;
@@ -182,7 +187,7 @@ private:
     std::vector<double>  Muon_vx,  Muon_vy,  Muon_vz;
     
     //MuonID
-    std::vector<double>  Muon_isGlobal,  Muon_isTracker,  Muon_isSoft,  Muon_isLoose, Muon_isTight,  Muon_isPF,  Muon_isRPCMuon,  Muon_isStandAloneMuon,  Muon_isTrackerMuon,  Muon_isCaloMuon,  Muon_isQualityValid,  Muon_isTimeValid,  Muon_isIsolationValid,  Muon_numberOfMatchedStations,  Muon_numberOfMatches;
+  std::vector<double>  Muon_isGlobal,  Muon_isTracker,  Muon_isSoft,  Muon_isLoose, Muon_isTight,  Muon_isPF,  Muon_isRPCMuon,  Muon_isStandAloneMuon,  Muon_isTrackerMuon,  Muon_isCaloMuon,  Muon_isQualityValid,  Muon_isTimeValid,  Muon_isIsolationValid,  Muon_numberOfMatchedStations,  Muon_numberOfMatches, Muon_SoftMVAVal, Muon_LowPtMVA_Val;
     
     //MuonTime
     std::vector<double>  Muon_timeAtIpInOut,Muon_timeAtIpInOutErr;
@@ -191,14 +196,16 @@ private:
     std::vector<double>  Muon_GLnormChi2, Muon_GLhitPattern_numberOfValidMuonHits,  Muon_trackerLayersWithMeasurement,  Muon_Numberofvalidpixelhits,  Muon_outerTrack_p,  Muon_outerTrack_eta,
     Muon_outerTrack_phi,  Muon_outerTrack_normalizedChi2,  Muon_outerTrack_muonStationsWithValidHits,  Muon_innerTrack_p,  Muon_innerTrack_eta,  Muon_innerTrack_phi,  Muon_innerTrack_normalizedChi2,  Muon_QInnerOuter;
     
-    std::vector<double>   Muon_combinedQuality_updatedSta,  Muon_combinedQuality_trkKink,  Muon_combinedQuality_glbKink,  Muon_combinedQuality_trkRelChi2,  Muon_combinedQuality_staRelChi2,  Muon_combinedQuality_chi2LocalPosition,  Muon_combinedQuality_chi2LocalMomentum,  Muon_combinedQuality_localDistance,  Muon_combinedQuality_globalDeltaEtaPhi,  Muon_combinedQuality_tightMatch,  Muon_combinedQuality_glbTrackProbability,  Muon_calEnergy_em,  Muon_calEnergy_emS9,  Muon_calEnergy_emS25,  Muon_calEnergy_had,  Muon_calEnergy_hadS9,  Muon_segmentCompatibility,  Muon_caloCompatibility,  Muon_ptErrOverPt, Muon_BestTrackPt,  Muon_BestTrackPtErr, Muon_BestTrackEta,  Muon_BestTrackEtaErr,  Muon_BestTrackPhi,  Muon_BestTrackPhiErr;
+  std::vector<double>   Muon_combinedQuality_updatedSta,  Muon_combinedQuality_trkKink,  Muon_combinedQuality_glbKink,  Muon_combinedQuality_trkRelChi2,  Muon_combinedQuality_staRelChi2,  Muon_combinedQuality_chi2LocalPosition,  Muon_combinedQuality_chi2LocalMomentum,  Muon_combinedQuality_localDistance,  Muon_combinedQuality_globalDeltaEtaPhi,  Muon_combinedQuality_tightMatch,  Muon_combinedQuality_glbTrackProbability,  Muon_calEnergy_em,  Muon_calEnergy_emS9,  Muon_calEnergy_emS25,  Muon_calEnergy_had,  Muon_calEnergy_hadS9,  Muon_segmentCompatibility,  Muon_caloCompatibility,  Muon_ptErrOverPt, Muon_BestTrackPt,  Muon_BestTrackPtErr, Muon_BestTrackEta,  Muon_BestTrackEtaErr,  Muon_BestTrackPhi,  Muon_BestTrackPhiErr, Muon_innerTrack_ValidFraction, Muon_Numberofvalidtrackerhits, Muon_IP3D_BS, Muon_IP2D_BS, Muon_IP3D_PV, Muon_IP2D_PV,Muon_validMuonHitComb, Muon_DZ_PV;
+  std::vector<double>   Muon_SoftMVA_Val,  MuonLowPtMVA_Val;
+
+  std::vector<bool>  Muon_innerTrack_highPurity;
 
     std::vector<int>  Muon_simPdgId, Muon_simMotherPdgId, Muon_simFlavour,  Muon_simType, Muon_simBX, Muon_simTpEvent, Muon_simMatchQuality;
     std::vector<double>  Mu1_Pt,  Mu1_Eta,  Mu1_Phi,  Mu2_Pt,  Mu2_Eta,  Mu2_Phi,  Mu3_Pt,  Mu3_Eta,  Mu3_Phi, GenMatchMu1_SimPt, GenMatchMu2_SimPt, GenMatchMu3_SimPt,GenMatchMu1_SimEta, GenMatchMu2_SimEta, GenMatchMu3_SimEta, GenMatchMu1_SimPhi, GenMatchMu2_SimPhi, GenMatchMu3_SimPhi,  GenMatchMu1_Pt,  GenMatchMu2_Pt,  GenMatchMu3_Pt,  GenMatchMu1_Eta,  GenMatchMu2_Eta,  GenMatchMu3_Eta,  GenMatchMu1_Phi,  GenMatchMu2_Phi,  GenMatchMu3_Phi;
-  std::vector<float> Mu1_dRtriggerMatch, Mu2_dRtriggerMatch, Mu3_dRtriggerMatch;
-  std::vector<float> Mu1_dRtriggerMatch_Mu7, Mu2_dRtriggerMatch_Mu7, Mu3_dRtriggerMatch_Mu7;
-  std::vector<float> Mu1_dRtriggerMatch_Mu8, Mu2_dRtriggerMatch_Mu8, Mu3_dRtriggerMatch_Mu8; 
-
+    std::vector<float> Mu1_dRtriggerMatch, Mu2_dRtriggerMatch, Mu3_dRtriggerMatch;
+  std::vector<float> Mu1_dPtReltriggerMatch, Mu2_dPtReltriggerMatch, Mu3_dPtReltriggerMatch;
+ 
     std::vector<double>     Muon_emEt03, Muon_hadEt03, Muon_nJets03, Muon_nTracks03, Muon_sumPt03, Muon_emEt05,    Muon_hadEt05, Muon_nJets05, Muon_nTracks05, Muon_sumPt05,
     Muon_hadVetoEt03,Muon_emVetoEt03,    Muon_trackerVetoPt03,    Muon_hadVetoEt05,    Muon_emVetoEt05,    Muon_trackerVetoPt05;
     //dd  Mu1_SimPt,  Mu1_SimEta,  Mu1_SimPhi,  Mu2_SimPt,  Mu2_SimEta,  Mu2_SimPhi, Mu3_SimPt,  Mu3_SimEta,  Mu3_SimPhi,
@@ -210,7 +217,7 @@ private:
     
     int TripletCollectionSize, PVCollection_Size, MuonCollectionSize;
     std::vector<double>  TripletVtx_x,  TripletVtx_y,  TripletVtx_z,  TripletVtx_Chi2,  TripletVtx_NDOF,  Triplet_Mass,  Triplet_Pt,  Triplet_Eta,  Triplet_Phi, Triplet_Charge;
-    
+    std::vector<double>     Triplet_relativeiso2, Triplet_IsoMu1, Triplet_IsoMu2,Triplet_IsoMu3;    
     std::vector<double> dxy_mu1, dxy_mu2, dxy_mu3, dxyErr_mu1, dxyErr_mu2, dxyErr_mu3; 
     
     std::vector<double>  RefittedPV_x;
@@ -225,6 +232,8 @@ private:
     std::vector<double>  FlightDistPVSV_Err;
     std::vector<double>  FlightDistPVSV_Significance;
     std::vector<double>  FlightDistPVSV_chi2;
+
+  std::vector<double>   FlightDistBS_SV,  FlightDistBS_SV_Err,  FlightDistBS_SV_Significance;
     
    std::vector<double> PV_x,  PV_y,  PV_z,  PV_NTracks;
   std::vector<int> NGoodTriplets;
@@ -235,7 +244,14 @@ private:
 
   std::vector<string>  Trigger_hltname;
   std::vector<int> Trigger_hltdecision;
-    //SyncTree
+  std::vector<double> MuonPt_HLT,  MuonEta_HLT,  MuonPhi_HLT;
+  std::vector<double> MuonPt_HLT2017, MuonEta_HLT2017, MuonPhi_HLT2017, MuonPt_HLT_BPMu7, MuonEta_HLT_BPMu7, MuonPhi_HLT_BPMu7, MuonPt_HLT_BPMu8, MuonEta_HLT_BPMu8, MuonPhi_HLT_BPMu8, MuonPt_HLT_BPMu8_IP6,  MuonEta_HLT_BPMu8_IP6, MuonPhi_HLT_BPMu8_IP6, MuonPt_HLT_BPMu8_IP5, MuonEta_HLT_BPMu8_IP5, MuonPhi_HLT_BPMu8_IP5,   MuonPt_HLT_BPMu9_IP0, MuonEta_HLT_BPMu9_IP0, MuonPhi_HLT_BPMu9_IP0, MuonPt_HLT_BPMu3_IP3, MuonEta_HLT_BPMu3_IP3, MuonPhi_HLT_BPMu3_IP3, MuonPt_HLT_BPMu3_IP4,MuonEta_HLT_BPMu3_IP4,MuonPhi_HLT_BPMu3_IP4,MuonPt_HLT_BPMu3_IP5, MuonEta_HLT_BPMu3_IP5,MuonPhi_HLT_BPMu3_IP5,MuonPt_HLT_BPMu3_IP6,MuonEta_HLT_BPMu3_IP6,MuonPhi_HLT_BPMu3_IP6,MuonPt_HLT_BPMu12_IP6,MuonEta_HLT_BPMu12_IP6,MuonPhi_HLT_BPMu12_IP6;
+
+  std::vector<float> Mu1_dRtriggerMatch_Mu8_IP5, Mu1_dRtriggerMatch_Mu8_IP6, Mu1_dRtriggerMatch_Mu9_IP0, Mu1_dRtriggerMatch_Mu9_IP3, Mu1_dRtriggerMaTch_Mu9_IP4, Mu1_dRtriggerMatch_Mu9_IP5, Mu1_dRtriggerMatch_Mu9_IP6, Mu1_dRtriggerMatch_Mu12_IP6,Mu1_dRtriggerMatch_Mu9_IP4;
+  std::vector<float> Mu1_dRtriggerMatch_Mu7, Mu2_dRtriggerMatch_Mu7, Mu3_dRtriggerMatch_Mu7;
+  std::vector<float> Mu1_dRtriggerMatch_Mu8, Mu2_dRtriggerMatch_Mu8, Mu3_dRtriggerMatch_Mu8;
+  std::vector<double>   DistXY_PVSV,DistXY_significance_PVSV;
+    //Synctree
     /*  TTree*      SyncTree_;
      std::vector<float>  allmuons_pt, leadmuon_pt, leadmuon_phi, leadmuon_eta;
      std::vector<float>  alltracks_pt, leadtrack_pt,  leadtrack_eta,  leadtrack_phi;
@@ -249,6 +265,7 @@ private:
         edm::InputTag algInputTag_;
         isMc = iConfig.getUntrackedParameter<bool>("isMcLabel");
 	isAna = iConfig.getUntrackedParameter<bool>("isAnaLabel");
+	isBParking= iConfig.getUntrackedParameter<bool>("isBParkingLabel");
         muons_ = consumes<edm::View<pat::Muon> >  (iConfig.getParameter<edm::InputTag>("muonLabel"));
         vertex_ = consumes<edm::View<reco::Vertex> > (iConfig.getParameter<edm::InputTag>("VertexLabel"));
         trackToken_ = consumes<edm::View<reco::Track> > (edm::InputTag("generalTracks"));
@@ -259,11 +276,12 @@ private:
 	trigeventToken_ = consumes<trigger::TriggerEvent>(iConfig.getParameter<edm::InputTag>("triggerSummary"));
 	algToken_ = consumes<BXVector<GlobalAlgBlk>>(iConfig.getParameter<edm::InputTag>("AlgInputTag"));
 	gtUtil_ = new l1t::L1TGlobalUtil(iConfig, consumesCollector(), *this, algInputTag_, algInputTag_);
+	//beamSpotHandle_  = consumes<edm::Handle<reco::BeamSpot> > (edm::InputTag("offlineBeamSpot"));
+	token_BeamSpot = consumes<reco::BeamSpot>(edm::InputTag("offlineBeamSpot"));
         //  _hltInputTag(iConfig.getParameter<edm::InputTag>("hltInputTag")),
         //tauToken_(consumes(iConfig.getParameter("taus"))),
         //metToken_(consumes(iConfig.getParameter("mets")))
-        //tree_(0);
-        //MuonPt(0);
+
     }
     MiniAna2017Tree::~MiniAna2017Tree()
     {
@@ -289,6 +307,16 @@ private:
         }                                                                                          
         return dRmin;                                                                              
     }
+float MiniAna2017Tree::dPtTriggerMatch(pat::Muon m, trigger::TriggerObjectCollection triggerObjects) {
+  float dPtmin = 10000.;
+  for (unsigned int i = 0 ; i < triggerObjects.size() ; i++) {
+    float deltaPtRel = (triggerObjects[i].pt() - m.pt())/m.pt();
+    //float deltaPtMin = sqrt( reco::deltaR2(triggerObjects[i].eta(), triggerObjects[i].phi(), m.eta(), m.phi()));
+    //float deltaR = sqrt( pow(triggerObjects[i].eta() - m.eta(), 2) + pow(acos(cos(triggerObjects[i].phi() - m.phi())), 2));                 
+    if (deltaPtRel < dPtmin) dPtmin = deltaPtRel;
+  }
+  return dPtmin;
+}
 
     
     bool isGoodTrack(const reco::Track &track) {
@@ -359,7 +387,7 @@ private:
         using std::vector;
         
         
-        
+
         edm::Handle< edm::View<reco::Vertex> >vertices;
         iEvent.getByToken(vertex_, vertices);
         if (vertices->empty()) return; // skip the event if no PV found
@@ -393,6 +421,29 @@ private:
         iSetup.get<TransientTrackRecord>().get("TransientTrackBuilder",theTransientTrackBuilder);
         theTransientTrackBuilder_ = theTransientTrackBuilder.product();
 
+
+	/*	reco::BeamSpot beamSpot;
+	edm::Handle<reco::BeamSpot> beamSpotHandle;
+	iEvent.getByToken(beamSpotHandle_, beamSpotHandle);
+	*/
+
+	reco::BeamSpot beamSpot;
+	edm::Handle<reco::BeamSpot> beamSpotHandle;
+	iEvent.getByToken(token_BeamSpot, beamSpotHandle);
+	const reco::BeamSpot& beamspot = *beamSpotHandle.product();
+	
+
+
+	if ( beamSpotHandle.isValid() )
+	  {
+	    beamSpot = *beamSpotHandle;
+
+	  } else
+	  {
+	    edm::LogInfo("MyAnalyzer")
+	      << "No beam spot available from EventSetup \n";
+	  }
+
 	//edm::Handle<SimTrackContainer> simTracks;
 	//iEvent.getByLabel("g4SimHits",simTracks);
 
@@ -403,13 +454,14 @@ private:
 
 	gtUtil_->retrieveL1(iEvent, iSetup, algToken_);
 	const vector<pair<string, bool> > initialDecisions = gtUtil_->decisionsInitial();
-
+	
 	if (!iEvent.isRealData())
 	  {
 	    for (size_t i_l1t = 0; i_l1t < initialDecisions.size(); i_l1t++) 
 	      {
 		string l1tName = (initialDecisions.at(i_l1t)).first;
-		if(l1tName.find("DoubleMu") != string::npos || l1tName.find("TripleMu") != string::npos ||  l1tName.find("SingleMu")!= string::npos ){
+		if(l1tName.find("DoubleMu") != string::npos || l1tName.find("TripleMu") != string::npos || l1tName.find("SingleMu")){
+		  //cout<<"MC: L1 name="<<l1tName<<endl;
 		  Trigger_l1name.push_back( l1tName );
 		  Trigger_l1decision.push_back( initialDecisions.at(i_l1t).second );
 		  Trigger_l1prescale.push_back( 1 );
@@ -424,8 +476,8 @@ private:
 	    int columnN= gtUtil_->prescaleColumn();
 	    for (size_t i_l1t = 0; i_l1t < initialDecisions.size(); i_l1t++) {
 	      string l1tName = (initialDecisions.at(i_l1t)).first;
-	      if(l1tName.find("DoubleMu") != string::npos || l1tName.find("TripleMu") != string::npos ||  l1tName.find("SingleMu")!= string::npos){
-		//cout<<"L1Seed="<<l1tName<<" decision="<<initialDecisions.at(i_l1t).second<<" prescale="<<(psAndVetos->prescale_table_)[columnN][i_l1t]<<endl;
+	      if(l1tName.find("DoubleMu") != string::npos || l1tName.find("TripleMu") != string::npos || l1tName.find("SingleMu")){
+		//cout<<"Data: L1Seed="<<l1tName<<" decision="<<initialDecisions.at(i_l1t).second<<endl;
 		Trigger_l1name.push_back( l1tName );
 		Trigger_l1decision.push_back( initialDecisions.at(i_l1t).second );
 		Trigger_l1prescale.push_back( (psAndVetos->prescale_table_)[columnN][i_l1t]);
@@ -437,13 +489,218 @@ private:
 	const TriggerNames &triggerNames = iEvent.triggerNames( *triggerResults );
 	for (size_t i_hlt = 0; i_hlt != triggerResults->size(); ++i_hlt){
 	    string hltName = triggerNames.triggerName(i_hlt);
-	    if(hltName.find("HLT_DoubleMu3") != string::npos  || hltName.find("HLT_Mu8_IP") != string::npos || hltName.find("HLT_Mu7_IP") != string::npos ){
+	    if( (hltName.find("HLT_DoubleMu") != string::npos) || (hltName.find("HLT_Mu8_IP") != string::npos) || (hltName.find("HLT_Mu7_IP")!= string::npos) ||     (hltName.find("HLT_Mu9_IP")   != string::npos) || (hltName.find("HLT_Mu12_IP")!=string::npos) ){
+	      
 	      //cout<<" HLTPath="<<hltName<<" isPassed="<<triggerResults->accept(i_hlt )<<endl;
 	      Trigger_hltname.push_back(hltName);
 	      Trigger_hltdecision.push_back(triggerResults->accept(i_hlt ));
 	    }
 	}
-    
+
+
+	std::vector<trigger::TriggerObject> trgobjs = triggerSummary->getObjects();
+	trigger::TriggerObjectCollection MuonsObjects;
+	trigger::TriggerObjectCollection MuonsObjects_BPMu7, MuonsObjects_BPMu12_IP6;
+	trigger::TriggerObjectCollection MuonsObjects_BPMu8, MuonsObjects_BPMu8_IP6, MuonsObjects_BPMu8_IP5;
+	trigger::TriggerObjectCollection MuonsObjects_BPMu9_IP0, MuonsObjects_BPMu9_IP6, MuonsObjects_BPMu9_IP4, MuonsObjects_BPMu9_IP5, MuonsObjects_BPMu9_IP3;
+
+	edm::InputTag MuonFilterTag = edm::InputTag("hltdstau3muDisplaced3muFltr", "", "HLT");
+        size_t MuonFilterIndex = (*triggerSummary).filterIndex(MuonFilterTag); //find the index corresponding to the event                          
+
+        if(MuonFilterIndex < (*triggerSummary).sizeFilters()) { 
+          const trigger::Keys &KEYS = (*triggerSummary).filterKeys(MuonFilterIndex);
+          for (unsigned int ipart = 0; ipart < KEYS.size(); ipart++) {
+	    trigger::TriggerObject foundObject = (trgobjs)[KEYS[ipart]];
+            MuonsObjects.push_back(foundObject);
+          }
+        }
+	for(unsigned int i = 0 ; i <MuonsObjects.size() ; i++) {
+	  MuonPt_HLT.push_back(MuonsObjects[i].pt());
+	  MuonEta_HLT.push_back(MuonsObjects[i].eta());
+	  MuonPhi_HLT.push_back(MuonsObjects[i].phi());
+	  
+	}
+
+	if( isBParking){
+	edm::InputTag MuonFilterTagBPHMu8 = edm::InputTag("hltL3fL1sMu22OrParkL1f0L2f10QL3Filtered8Q", "", "HLT");
+	edm::InputTag MuonFilterTagBPHMu7 = edm::InputTag("hltL3fL1sMu22OrParkL1f0L2f10QL3Filtered7IP4Q", "", "HLT");
+
+	edm::InputTag MuonFilterTagBPHMu8_IP5 = edm::InputTag("hltL3fL1sMu22OrParkL1f0L2f10QL3Filtered8IP5Q", "", "HLT");
+	edm::InputTag MuonFilterTagBPHMu8_IP6 = edm::InputTag("hltL3fL1sMu22OrParkL1f0L2f10QL3Filtered8IP6Q", "", "HLT");
+
+	edm::InputTag MuonFilterTagBPHMu9_IP0 = edm::InputTag("hltL3fL1sMu22OrParkL1f0L2f10QL3Filtered9IP0Q", "", "HLT");
+	edm::InputTag MuonFilterTagBPHMu9_IP3 = edm::InputTag("hltL3fL1sMu22OrParkL1f0L2f10QL3Filtered9IP3Q", "", "HLT");
+	edm::InputTag MuonFilterTagBPHMu9_IP4 = edm::InputTag("hltL3fL1sMu22OrParkL1f0L2f10QL3Filtered9IP4Q", "", "HLT");
+	edm::InputTag MuonFilterTagBPHMu9_IP5 = edm::InputTag("hltL3fL1sMu22OrParkL1f0L2f10QL3Filtered9IP5Q", "", "HLT");
+	edm::InputTag MuonFilterTagBPHMu9_IP6 = edm::InputTag("hltL3fL1sMu22OrParkL1f0L2f10QL3Filtered9Q", "", "HLT");
+	edm::InputTag MuonFilterTagBPHMu12_IP6 = edm::InputTag("hltL3fL1sMu22OrParkL1f0L2f10QL3Filtered12Q", "", "HLT");
+
+	size_t MuonFilterIndex_BPHMu8 = (*triggerSummary).filterIndex(MuonFilterTagBPHMu8);
+	size_t MuonFilterIndex_BPHMu7 = (*triggerSummary).filterIndex(MuonFilterTagBPHMu7);
+	size_t MuonFilterIndex_BPHMu8_IP5 = (*triggerSummary).filterIndex(MuonFilterTagBPHMu8_IP5);
+	size_t MuonFilterIndex_BPHMu8_IP6 = (*triggerSummary).filterIndex(MuonFilterTagBPHMu8_IP6);
+	size_t MuonFilterIndex_BPHMu9_IP0 = (*triggerSummary).filterIndex(MuonFilterTagBPHMu9_IP0);
+	size_t MuonFilterIndex_BPHMu9_IP3 = (*triggerSummary).filterIndex(MuonFilterTagBPHMu9_IP3);
+	size_t MuonFilterIndex_BPHMu9_IP4 = (*triggerSummary).filterIndex(MuonFilterTagBPHMu9_IP4);
+	size_t MuonFilterIndex_BPHMu9_IP5 = (*triggerSummary).filterIndex(MuonFilterTagBPHMu9_IP5);
+	size_t MuonFilterIndex_BPHMu9_IP6 = (*triggerSummary).filterIndex(MuonFilterTagBPHMu9_IP6);
+	size_t MuonFilterIndex_BPHMu12_IP6 = (*triggerSummary).filterIndex(MuonFilterTagBPHMu12_IP6);
+
+
+	if(MuonFilterIndex_BPHMu8 < (*triggerSummary).sizeFilters()) {
+          const trigger::Keys &KEYS = (*triggerSummary).filterKeys(MuonFilterIndex_BPHMu8);
+          for (unsigned int ipart = 0; ipart < KEYS.size(); ipart++) {
+	    trigger::TriggerObject foundObject = (trgobjs)[KEYS[ipart]];
+            MuonsObjects_BPMu8.push_back(foundObject);
+          }
+        }
+
+
+	if(MuonFilterIndex_BPHMu7 < (*triggerSummary).sizeFilters()) {
+          const trigger::Keys &KEYS = (*triggerSummary).filterKeys(MuonFilterIndex_BPHMu7);
+          for (unsigned int ipart = 0; ipart < KEYS.size(); ipart++) {
+	    trigger::TriggerObject foundObject = (trgobjs)[KEYS[ipart]];
+            MuonsObjects_BPMu7.push_back(foundObject);
+          }
+        }
+
+	if(MuonFilterIndex_BPHMu8_IP6 < (*triggerSummary).sizeFilters()) {
+          const trigger::Keys &KEYS = (*triggerSummary).filterKeys(MuonFilterIndex_BPHMu8_IP6);
+          for (unsigned int ipart = 0; ipart < KEYS.size(); ipart++) {
+	    trigger::TriggerObject foundObject = (trgobjs)[KEYS[ipart]];
+            MuonsObjects_BPMu8_IP6.push_back(foundObject);
+          }
+        }
+
+	if(MuonFilterIndex_BPHMu8_IP5 < (*triggerSummary).sizeFilters()) {
+          const trigger::Keys &KEYS = (*triggerSummary).filterKeys(MuonFilterIndex_BPHMu8_IP5);
+          for (unsigned int ipart = 0; ipart < KEYS.size(); ipart++) {
+	    trigger::TriggerObject foundObject = (trgobjs)[KEYS[ipart]];
+            MuonsObjects_BPMu8_IP5.push_back(foundObject);
+          }
+        }
+
+
+	if(MuonFilterIndex_BPHMu9_IP0 < (*triggerSummary).sizeFilters()) {
+          const trigger::Keys &KEYS = (*triggerSummary).filterKeys(MuonFilterIndex_BPHMu9_IP0);
+          for (unsigned int ipart = 0; ipart < KEYS.size(); ipart++) {
+	    trigger::TriggerObject foundObject = (trgobjs)[KEYS[ipart]];
+            MuonsObjects_BPMu9_IP0.push_back(foundObject);
+          }
+        }
+
+
+	if(MuonFilterIndex_BPHMu9_IP3 < (*triggerSummary).sizeFilters()) {
+	  const trigger::Keys &KEYS = (*triggerSummary).filterKeys(MuonFilterIndex_BPHMu9_IP3);
+	  for (unsigned int ipart = 0; ipart < KEYS.size(); ipart++) {
+	    trigger::TriggerObject foundObject = (trgobjs)[KEYS[ipart]];
+	    MuonsObjects_BPMu9_IP3.push_back(foundObject);
+
+	  }
+	}
+
+
+	if(MuonFilterIndex_BPHMu9_IP4 < (*triggerSummary).sizeFilters()) {
+	  const trigger::Keys &KEYS = (*triggerSummary).filterKeys(MuonFilterIndex_BPHMu9_IP4);
+	  for (unsigned int ipart = 0; ipart < KEYS.size(); ipart++) {
+	    trigger::TriggerObject foundObject = (trgobjs)[KEYS[ipart]];
+	    MuonsObjects_BPMu9_IP4.push_back(foundObject);
+	  }
+	}
+
+
+	if(MuonFilterIndex_BPHMu9_IP5 < (*triggerSummary).sizeFilters()) {
+          const trigger::Keys &KEYS = (*triggerSummary).filterKeys(MuonFilterIndex_BPHMu9_IP5);
+          for (unsigned int ipart = 0; ipart < KEYS.size(); ipart++) {
+	    trigger::TriggerObject foundObject = (trgobjs)[KEYS[ipart]];
+            MuonsObjects_BPMu9_IP5.push_back(foundObject);
+          }
+	}
+
+
+	if(MuonFilterIndex_BPHMu9_IP6 < (*triggerSummary).sizeFilters()) {
+          const trigger::Keys &KEYS = (*triggerSummary).filterKeys(MuonFilterIndex_BPHMu9_IP6);
+          for (unsigned int ipart = 0; ipart < KEYS.size(); ipart++) {
+	    trigger::TriggerObject foundObject = (trgobjs)[KEYS[ipart]];
+            MuonsObjects_BPMu9_IP6.push_back(foundObject);
+
+          }
+        }
+
+
+	if(MuonFilterIndex_BPHMu12_IP6 < (*triggerSummary).sizeFilters()) {
+	  const trigger::Keys &KEYS = (*triggerSummary).filterKeys(MuonFilterIndex_BPHMu12_IP6);
+	  for (unsigned int ipart = 0; ipart < KEYS.size(); ipart++) {
+	    trigger::TriggerObject foundObject = (trgobjs)[KEYS[ipart]];
+	    MuonsObjects_BPMu12_IP6.push_back(foundObject);
+	  }
+	}
+
+
+	
+	for(uint t=0; t<MuonsObjects_BPMu7.size();t++){
+          MuonPt_HLT_BPMu7.push_back(MuonsObjects_BPMu7.at(t).pt());
+          MuonEta_HLT_BPMu7.push_back(MuonsObjects_BPMu7.at(t).eta());
+          MuonPhi_HLT_BPMu7.push_back(MuonsObjects_BPMu7.at(t).phi());
+        }
+
+
+	  for(uint t=0; t<MuonsObjects_BPMu8.size();t++){
+	    MuonPt_HLT_BPMu8.push_back(MuonsObjects_BPMu8.at(t).pt());
+	    MuonEta_HLT_BPMu8.push_back(MuonsObjects_BPMu8.at(t).eta());
+	    MuonPhi_HLT_BPMu8.push_back(MuonsObjects_BPMu8.at(t).phi());
+	  }
+
+	  for(uint t=0; t<MuonsObjects_BPMu8_IP6.size();t++){
+	    MuonPt_HLT_BPMu8_IP6.push_back(MuonsObjects_BPMu8_IP6.at(t).pt());
+	    MuonEta_HLT_BPMu8_IP6.push_back(MuonsObjects_BPMu8_IP6.at(t).eta());
+	    MuonPhi_HLT_BPMu8_IP6.push_back(MuonsObjects_BPMu8_IP6.at(t).phi());
+	  }
+
+	  for(uint t=0; t<MuonsObjects_BPMu8_IP5.size();t++){
+	    MuonPt_HLT_BPMu8_IP5.push_back(MuonsObjects_BPMu8_IP5.at(t).pt());
+	    MuonEta_HLT_BPMu8_IP5.push_back(MuonsObjects_BPMu8_IP5.at(t).eta());
+	    MuonPhi_HLT_BPMu8_IP5.push_back(MuonsObjects_BPMu8_IP5.at(t).phi());
+	  }
+
+	  for(uint t=0; t<MuonsObjects_BPMu9_IP0.size();t++){
+	    MuonPt_HLT_BPMu9_IP0.push_back(MuonsObjects_BPMu9_IP0.at(t).pt());
+	    MuonEta_HLT_BPMu9_IP0.push_back(MuonsObjects_BPMu9_IP0.at(t).eta());
+	    MuonPhi_HLT_BPMu9_IP0.push_back(MuonsObjects_BPMu9_IP0.at(t).phi());
+	  }
+
+	  for(uint t=0; t< MuonsObjects_BPMu9_IP3.size();t++){
+	    MuonPt_HLT_BPMu3_IP3.push_back(MuonsObjects_BPMu9_IP3.at(t).pt());
+	    MuonEta_HLT_BPMu3_IP3.push_back(MuonsObjects_BPMu9_IP3.at(t).eta());
+	    MuonPhi_HLT_BPMu3_IP3.push_back(MuonsObjects_BPMu9_IP3.at(t).phi());
+	  }
+	  for(uint t=0; t< MuonsObjects_BPMu9_IP4.size();t++){
+	    MuonPt_HLT_BPMu3_IP4.push_back(MuonsObjects_BPMu9_IP4.at(t).pt());
+	    MuonEta_HLT_BPMu3_IP4.push_back(MuonsObjects_BPMu9_IP4.at(t).eta());
+	    MuonPhi_HLT_BPMu3_IP4.push_back(MuonsObjects_BPMu9_IP4.at(t).phi());
+
+	  }
+
+	  for(uint t=0; t< MuonsObjects_BPMu9_IP5.size();t++){
+	    MuonPt_HLT_BPMu3_IP5.push_back(MuonsObjects_BPMu9_IP5.at(t).pt());
+	    MuonEta_HLT_BPMu3_IP5.push_back(MuonsObjects_BPMu9_IP5.at(t).eta());
+	    MuonPhi_HLT_BPMu3_IP5.push_back(MuonsObjects_BPMu9_IP5.at(t).phi());
+	  }
+	  for(uint t=0; t< MuonsObjects_BPMu9_IP6.size();t++){
+	    MuonPt_HLT_BPMu3_IP6.push_back(MuonsObjects_BPMu9_IP6.at(t).pt());
+	    MuonEta_HLT_BPMu3_IP6.push_back(MuonsObjects_BPMu9_IP6.at(t).eta());
+	    MuonPhi_HLT_BPMu3_IP6.push_back(MuonsObjects_BPMu9_IP6.at(t).phi());
+
+	  }
+
+	  for(uint t=0; t< MuonsObjects_BPMu12_IP6.size();t++){
+	    MuonPt_HLT_BPMu12_IP6.push_back(MuonsObjects_BPMu12_IP6.at(t).pt());
+	    MuonEta_HLT_BPMu12_IP6.push_back(MuonsObjects_BPMu12_IP6.at(t).eta());
+	    MuonPhi_HLT_BPMu12_IP6.push_back(MuonsObjects_BPMu12_IP6.at(t).phi());
+	  }
+
+	}
+
  
 	///////////////Fill GenParticles///////////////
         if(isMc){
@@ -578,7 +835,7 @@ private:
 	      pvTracks_refit.push_back(pvTrack->second);}
 
 
-	    cout<<" Closest PV index "<<primaryvertex_index<<" x="<<(*vertices)[primaryvertex_index].x()<<" y="<<(*vertices)[primaryvertex_index].y()<<" z="<<(*vertices)[primaryvertex_index].z()<<endl;
+	    //cout<<" Closest PV index "<<primaryvertex_index<<" x="<<(*vertices)[primaryvertex_index].x()<<" y="<<(*vertices)[primaryvertex_index].y()<<" z="<<(*vertices)[primaryvertex_index].z()<<endl;
 
 	    //std::vector<reco::transientTrack> pvtracks_original;
 	    //Transienttrackmap Pvtrackmap_Refit;
@@ -630,81 +887,110 @@ private:
 
 	    ///////////////Check Trigger Matching///////////////
             float dR1 = 999., dR2 = 999., dR3 = 999.;
-	    float dR1_Mu7=999.,dR2_Mu7 = 999., dR3_Mu7 = 999.;
-	    float dR1_Mu8=999.,dR2_Mu8 = 999., dR3_Mu8 = 999.;
+	    float dPtRel1 = 999., dPtRel2 = 999., dPtRel3 = 999.;
+	    float dR1_2017 = 999., dR2_2017 = 999., dR3_2017 = 999.;
+            float dR1_Mu7=999.,dR2_Mu7 = 999., dR3_Mu7 = 999.;
+            float dR1_Mu8=999.,dR2_Mu8 = 999., dR3_Mu8 = 999.;
+            float dR1_Mu8_IP6=999., dR1_Mu12_IP6=999, dR1_Mu8_IP5=999.;
+            float dR1_Mu9_IP0=999., dR1_Mu9_IP3=999.,  dR1_Mu9_IP4=999., dR1_Mu9_IP5=999., dR1_Mu9_IP6=999.;
             std::vector<trigger::TriggerObject> trgobjs = triggerSummary->getObjects();
             trigger::TriggerObjectCollection MuonsObjects;
-            trigger::TriggerObjectCollection MuonsObjects_BPMu7;
-            trigger::TriggerObjectCollection MuonsObjects_BPMu8;
-            //edm::InputTag MuonFilterTag = edm::InputTag("hltTau3muTkVertexFilter", "", "HLT"); //2017
-	    edm::InputTag MuonFilterTag = edm::InputTag("hltdstau3muDisplaced3muFltr", "", "HLT"); //2018
-	    edm::InputTag MuonFilterTagBPHMu8 = edm::InputTag("hltL3fL1sMu22OrParkL1f0L2f10QL3Filtered8Q", "", "HLT");
-	    edm::InputTag MuonFilterTagBPHMu7 = edm::InputTag("hltL3fL1sMu22OrParkL1f0L2f10QL3Filtered7IP4Q", "", "HLT");
-
-
+            edm::InputTag MuonFilterTag = edm::InputTag("hltdstau3muDisplaced3muFltr", "", "HLT");
             size_t MuonFilterIndex = (*triggerSummary).filterIndex(MuonFilterTag); //find the index corresponding to the event
-	    size_t MuonFilterIndex_BPHMu8 = (*triggerSummary).filterIndex(MuonFilterTagBPHMu8);
-	    size_t MuonFilterIndex_BPHMu7 = (*triggerSummary).filterIndex(MuonFilterTagBPHMu7);
             if(MuonFilterIndex < (*triggerSummary).sizeFilters()) { //check if the trigger object is present
             //save the trigger objetcs corresponding to muon leg
                 const trigger::Keys &KEYS = (*triggerSummary).filterKeys(MuonFilterIndex);
                 for (unsigned int ipart = 0; ipart < KEYS.size(); ipart++) {
                     trigger::TriggerObject foundObject = (trgobjs)[KEYS[ipart]];
-                    MuonsObjects.push_back(foundObject);
+                    MuonsObjects.push_back(foundObject);		    
                 }
                 dR1 = MiniAna2017Tree::dRtriggerMatch(*mu1, MuonsObjects);
                 dR2 = MiniAna2017Tree::dRtriggerMatch(*mu2, MuonsObjects);
                 dR3 = MiniAna2017Tree::dRtriggerMatch(*mu3, MuonsObjects);
+		dPtRel1 = MiniAna2017Tree::dPtTriggerMatch(*mu1, MuonsObjects);
+		dPtRel2 = MiniAna2017Tree::dPtTriggerMatch(*mu2, MuonsObjects);
+		dPtRel3 = MiniAna2017Tree::dPtTriggerMatch(*mu3, MuonsObjects);
+
+
             }
-            Mu1_dRtriggerMatch.push_back(dR1);
+
+
+	    Mu1_dRtriggerMatch.push_back(dR1);
             Mu2_dRtriggerMatch.push_back(dR2);
             Mu3_dRtriggerMatch.push_back(dR3);
 
 
-	    if(MuonFilterIndex_BPHMu8 < (*triggerSummary).sizeFilters()) { //check if the trigger object is present                                                              
-	      //save the trigger objetcs corresponding to muon leg                                                                                                          
-	      const trigger::Keys &KEYS = (*triggerSummary).filterKeys(MuonFilterIndex_BPHMu8);
-	      for (unsigned int ipart = 0; ipart < KEYS.size(); ipart++) {
-		trigger::TriggerObject foundObject = (trgobjs)[KEYS[ipart]];
-		MuonsObjects_BPMu8.push_back(foundObject);
-	      }
-	      dR1_Mu8 = MiniAna2017Tree::dRtriggerMatch(*mu1, MuonsObjects_BPMu8);
-	      dR2_Mu8 = MiniAna2017Tree::dRtriggerMatch(*mu2, MuonsObjects_BPMu8);
-	      dR3_Mu8 = MiniAna2017Tree::dRtriggerMatch(*mu3, MuonsObjects_BPMu8);
+	    Mu1_dPtReltriggerMatch.push_back(dPtRel1);
+            Mu2_dPtReltriggerMatch.push_back(dPtRel2);
+            Mu3_dPtReltriggerMatch.push_back(dPtRel3);
+
+
+
+	    if( isBParking){
+	      dR1_Mu8 =  MiniAna2017Tree::dRtriggerMatch(*mu1, MuonsObjects_BPMu8);
+	      dR2_Mu8 =   MiniAna2017Tree::dRtriggerMatch(*mu2, MuonsObjects_BPMu8);
+	      dR3_Mu8 =  MiniAna2017Tree::dRtriggerMatch(*mu3, MuonsObjects_BPMu8);
+	      Mu1_dRtriggerMatch_Mu8.push_back(dR1_Mu8);
+	      Mu2_dRtriggerMatch_Mu8.push_back(dR2_Mu8);
+	      Mu3_dRtriggerMatch_Mu8.push_back(dR3_Mu8);
+
+	      dR1_Mu7 =  MiniAna2017Tree::dRtriggerMatch(*mu1, MuonsObjects_BPMu7);
+	      dR2_Mu7 =  MiniAna2017Tree::dRtriggerMatch(*mu2, MuonsObjects_BPMu7);
+	      dR3_Mu7 =  MiniAna2017Tree::dRtriggerMatch(*mu3, MuonsObjects_BPMu7);
+
+	      Mu1_dRtriggerMatch_Mu7.push_back(dR1_Mu7);
+	      Mu2_dRtriggerMatch_Mu7.push_back(dR2_Mu7);
+	      Mu3_dRtriggerMatch_Mu7.push_back(dR3_Mu7);
+
+
+	      dR1_Mu8_IP5 =  MiniAna2017Tree::dRtriggerMatch(*mu1, MuonsObjects_BPMu8_IP5);
+
+	      Mu1_dRtriggerMatch_Mu8_IP5.push_back(dR1_Mu8_IP5);
+
+	      dR1_Mu8_IP6 =  MiniAna2017Tree::dRtriggerMatch(*mu1, MuonsObjects_BPMu8_IP6);
+
+	      Mu1_dRtriggerMatch_Mu8_IP6.push_back(dR1_Mu8_IP6);
+
+	      dR1_Mu9_IP0 =  MiniAna2017Tree::dRtriggerMatch(*mu1, MuonsObjects_BPMu9_IP0);
+
+	      Mu1_dRtriggerMatch_Mu9_IP0.push_back(dR1_Mu9_IP0);
+
+	      dR1_Mu9_IP3 =  MiniAna2017Tree::dRtriggerMatch(*mu1, MuonsObjects_BPMu9_IP3);
+
+	      Mu1_dRtriggerMatch_Mu9_IP3.push_back(dR1_Mu9_IP3);
+
+	      dR1_Mu9_IP4 =  MiniAna2017Tree::dRtriggerMatch(*mu1, MuonsObjects_BPMu9_IP4);
+
+	      Mu1_dRtriggerMatch_Mu9_IP4.push_back(dR1_Mu9_IP4);
+
+	      dR1_Mu9_IP5 =  MiniAna2017Tree::dRtriggerMatch(*mu1, MuonsObjects_BPMu9_IP5);
+
+	      Mu1_dRtriggerMatch_Mu9_IP5.push_back(dR1_Mu9_IP5);
+
+	      dR1_Mu9_IP6 =  MiniAna2017Tree::dRtriggerMatch(*mu1, MuonsObjects_BPMu9_IP6);
+
+	      Mu1_dRtriggerMatch_Mu9_IP6.push_back(dR1_Mu9_IP6);
+
+	      dR1_Mu12_IP6 =  MiniAna2017Tree::dRtriggerMatch(*mu1, MuonsObjects_BPMu12_IP6);
+
+	      Mu1_dRtriggerMatch_Mu12_IP6.push_back(dR1_Mu12_IP6);
+
+
             }
-            Mu1_dRtriggerMatch_Mu8.push_back(dR1_Mu8);
-            Mu2_dRtriggerMatch_Mu8.push_back(dR2_Mu8);
-            Mu3_dRtriggerMatch_Mu8.push_back(dR3_Mu8);
-	     
-	    if(MuonFilterIndex_BPHMu7 < (*triggerSummary).sizeFilters()) {
-              //save the trigger objetcs corresponding to muon leg                                                                                                       
-              const trigger::Keys &KEYS = (*triggerSummary).filterKeys(MuonFilterIndex_BPHMu7);
-              for (unsigned int ipart = 0; ipart < KEYS.size(); ipart++) {
-		trigger::TriggerObject foundObject = (trgobjs)[KEYS[ipart]];
-                MuonsObjects_BPMu7.push_back(foundObject);
-              }
-              dR1_Mu7 = MiniAna2017Tree::dRtriggerMatch(*mu1, MuonsObjects_BPMu7);
-              dR2_Mu7 = MiniAna2017Tree::dRtriggerMatch(*mu2, MuonsObjects_BPMu7);
-              dR3_Mu7 = MiniAna2017Tree::dRtriggerMatch(*mu3, MuonsObjects_BPMu7);
-            }
-            Mu1_dRtriggerMatch_Mu7.push_back(dR1_Mu7);           
-            Mu2_dRtriggerMatch_Mu7.push_back(dR2_Mu7);
-            Mu3_dRtriggerMatch_Mu7.push_back(dR3_Mu7);
 
 
 
             if(isMc){
-                bool isMatch1=false; bool isMatch2=false; bool isMatch3=false;
-                if( (mu1->simType() == reco::MatchedMuonFromHeavyFlavour) && (fabs(mu1->simMotherPdgId()) == 15) ){
-                    isMatch1=true;
-
-                }
-                if( (mu2->simType() == reco::MatchedMuonFromHeavyFlavour) && (fabs(mu2->simMotherPdgId()) == 15) ){
-                    isMatch2=true;
-                }
-                if( (mu3->simType() == reco::MatchedMuonFromHeavyFlavour) && (fabs(mu3->simMotherPdgId()) == 15) ){
-                    isMatch3=true;
-                }
+	      bool isMatch1=false; bool isMatch2=false; bool isMatch3=false;
+	      if( (mu1->simType() == reco::MatchedMuonFromHeavyFlavour) && (fabs(mu1->simMotherPdgId()) == 15) ){
+		isMatch1=true;
+	      }
+	      if( (mu2->simType() == reco::MatchedMuonFromHeavyFlavour) && (fabs(mu2->simMotherPdgId()) == 15) ){
+		isMatch2=true;
+	      }
+	      if( (mu3->simType() == reco::MatchedMuonFromHeavyFlavour) && (fabs(mu3->simMotherPdgId()) == 15) ){
+		isMatch3=true;
+	      }
                 
                 //    cout<<TripletIndex<<"Triplet Mass:"<<TauIt->mass()<<" pt="<<TauIt->pt()<<" vtx.x="<<TauIt->vx()<<" vtx x="<<TripletVtx.x()<<" chi2="<<TauIt->vertexChi2()<<" ndof="<<TauIt->vertexNdof()<<endl;
                 // cout<<TripletIndex<<"--Muon 1 pt="<<mu1->pt()<<" Muon2 pt="<<mu2->pt()<<" Mu3 pt="<<mu3->pt()<<" "<<endl;
@@ -860,72 +1146,101 @@ private:
             Mu1_NTracks03iso.push_back(nTracks03_mu1);
             Mu2_NTracks03iso.push_back(nTracks03_mu2);
             Mu3_NTracks03iso.push_back(nTracks03_mu3);
+
+	    double sumPtTrackRel1=0, sumPtTrackRel2=0, sumPtTrackRel3=0, maxSumPtRelTracks =0;
+            sumPtTrackRel1=sumPtTrack1/LV1.Pt();
+            sumPtTrackRel2=sumPtTrack2/LV2.Pt();
+            sumPtTrackRel3=sumPtTrack3/LV3.Pt();
+	    maxSumPtRelTracks = std::max(sumPtTrackRel1, std::max(sumPtTrackRel2,sumPtTrackRel3));
+	    Triplet_relativeiso2.push_back(maxSumPtRelTracks);
+	    Triplet_IsoMu1.push_back(sumPtTrack1);
+            Triplet_IsoMu2.push_back(sumPtTrack2);
+            Triplet_IsoMu3.push_back(sumPtTrack3);
+
  
-                    //cout<<"Valid Vtx2="<<PVertex.isValid()<<endl;
-                    //CachingVertex<5> fittedVertex = vertexFitter.vertex(tracksToVertex);
-                    GlobalPoint PVertexPos  (PVertex.position());
-                    GlobalPoint SVertexPos  (TripletVtx.x(), TripletVtx.y(), TripletVtx.z());
-		    //cout<<" PV Coord after refit="<<PVertexPos.x()<<" y="<<PVertexPos.y()<<" z="<<PVertexPos.z()<<endl;
-                    double FlightDist = TMath::Sqrt( pow(( PVertexPos.x() -SVertexPos.x()),2)+ pow(( PVertexPos.y() -SVertexPos.y()),2) + pow(( PVertexPos.z() -SVertexPos.z()),2));
+	    //Cout<<"Valid Vtx2="<<PVertex.isValid()<<endl;
+	    //CachingVertex<5> fittedVertex = vertexFitter.vertex(tracksToVertex);
+	    GlobalPoint PVertexPos  (PVertex.position());
+	    GlobalPoint SVertexPos  (TripletVtx.x(), TripletVtx.y(), TripletVtx.z());
+	    //cout<<" PV Coord after refit="<<PVertexPos.x()<<" y="<<PVertexPos.y()<<" z="<<PVertexPos.z()<<endl;
+	    double FlightDist = TMath::Sqrt( pow(( PVertexPos.x() -SVertexPos.x()),2)+ pow(( PVertexPos.y() -SVertexPos.y()),2) + pow(( PVertexPos.z() -SVertexPos.z()),2));
                     
-                    VertexDistance3D vertTool;
-                    VertexState PVstate(PVertex.position(),PVertex.positionError());
-                    //VertexState SVstate(SVertexPos,TripletVtx.position());
-                    double distance = vertTool.distance(PVstate, TripletVtx).value();
-                    double dist_err = vertTool.distance(PVstate, TripletVtx).error();
-                    double dist_sign =vertTool.distance(PVstate, TripletVtx).significance();
-                    double chi2 = vertTool.compatibility(PVstate, TripletVtx);
+	    VertexDistance3D vertTool;
+	    VertexState PVstate(PVertex.position(),PVertex.positionError());
+	    //VertexState SVstate(SVertexPos,TripletVtx.position());
+	    double distance = vertTool.distance(PVstate, TripletVtx).value();
+	    double dist_err = vertTool.distance(PVstate, TripletVtx).error();
+	    double dist_sign =vertTool.distance(PVstate, TripletVtx).significance();
+	    double chi2 = vertTool.compatibility(PVstate, TripletVtx);
                     
-		    //VertexDistance3D dist;
-		    //double fv_d3D = dist.distance(Vertex(fv), pvv).value(); // = dv_reco.Mag() ??
-		    //double fv_d3Dsig = dist.distance(Vertex(fv), pvv).significance();
-		    //double fv_ppdl3D = fv_d3D*fv_cosdphi3D*m3mu_reco/vtau.P();
+	    
+	    //VertexDistance3D dist;
+	    //double fv_d3D = dist.distance(Vertex(fv), pvv).value(); // = dv_reco.Mag() ??
+	    //double fv_d3Dsig = dist.distance(Vertex(fv), pvv).significance();
+	    //double fv_ppdl3D = fv_d3D*fv_cosdphi3D*m3mu_reco/vtau.P();
+	    
+	    VertexState BSstate(beamSpot);
+	    VertexDistanceXY vertTool2D;
+	    double BSdistance2D = vertTool2D.distance(BSstate, TripletVtx).value();
+	    double BSdist_err2D = vertTool2D.distance(BSstate, TripletVtx).error();
+	    double BSdist_sign2D =vertTool2D.distance(BSstate, TripletVtx).significance();
+	    
+	    PV_x.push_back( (*vertices)[primaryvertex_index].x());
+	    PV_y.push_back( (*vertices)[primaryvertex_index].y());
+	    PV_z.push_back( (*vertices)[primaryvertex_index].z());
+	    PV_NTracks.push_back(pvTracks_original.size());
+	    
+            
+	    RefittedPV_x.push_back(PVertexPos.x());
+	    RefittedPV_y.push_back(PVertexPos.y());
+	    RefittedPV_z.push_back(PVertexPos.z());
+	    //RefittedPV_NTracks.push_back(pvTracks_refit.size());
+	    //RefittedPV_Chi2.push_back(PVertex.);
+            
+	    FlightDistPVSV.push_back(distance);
+	    FlightDistPVSV_Err.push_back(dist_err);
+	    FlightDistPVSV_Significance.push_back(dist_sign);
+	    FlightDistPVSV_chi2.push_back(chi2);
+	    
+	    FlightDistBS_SV.push_back(BSdistance2D);
+	    FlightDistBS_SV_Err.push_back(BSdist_err2D);
+	    FlightDistBS_SV_Significance.push_back(BSdist_sign2D);
+	    
+	    VertexDistanceXY vdistXY;
+            Measurement1D distXY = vdistXY.distance(TripletVtx, PVertex);
 
-                    ////
+            // cout<<"the displacement="<<distXY.value()<<" signif="<<distXY.significance()<<endl;                                                    
+            DistXY_PVSV.push_back(distXY.value());
+            DistXY_significance_PVSV.push_back(distXY.significance());
+	    
 
-		    PV_x.push_back( (*vertices)[primaryvertex_index].x());
-		    PV_y.push_back( (*vertices)[primaryvertex_index].y());
-		    PV_z.push_back( (*vertices)[primaryvertex_index].z());
-		    PV_NTracks.push_back(pvTracks_original.size());
 
-                    
-                    RefittedPV_x.push_back(PVertexPos.x());
-                    RefittedPV_y.push_back(PVertexPos.y());
-                    RefittedPV_z.push_back(PVertexPos.z());
-                    //RefittedPV_NTracks.push_back(pvTracks_refit.size());
-                    //RefittedPV_Chi2.push_back(PVertex.);
-                    
-                    FlightDistPVSV.push_back(distance);
-                    FlightDistPVSV_Err.push_back(dist_err);
-                    FlightDistPVSV_Significance.push_back(dist_sign);
-                    FlightDistPVSV_chi2.push_back(chi2);
-
-		    //Add dxy info
-		    GlobalVector dir1(mu1->px(), mu1->py(),  mu1->pz()); //To compute sign of IP
-		    GlobalVector dir2(mu2->px(), mu2->py(),  mu2->pz()); //To compute sign of IP
-		    GlobalVector dir3(mu3->px(), mu3->py(),  mu3->pz()); //To compute sign of IP
-		    std::pair<bool,Measurement1D> signed_IP2D_mu1 = IPTools::signedTransverseImpactParameter(transientTrack1, dir1, PVertex);
-		    std::pair<bool,Measurement1D> signed_IP2D_mu2 = IPTools::signedTransverseImpactParameter(transientTrack2, dir2, PVertex);
-		    std::pair<bool,Measurement1D> signed_IP2D_mu3 = IPTools::signedTransverseImpactParameter(transientTrack3, dir3, PVertex);
-		    //cout<<" IP mu1="<<signed_IP2D_mu1.second.value()<<" IP mu2="<<signed_IP2D_mu2.second.value()<<" IP mu3="<<signed_IP2D_mu3.second.value()<<endl;
-		    dxy_mu1.push_back(signed_IP2D_mu1.second.value());
-		    dxy_mu2.push_back(signed_IP2D_mu2.second.value());
-		    dxy_mu3.push_back(signed_IP2D_mu3.second.value());
-
-		    dxyErr_mu1.push_back(signed_IP2D_mu1.second.error());
-		    dxyErr_mu2.push_back(signed_IP2D_mu2.second.error());
-		    dxyErr_mu3.push_back(signed_IP2D_mu3.second.error());
-		    //std::pair<bool,Measurement1D> signed_IP3D_mu1 = IPTools::signedImpactParameter3D(transientTrack1, dir1, PVertex);
-		    //std::pair<bool,Measurement1D> signed_IP3D_mu2 = IPTools::signedImpactParameter3D(transientTrack2, dir2, PVertex);
-		    //std::pair<bool,Measurement1D> signed_IP3D_mu3 = IPTools::signedImpactParameter3D(transientTrack3, dir3, PVertex);
-		    //ip3d=signed_IP3D.second.value();
-		    //ip3d_err=signed_IP3D.second.error();
-		    //TransverseImpactPointExtrapolator extrapolator(transTrk.field());
-		    //GlobalPoint pos  = extrapolator.extrapolate(transTrk.impactPointState(), RecoVertex::convertPos(PV->position())).globalPosition();
-		    //poca=reco::Vertex::Point(pos.x(),pos.y(),pos.z());
-		    //AnalyticalImpactPointExtrapolator extrapolator3D(transTrk.field());
-		    //GlobalPoint pos3d = extrapolator3D.extrapolate(transTrk.impactPointState(),RecoVertex::convertPos(PV->position())).globalPosition();
-		    //ip3d_poca=reco::Vertex::Point(pos3d.x(),pos3d.y(),pos3d.z());
+	    //Add dxy info
+	    GlobalVector dir1(mu1->px(), mu1->py(),  mu1->pz()); //To compute sign of IP
+	    GlobalVector dir2(mu2->px(), mu2->py(),  mu2->pz()); //To compute sign of IP
+	    GlobalVector dir3(mu3->px(), mu3->py(),  mu3->pz()); //To compute sign of IP
+	    std::pair<bool,Measurement1D> signed_IP2D_mu1 = IPTools::signedTransverseImpactParameter(transientTrack1, dir1, PVertex);
+	    std::pair<bool,Measurement1D> signed_IP2D_mu2 = IPTools::signedTransverseImpactParameter(transientTrack2, dir2, PVertex);
+	    std::pair<bool,Measurement1D> signed_IP2D_mu3 = IPTools::signedTransverseImpactParameter(transientTrack3, dir3, PVertex);
+	    //cout<<" IP mu1="<<signed_IP2D_mu1.second.value()<<" IP mu2="<<signed_IP2D_mu2.second.value()<<" IP mu3="<<signed_IP2D_mu3.second.value()<<endl;
+	    dxy_mu1.push_back(signed_IP2D_mu1.second.value());
+	    dxy_mu2.push_back(signed_IP2D_mu2.second.value());
+	    dxy_mu3.push_back(signed_IP2D_mu3.second.value());
+	    
+	    dxyErr_mu1.push_back(signed_IP2D_mu1.second.error());
+	    dxyErr_mu2.push_back(signed_IP2D_mu2.second.error());
+	    dxyErr_mu3.push_back(signed_IP2D_mu3.second.error());
+	    //std::pair<bool,Measurement1D> signed_IP3D_mu1 = IPTools::signedImpactParameter3D(transientTrack1, dir1, PVertex);
+	    //std::pair<bool,Measurement1D> signed_IP3D_mu2 = IPTools::signedImpactParameter3D(transientTrack2, dir2, PVertex);
+	    //std::pair<bool,Measurement1D> signed_IP3D_mu3 = IPTools::signedImpactParameter3D(transientTrack3, dir3, PVertex);
+	    //ip3d=signed_IP3D.second.value();
+	    //ip3d_err=signed_IP3D.second.error();
+	    //TransverseImpactPointExtrapolator extrapolator(transTrk.field());
+	    //GlobalPoint pos  = extrapolator.extrapolate(transTrk.impactPointState(), RecoVertex::convertPos(PV->position())).globalPosition();
+	    //poca=reco::Vertex::Point(pos.x(),pos.y(),pos.z());
+	    //AnalyticalImpactPointExtrapolator extrapolator3D(transTrk.field());
+	    //GlobalPoint pos3d = extrapolator3D.extrapolate(transTrk.impactPointState(),RecoVertex::convertPos(PV->position())).globalPosition();
+	    //ip3d_poca=reco::Vertex::Point(pos3d.x(),pos3d.y(),pos3d.z());
       
 	      }else{
 		Mu1_Pt.push_back(-99);
@@ -973,16 +1288,6 @@ private:
 		  Mu2_dRtriggerMatch.push_back(-99);
 		  Mu3_dRtriggerMatch.push_back(-99);
 
-
-		  Mu1_dRtriggerMatch_Mu7.push_back(-99);
-                  Mu2_dRtriggerMatch_Mu7.push_back(-99);
-                  Mu3_dRtriggerMatch_Mu7.push_back(-99);
-
-
-		  Mu1_dRtriggerMatch_Mu8.push_back(-99);
-                  Mu2_dRtriggerMatch_Mu8.push_back(-99);
-                  Mu3_dRtriggerMatch_Mu8.push_back(-99);
-
                     FlightDistPVSV.push_back(-99);
                     FlightDistPVSV_Err.push_back(-99);
                     FlightDistPVSV_Significance.push_back(-99);
@@ -1019,6 +1324,38 @@ private:
                     GenMatchMu2_Phi.push_back(-99);
                     GenMatchMu3_Phi.push_back(-99);
 
+		    Mu1_dPtReltriggerMatch.push_back(-99);
+		    Mu2_dPtReltriggerMatch.push_back(-99);
+		    Mu3_dPtReltriggerMatch.push_back(-99);
+
+		    FlightDistBS_SV.push_back(-99);
+                    FlightDistBS_SV_Err.push_back(-99);
+                    FlightDistBS_SV_Significance.push_back(-99);
+		    Triplet_relativeiso2.push_back(-99);
+                    Triplet_IsoMu1.push_back(-99);
+                    Triplet_IsoMu2.push_back(-99);
+                    Triplet_IsoMu3.push_back(-99);
+
+		    Mu1_dRtriggerMatch_Mu7.push_back(-99);
+		    Mu2_dRtriggerMatch_Mu7.push_back(-99);
+		    Mu3_dRtriggerMatch_Mu7.push_back(-99);
+
+
+		    Mu1_dRtriggerMatch_Mu8.push_back(-99);
+		    Mu2_dRtriggerMatch_Mu8.push_back(-99);
+		    Mu3_dRtriggerMatch_Mu8.push_back(-99);
+
+		    Mu1_dRtriggerMatch_Mu8_IP5.push_back(-99);
+		    Mu1_dRtriggerMatch_Mu8_IP6.push_back(-99);
+		    Mu1_dRtriggerMatch_Mu9_IP0.push_back(-99);
+		    Mu1_dRtriggerMatch_Mu9_IP3.push_back(-99);
+		    Mu1_dRtriggerMatch_Mu9_IP4.push_back(-99);
+		    Mu1_dRtriggerMatch_Mu9_IP5.push_back(-99);
+		    Mu1_dRtriggerMatch_Mu9_IP6.push_back(-99);
+		    Mu1_dRtriggerMatch_Mu12_IP6.push_back(-99);
+
+		    DistXY_PVSV.push_back(-99);
+                    DistXY_significance_PVSV.push_back(-99);
 
   
                 }
@@ -1039,19 +1376,6 @@ private:
 	uint k=0;        
         for(edm::View<pat::Muon>::const_iterator mu=muons->begin(); mu!=muons->end(), k<muons->size(); ++mu, ++k){
             
-            /*
-
-             if (!(mu->track()->quality(reco::TrackBase::highPurity))) continue;
-             if ((!(mu->track()->hitPattern().numberOfValidPixelHits()>0))  ) continue;
-            
-             */
-            
-            
-            //mu.muonBestTrack()->dz(PV.position()), mu.isTightMuon(PV));
-            //std::cout<<"RecoMu pt="<<mu->pt()<<" eta="<<mu->eta()<<" phi="<<mu->phi()<<" segm compatibility="<<mu->segmentCompatibility()<<" trkRelChi2="<<mu->combinedQuality().trkRelChi2<<"  vz="<<mu->vz()<<" mu charge="<<mu->charge()<<" mu ECAL energy="<<mu->calEnergy().em<<std::endl;
-            //" SymType="<<mu->simExtType()<<" SimPt="<<mu->simPt()<<
-            //cout<<" pixel hits="<<mu->track()->hitPattern().numberOfValidPixelHits()<<" pt="<<mu->track()->pt()<<" mu ECAL energy="<<mu->calEnergy().em<<" mu.vx="<<mu->vx()<<endl;
-            
             
             MuFilter.push_back(1);
             MyMu.push_back(*mu);
@@ -1066,19 +1390,27 @@ private:
             Muon_simPdgId.push_back(mu->simPdgId());
             Muon_simMotherPdgId.push_back(mu->simMotherPdgId());
             Muon_simFlavour.push_back(mu->simFlavour());
-	    Muon_simType.push_back(mu->simType());
+	    Muon_simType.push_back(mu->simExtType());
 	    Muon_simBX.push_back(mu->simBX());
 	    //	    Muon_simTpEvent.push_back(mu->simTpEvent());
-	    //	    Muon_simMatchQuality.push_back(mu->simMatchQuality());
+	    //Muon_simMatchQuality.push_back(mu->simMatchQuality());
+	    //cout<<"simType="<<mu->simExtType()<<endl;
+	
             //Vtx position
             Muon_vx.push_back(mu->vx());
             Muon_vy.push_back(mu->vy());
             Muon_vz.push_back(mu->vz());
-            
-            //cout<<" Muon mother: "<<mu->simMotherPdgId()<<endl;
-            
-            //MuonID
-            Muon_isGlobal.push_back(mu->isGlobalMuon());
+	    Muon_IP2D_BS.push_back(mu->dB(pat::Muon::BS2D));
+	    Muon_IP3D_BS.push_back(mu->dB(pat::Muon::BS3D));
+	    Muon_IP2D_PV.push_back(mu->dB(pat::Muon::PV2D));
+	    Muon_IP3D_PV.push_back(mu->dB(pat::Muon::PV3D));
+	    //Muon_DZ_PV.push_back(mu->dB(pat::Muon::PVDZ));
+	    //typedef enum IPTYPE { PV2D = 0, PV3D = 1, BS2D = 2, BS3D = 3, PVDZ = 4, IpTypeSize = 5 } IpType;
+	    //Cout<<"IP from BS"<<mu->dB(pat::Muon::BS2D)<<endl;
+	    //cout<<" Muon mother: "<<mu->simMotherPdgId()<<endl;
+
+	    //MuonID
+	    Muon_isGlobal.push_back(mu->isGlobalMuon());
             Muon_isSoft.push_back(mu->isSoftMuon(PV));
             Muon_isLoose.push_back(mu->isLooseMuon());
             Muon_isTight.push_back(mu->isTightMuon(PV));
@@ -1090,9 +1422,54 @@ private:
             Muon_isQualityValid.push_back(mu->isQualityValid());
             Muon_isTimeValid.push_back(mu->isTimeValid());
             Muon_isIsolationValid.push_back(mu->isIsolationValid());
+	    Muon_SoftMVA_Val.push_back(mu->softMvaValue());
+	    //	    MuonLowPtMVA_Val.push_back(mu->lowptMvaValue());
+	    
             Muon_numberOfMatchedStations.push_back(mu->numberOfMatchedStations());
             Muon_numberOfMatches.push_back(mu->numberOfMatches(reco::Muon::SegmentArbitration));
-            
+
+
+	    std::vector<int> fvDThits{0, 0, 0, 0};
+	    std::vector<int> fvRPChits{0, 0, 0, 0};
+	    std::vector<int> fvCSChits{0, 0, 0, 0};
+
+	    float kVMuonHitComb = 0;
+	    if (mu->isGlobalMuon()) {
+	    reco::TrackRef gTrack = mu->globalTrack();
+	    const reco::HitPattern& gMpattern = gTrack->hitPattern();
+	    for (int i = 0; i < gMpattern.numberOfAllHits(reco::HitPattern::TRACK_HITS); i++) {
+	      uint32_t hit = gMpattern.getHitPattern(reco::HitPattern::TRACK_HITS, i);
+	      if (!gMpattern.validHitFilter(hit))
+		continue;
+
+	      int muStation0 = gMpattern.getMuonStation(hit) - 1;
+	      if (muStation0 >= 0 && muStation0 < 4) {
+		if (gMpattern.muonDTHitFilter(hit))
+		  fvDThits[muStation0]++;
+		if (gMpattern.muonRPCHitFilter(hit))
+		  fvRPChits[muStation0]++;
+		if (gMpattern.muonCSCHitFilter(hit))
+		  fvCSChits[muStation0]++;
+	      }
+	    }
+
+	    for (unsigned int station = 0; station < 4; ++station) {
+	      kVMuonHitComb += (fvDThits[station]) / 2.;
+	      kVMuonHitComb += fvRPChits[station];
+
+	      if (fvCSChits[station] > 6) {
+		kVMuonHitComb += 6;
+	      } else {
+		kVMuonHitComb += fvCSChits[station];
+	      }
+	    }
+	    Muon_validMuonHitComb.push_back(kVMuonHitComb);
+	    }else{
+	      Muon_validMuonHitComb.push_back(-99);
+	    }
+
+
+
             Muon_timeAtIpInOut.push_back(mu->time().timeAtIpInOut);
             Muon_timeAtIpInOutErr.push_back(mu->time().timeAtIpInOutErr);
             
@@ -1107,19 +1484,26 @@ private:
             
             if (mu->innerTrack().isNonnull()){
                 Muon_trackerLayersWithMeasurement.push_back(mu->innerTrack()->hitPattern().trackerLayersWithMeasurement());
+		bool ishighq = mu->innerTrack()->quality(reco::Track::highPurity);
+		Muon_innerTrack_highPurity.push_back(ishighq);
+		Muon_innerTrack_ValidFraction.push_back( mu->innerTrack()->validFraction() );
                 Muon_Numberofvalidpixelhits.push_back(mu->innerTrack()->hitPattern().numberOfValidPixelHits());
+		Muon_Numberofvalidtrackerhits.push_back(mu->innerTrack()->hitPattern().numberOfValidTrackerHits());
                 Muon_innerTrack_p.push_back(mu->innerTrack()->p());
                 Muon_innerTrack_eta.push_back(mu->innerTrack()->eta());
                 Muon_innerTrack_phi.push_back(mu->innerTrack()->phi());
                 Muon_innerTrack_normalizedChi2.push_back(mu->innerTrack()->normalizedChi2());
             }else
             {
+	        Muon_innerTrack_ValidFraction.push_back( -99);
+		Muon_innerTrack_highPurity.push_back( -99);
                 Muon_trackerLayersWithMeasurement.push_back(-999);
                 Muon_Numberofvalidpixelhits.push_back(-999);
                 Muon_innerTrack_p.push_back(-999);
                 Muon_innerTrack_eta.push_back(-999);
                 Muon_innerTrack_phi.push_back(-999);
                 Muon_innerTrack_normalizedChi2.push_back(-999);
+		Muon_Numberofvalidtrackerhits.push_back(-999);
             }
             if (mu->outerTrack().isNonnull()){
                 Muon_outerTrack_p.push_back(mu->outerTrack()->p());
@@ -1152,7 +1536,7 @@ private:
             Muon_combinedQuality_globalDeltaEtaPhi.push_back(mu->combinedQuality().globalDeltaEtaPhi);
             Muon_combinedQuality_tightMatch.push_back(mu->combinedQuality().tightMatch);
             Muon_combinedQuality_glbTrackProbability.push_back(mu->combinedQuality().glbTrackProbability);
-            
+
             Muon_calEnergy_em.push_back(mu->calEnergy().em);
             Muon_calEnergy_emS9.push_back(mu->calEnergy().emS9);
             Muon_calEnergy_emS25.push_back(mu->calEnergy().emS25);
@@ -1341,6 +1725,7 @@ private:
         Muon_isStandAloneMuon.clear();
         Muon_isTrackerMuon.clear();
         Muon_isCaloMuon.clear();
+	Muon_SoftMVA_Val.clear();
         Muon_isQualityValid.clear();
         Muon_isTimeValid.clear();
         Muon_isIsolationValid.clear();
@@ -1434,29 +1819,30 @@ private:
         Mu1_Phi.clear();
         Mu1_NTracks03iso.clear();
         Mu1_dRtriggerMatch.clear();
-        Mu1_dRtriggerMatch_Mu7.clear();
-        Mu1_dRtriggerMatch_Mu8.clear();
         
         Mu2_Pt.clear();
         Mu2_Eta.clear();
         Mu2_Phi.clear();
         Mu2_NTracks03iso.clear();
         Mu2_dRtriggerMatch.clear();
-        Mu2_dRtriggerMatch_Mu7.clear();
-	Mu2_dRtriggerMatch_Mu8.clear();
-
+        
         Mu3_Pt.clear();
         Mu3_Eta.clear();
         Mu3_Phi.clear();
         Mu3_NTracks03iso.clear();
         Mu3_dRtriggerMatch.clear();
-	Mu2_dRtriggerMatch_Mu7.clear();
-	Mu3_dRtriggerMatch_Mu8.clear();
-
         
         Mu1_TripletIndex.clear();
         Mu2_TripletIndex.clear();
         Mu3_TripletIndex.clear();
+
+	Mu1_dPtReltriggerMatch.clear();
+	Mu2_dPtReltriggerMatch.clear();
+	Mu3_dPtReltriggerMatch.clear();
+
+	FlightDistBS_SV.clear();
+        FlightDistBS_SV_Err.clear();
+        FlightDistBS_SV_Significance.clear();
         /*
          Mu1_SimPt.clear();
          Mu1_SimEta.clear();
@@ -1536,8 +1922,72 @@ private:
 	Trigger_hltname.clear();
 	Trigger_hltdecision.clear();
 	NGoodTriplets.clear();
+	Triplet_relativeiso2.clear();
+	Triplet_IsoMu1.clear();
+	Triplet_IsoMu2.clear();
+	Triplet_IsoMu3.clear();
 
+	MuonPt_HLT.clear();
+	MuonEta_HLT.clear();
+	MuonPhi_HLT.clear();
+	Muon_innerTrack_ValidFraction.clear();
+	Muon_innerTrack_highPurity.clear();
 
+	Muon_IP3D_BS.clear();
+	Muon_IP2D_BS.clear();
+	Muon_IP2D_PV.clear();
+	Muon_IP3D_PV.clear();
+	DistXY_PVSV.clear();
+	DistXY_significance_PVSV.clear();
+
+        Muon_validMuonHitComb.clear();
+
+	MuonPhi_HLT2017.clear();
+	MuonPt_HLT_BPMu7.clear();
+	MuonEta_HLT_BPMu7.clear();
+	MuonPhi_HLT_BPMu7.clear();
+	MuonPt_HLT_BPMu8.clear();
+	MuonEta_HLT_BPMu8.clear();
+	MuonPhi_HLT_BPMu8.clear();
+	MuonPt_HLT_BPMu8_IP6.clear();
+	MuonEta_HLT_BPMu8_IP6.clear();
+	MuonPhi_HLT_BPMu8_IP6.clear();
+	MuonPt_HLT_BPMu8_IP5.clear();
+	MuonEta_HLT_BPMu8_IP5.clear();
+	MuonPhi_HLT_BPMu8_IP5.clear();
+	MuonPt_HLT_BPMu9_IP0.clear();
+	MuonEta_HLT_BPMu9_IP0.clear();
+	MuonPhi_HLT_BPMu9_IP0.clear();
+	MuonPt_HLT_BPMu3_IP3.clear();
+	MuonEta_HLT_BPMu3_IP3.clear();
+	MuonPhi_HLT_BPMu3_IP3.clear();
+	MuonPt_HLT_BPMu3_IP4.clear();
+	MuonEta_HLT_BPMu3_IP4.clear();
+	MuonPhi_HLT_BPMu3_IP4.clear();
+	MuonPt_HLT_BPMu3_IP5.clear();
+	MuonEta_HLT_BPMu3_IP5.clear();
+	MuonPhi_HLT_BPMu3_IP5.clear();
+	MuonPt_HLT_BPMu3_IP6.clear();
+	MuonEta_HLT_BPMu3_IP6.clear();
+	MuonPhi_HLT_BPMu3_IP6.clear();
+	MuonPt_HLT_BPMu12_IP6.clear();
+	MuonEta_HLT_BPMu12_IP6.clear();
+	MuonPhi_HLT_BPMu12_IP6.clear();
+	Mu1_dRtriggerMatch_Mu7.clear();
+	Mu1_dRtriggerMatch_Mu8.clear();
+        Mu1_dRtriggerMatch_Mu8_IP5.clear();
+        Mu1_dRtriggerMatch_Mu8_IP6.clear();
+        Mu1_dRtriggerMatch_Mu9_IP0.clear();
+        Mu1_dRtriggerMatch_Mu9_IP3.clear();
+        Mu1_dRtriggerMatch_Mu9_IP4.clear();
+        Mu1_dRtriggerMatch_Mu9_IP5.clear();
+        Mu1_dRtriggerMatch_Mu9_IP6.clear();
+        Mu1_dRtriggerMatch_Mu12_IP6.clear();
+	Mu2_dRtriggerMatch_Mu7.clear();
+        Mu2_dRtriggerMatch_Mu8.clear();
+	Mu2_dRtriggerMatch_Mu7.clear();
+        Mu3_dRtriggerMatch_Mu8.clear();
+	Muon_Numberofvalidtrackerhits.clear();
 
     }
     
@@ -1602,6 +2052,7 @@ private:
         tree_->Branch("Muon_isTrackerMuon", &Muon_isTrackerMuon);
         tree_->Branch("Muon_isCaloMuon", &Muon_isCaloMuon);
         tree_->Branch("Muon_isQualityValid", &Muon_isQualityValid);
+	tree_->Branch("Muon_SoftMVA_Val", &Muon_SoftMVA_Val);
         tree_->Branch("Muon_isTimeValid", &Muon_isTimeValid);
         tree_->Branch("Muon_isIsolationValid", &Muon_isIsolationValid);
         tree_->Branch("Muon_numberOfMatchedStations", &Muon_numberOfMatchedStations);
@@ -1616,7 +2067,7 @@ private:
         
         tree_->Branch("Muon_trackerLayersWithMeasurement", &Muon_trackerLayersWithMeasurement);
         tree_->Branch("Muon_Numberofvalidpixelhits", &Muon_Numberofvalidpixelhits);
-        
+        tree_->Branch("Muon_Numberofvalidtrackerhits", &Muon_Numberofvalidtrackerhits);
         tree_->Branch("Muon_outerTrack_p", &Muon_outerTrack_p);
         tree_->Branch("Muon_outerTrack_eta", &Muon_outerTrack_eta);
         tree_->Branch("Muon_outerTrack_phi", &Muon_outerTrack_phi);
@@ -1624,6 +2075,9 @@ private:
         tree_->Branch("Muon_outerTrack_muonStationsWithValidHits", &Muon_outerTrack_muonStationsWithValidHits);
         tree_->Branch("Muon_innerTrack_p", &Muon_innerTrack_p);
         tree_->Branch("Muon_innerTrack_eta", &Muon_innerTrack_eta);
+
+	tree_->Branch("Muon_innerTrack_ValidFraction", &Muon_innerTrack_ValidFraction);
+	tree_->Branch("Muon_innerTrack_highPurity", &Muon_innerTrack_highPurity);
         
         tree_->Branch("Muon_innerTrack_phi", &Muon_innerTrack_phi);
         tree_->Branch("Muon_innerTrack_normalizedChi2", &Muon_innerTrack_normalizedChi2);
@@ -1641,7 +2095,14 @@ private:
         tree_->Branch("Muon_combinedQuality_globalDeltaEtaPhi", &Muon_combinedQuality_globalDeltaEtaPhi);
         tree_->Branch("Muon_combinedQuality_tightMatch", &Muon_combinedQuality_tightMatch); 
         tree_->Branch("Muon_combinedQuality_glbTrackProbability", &Muon_combinedQuality_glbTrackProbability);
-        
+
+	tree_->Branch("Muon_IP3D_BS", &Muon_IP3D_BS);
+	tree_->Branch("Muon_IP2D_BS", &Muon_IP2D_BS);
+	tree_->Branch("Muon_IP2D_PV", &Muon_IP2D_PV) ;
+	tree_->Branch("Muon_IP3D_PV", &Muon_IP3D_PV) ;
+	tree_->Branch("Muon_validMuonHitComb", &Muon_validMuonHitComb);
+
+
         tree_->Branch("Muon_calEnergy_em", &Muon_calEnergy_em);
         tree_->Branch("Muon_calEnergy_emS9", &Muon_calEnergy_emS9);
         tree_->Branch("Muon_calEnergy_emS25", &Muon_calEnergy_emS25);
@@ -1688,28 +2149,27 @@ private:
         tree_->Branch("Mu1_Eta", &Mu1_Eta);
         tree_->Branch("Mu1_Phi", &Mu1_Phi);
         tree_->Branch("Mu1_NTracks03iso", &Mu1_NTracks03iso); 
-        tree_->Branch("Mu1_dRtriggerMatch", &Mu1_dRtriggerMatch); 
-        tree_->Branch("Mu1_dRtriggerMatch_Mu7", &Mu1_dRtriggerMatch_Mu7); 
-        tree_->Branch("Mu1_dRtriggerMatch_Mu8", &Mu1_dRtriggerMatch_Mu8); 
+        tree_->Branch("Mu1_dRtriggerMatch", &Mu1_dRtriggerMatch);
+
+
         tree_->Branch("Mu1_TripletIndex", &Mu1_TripletIndex);
+ 	tree_->Branch("Mu1_dPtReltriggerMatch", &Mu1_dPtReltriggerMatch);
  
         tree_->Branch("Mu2_Pt", &Mu2_Pt);
         tree_->Branch("Mu2_Eta", &Mu2_Eta);
         tree_->Branch("Mu2_Phi", &Mu2_Phi);
         tree_->Branch("Mu2_NTracks03iso", &Mu2_NTracks03iso); 
         tree_->Branch("Mu2_dRtriggerMatch", &Mu2_dRtriggerMatch); 
-	tree_->Branch("Mu2_dRtriggerMatch_Mu7", &Mu2_dRtriggerMatch_Mu7);
-	tree_->Branch("Mu2_dRtriggerMatch_Mu8", &Mu2_dRtriggerMatch_Mu8);
         tree_->Branch("Mu2_TripletIndex", &Mu2_TripletIndex); 
-        
-        tree_->Branch("Mu3_Pt", &Mu3_Pt);
+	tree_->Branch("Mu2_dPtReltriggerMatch", &Mu2_dPtReltriggerMatch);        
+ 
+       tree_->Branch("Mu3_Pt", &Mu3_Pt);
         tree_->Branch("Mu3_Eta",&Mu3_Eta);
         tree_->Branch("Mu3_Phi", &Mu3_Phi);
         tree_->Branch("Mu3_NTracks03iso", &Mu3_NTracks03iso); 
         tree_->Branch("Mu3_dRtriggerMatch", &Mu3_dRtriggerMatch); 
-	tree_->Branch("Mu3_dRtriggerMatch_Mu7", &Mu3_dRtriggerMatch_Mu7);
-	tree_->Branch("Mu3_dRtriggerMatch_Mu8", &Mu3_dRtriggerMatch_Mu8);
         tree_->Branch("Mu3_TripletIndex", &Mu3_TripletIndex); 
+	tree_->Branch("Mu3_dPtReltriggerMatch", &Mu3_dPtReltriggerMatch);
 
 	tree_->Branch("dxy_mu1", &dxy_mu1);
 	tree_->Branch("dxy_mu2", &dxy_mu2);
@@ -1780,9 +2240,74 @@ private:
         tree_->Branch("FlightDistPVSV_Err", &FlightDistPVSV_Err);
         tree_->Branch("FlightDistPVSV_Significance", &FlightDistPVSV_Significance);
         tree_->Branch("FlightDistPVSV_chi2", &FlightDistPVSV_chi2);
+	tree_->Branch("FlightDistBS_SV", &FlightDistBS_SV);
+        tree_->Branch("FlightDistBS_SV_Err", &FlightDistBS_SV_Err);
+        tree_->Branch("FlightDistBS_SV_Significance", &FlightDistBS_SV_Significance);
+	tree_->Branch("DistXY_PVSV", &DistXY_PVSV);
+	tree_->Branch("DistXY_significance_PVSV", &DistXY_significance_PVSV);
         
-        
-        
+	tree_->Branch("Triplet_relativeiso2", &Triplet_relativeiso2);
+	tree_->Branch("Triplet_IsoMu1", &Triplet_IsoMu1);
+	tree_->Branch("Triplet_IsoMu2", &Triplet_IsoMu2);
+        tree_->Branch("Triplet_IsoMu3", &Triplet_IsoMu2);
+
+	tree_->Branch("MuonPt_HLT", &MuonPt_HLT);
+	tree_->Branch("MuonEta_HLT", &MuonEta_HLT);
+	tree_->Branch("MuonPhi_HLT", &MuonPhi_HLT);
+
+	if( isBParking){
+	  tree_->Branch("MuonPt_HLT_BPMu7", &MuonPt_HLT_BPMu7);
+	  tree_->Branch("MuonEta_HLT_BPMu7", &MuonEta_HLT_BPMu7);
+	  tree_->Branch("MuonPhi_HLT_BPMu7", &MuonPhi_HLT_BPMu7);
+	  tree_->Branch("MuonPt_HLT_BPMu8", &MuonPt_HLT_BPMu8);
+	  tree_->Branch("MuonEta_HLT_BPMu8", &MuonEta_HLT_BPMu8);
+	  tree_->Branch("MuonPhi_HLT_BPMu8", &MuonPhi_HLT_BPMu8);
+	  tree_->Branch("MuonPt_HLT_BPMu8_IP6", &MuonPt_HLT_BPMu8_IP6);
+	  tree_->Branch("MuonEta_HLT_BPMu8_IP6", &MuonEta_HLT_BPMu8_IP6);
+	  tree_->Branch("MuonPhi_HLT_BPMu8_IP6", & MuonPhi_HLT_BPMu8_IP6);
+	  tree_->Branch("MuonPt_HLT_BPMu8_IP5", &MuonPt_HLT_BPMu8_IP5);
+	  tree_->Branch("MuonEta_HLT_BPMu8_IP5", &MuonEta_HLT_BPMu8_IP5);
+	  tree_->Branch("MuonPhi_HLT_BPMu8_IP5", &MuonPhi_HLT_BPMu8_IP5);
+	  tree_->Branch("MuonPt_HLT_BPMu9_IP0", &MuonPt_HLT_BPMu9_IP0);
+	  tree_->Branch("MuonEta_HLT_BPMu9_IP0", &MuonEta_HLT_BPMu9_IP0);
+	  tree_->Branch("MuonPhi_HLT_BPMu9_IP0", &MuonPhi_HLT_BPMu9_IP0);
+	  tree_->Branch("MuonPt_HLT_BPMu3_IP3", &MuonPt_HLT_BPMu3_IP3);
+	  tree_->Branch("MuonEta_HLT_BPMu3_IP3", &MuonEta_HLT_BPMu3_IP3);
+
+	  tree_->Branch("MuonPhi_HLT_BPMu3_IP3", &MuonPhi_HLT_BPMu3_IP3);
+	  tree_->Branch("MuonPt_HLT_BPMu3_IP4", &MuonPt_HLT_BPMu3_IP4);
+	  tree_->Branch("MuonEta_HLT_BPMu3_IP4", &MuonEta_HLT_BPMu3_IP4);
+	  tree_->Branch("MuonPhi_HLT_BPMu3_IP4", &MuonPhi_HLT_BPMu3_IP4);
+	  tree_->Branch("MuonPt_HLT_BPMu3_IP5", &MuonPt_HLT_BPMu3_IP5);
+	  tree_->Branch("MuonEta_HLT_BPMu3_IP5", &MuonEta_HLT_BPMu3_IP5);
+	  tree_->Branch("MuonPhi_HLT_BPMu3_IP5", &MuonPhi_HLT_BPMu3_IP5);
+	  tree_->Branch("MuonPt_HLT_BPMu3_IP6", &MuonPt_HLT_BPMu3_IP6);
+	  tree_->Branch("MuonEta_HLT_BPMu3_IP6", &MuonEta_HLT_BPMu3_IP6);
+	  tree_->Branch("MuonPhi_HLT_BPMu3_IP6", &MuonPhi_HLT_BPMu3_IP6);
+	  tree_->Branch("MuonPt_HLT_BPMu12_IP6", &MuonPt_HLT_BPMu12_IP6);
+	  tree_->Branch("MuonEta_HLT_BPMu12_IP6", &MuonEta_HLT_BPMu12_IP6);
+	  tree_->Branch("MuonPhi_HLT_BPMu12_IP6", &MuonPhi_HLT_BPMu12_IP6);
+
+
+	  tree_->Branch("Mu1_dRtriggerMatch_Mu7", &Mu1_dRtriggerMatch_Mu7);
+	  tree_->Branch("Mu1_dRtriggerMatch_Mu8", &Mu1_dRtriggerMatch_Mu8);
+	  tree_->Branch("Mu1_dRtriggerMatch_Mu8_IP5", &Mu1_dRtriggerMatch_Mu8_IP5);
+	  tree_->Branch("Mu1_dRtriggerMatch_Mu8_IP6", &Mu1_dRtriggerMatch_Mu8_IP6);
+	  tree_->Branch("Mu1_dRtriggerMatch_Mu9_IP0", &Mu1_dRtriggerMatch_Mu9_IP0);
+	  tree_->Branch("Mu1_dRtriggerMatch_Mu9_IP3", &Mu1_dRtriggerMatch_Mu9_IP3);
+	  tree_->Branch("Mu1_dRtriggerMatch_Mu9_IP4", &Mu1_dRtriggerMatch_Mu9_IP4);
+	  tree_->Branch("Mu1_dRtriggerMatch_Mu9_IP5", &Mu1_dRtriggerMatch_Mu9_IP5);
+	  tree_->Branch("Mu1_dRtriggerMatch_Mu9_IP6", &Mu1_dRtriggerMatch_Mu9_IP6);
+	  tree_->Branch("Mu1_dRtriggerMatch_Mu12_IP6", &Mu1_dRtriggerMatch_Mu12_IP6);
+	  tree_->Branch("Mu2_dRtriggerMatch_Mu7", &Mu2_dRtriggerMatch_Mu7);
+	  tree_->Branch("Mu2_dRtriggerMatch_Mu8", &Mu2_dRtriggerMatch_Mu8);
+
+	  tree_->Branch("Mu3_dRtriggerMatch_Mu7", &Mu3_dRtriggerMatch_Mu7);
+	  tree_->Branch("Mu3_dRtriggerMatch_Mu8", &Mu3_dRtriggerMatch_Mu8);
+
+
+	}
+
         /*  SyncTree_ = fs->make<TTree>("t","Sync ntuple");
          SyncTree_ ->Branch("allmuons_pt",&allmuons_pt);
          SyncTree_->Branch("leadmuon_pt",&leadmuon_pt);

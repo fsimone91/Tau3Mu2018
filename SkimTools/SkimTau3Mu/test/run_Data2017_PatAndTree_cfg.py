@@ -16,14 +16,14 @@ process.load('Configuration.StandardSequences.EndOfProcess_cff')
 process.load("SkimTools.SkimTau3Mu.Tau3MuSkimAOD_cff")
 
 #process.GlobalTag.globaltag = '94X_mc2017_realistic_v14'
-process.GlobalTag.globaltag = '94X_dataRun2_v11' #data2017 
+process.GlobalTag.globaltag = '102X_dataRun2_v11' #data2018 
 process.maxEvents = cms.untracked.PSet( input = cms.untracked.int32(-1) )
 
 
 process.source = cms.Source("PoolSource",
     fileNames = cms.untracked.vstring(
-        'root://xrootd-cms.infn.it//store/data/Run2017B/DoubleMuonLowMass/AOD/23Jun2017-v1/90000/FC4BB0C3-E358-E711-9EFE-0025904B739A.root',
-        'root://xrootd-cms.infn.it//store/data/Run2017F/DoubleMuonLowMass/AOD/09May2018-v1/80000/FEDF5D97-BEB0-E811-95BF-0CC47AD98B94.root'
+        'root://xrootd-cms.infn.it//store/data/Run2018D/DoubleMuonLowMass/AOD/PromptReco-v2/000/322/407/00000/E41237FC-D1B4-E811-A8E2-A4BF0114C8F0.root',
+        #'root://xrootd-cms.infn.it//store/data/Run2018A/DoubleMuonLowMass/AOD/17Sep2018-v1/120000/3C6EECC5-5787-AC43-ACF0-3BE40CE1291C.root',
         #root://xrootd-cms.infn.it//store/data/Run2017F/DoubleMuonLowMass/AOD/09May2018-v1/80000/AECC4C56-BAB0-E811-B92A-008CFA1979AC.root'
         #"file:/lustrehome/venditti/TestMiniAOD2017/CMSSW_9_4_4/src/CrabSubmission/MC/PiGun_RECO.root"
         #"file:/lustre/cms/store/user/rosma/PionGun_Pt0to30GeV/PiGun_13TeV_MC2017_RECO/190313_143541/0000/PiGun_RECO_979.root"

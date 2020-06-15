@@ -148,7 +148,7 @@ PlotsAfterPhiPiCandSel = cms.EDAnalyzer('RecoMuonAnalyzer',
 
 
 TwoMuOneTrackSelSeq = cms.Sequence(InitialPlots *
-                               Tau3MuHLTFilter *
+                               #Tau3MuHLTFilter *
                                PatMuons *
                                PlotsAfterTrigger *
                                looseMuons *

@@ -1,0 +1,304 @@
+26c26
+< 
+---
+> #include "FWCore/Framework/interface/ConsumesCollector.h"
+127a128,132
+> 
+> #include "DataFormats/TrackReco/interface/TrackToTrackMap.h"
+> #include "DataFormats/TrackReco/interface/Track.h"
+> #include "DataFormats/TrackReco/interface/TrackFwd.h"
+> //#include "DataFormats/BeamSpot/interface/BeamSpot.h"
+135a141
+>     float dPtTriggerMatch(pat::Muon m, trigger::TriggerObjectCollection triggerObjects);
+137c143
+<     float dPtTriggerMatch(pat::Muon m, trigger::TriggerObjectCollection triggerObjects);  
+---
+>     
+152a159
+>   // edm::EDGetTokenT<edm::Handle<reco::BeamSpot> > beamSpotHandle_;
+160d166
+<     //  TPMERegexp* _re;
+195a202
+>   std::vector<float> Mu1_dPtReltriggerMatch, Mu2_dPtReltriggerMatch, Mu3_dPtReltriggerMatch;
+208c215
+<     
+---
+>     std::vector<double>     Triplet_relativeiso2, Triplet_IsoMu1, Triplet_IsoMu2,Triplet_IsoMu3;    
+222a230,231
+> 
+>   std::vector<double>   FlightDistBS_SV,  FlightDistBS_SV_Err,  FlightDistBS_SV_Significance;
+227d235
+< 
+234,238c242
+< 
+<   std::vector<float> Mu1_dPtReltriggerMatch, Mu2_dPtReltriggerMatch, Mu3_dPtReltriggerMatch;
+<   std::vector<double>   FlightDistBS_SV,  FlightDistBS_SV_Err,  FlightDistBS_SV_Significance;
+<   std::vector<double>  MuonPt_HLT,   MuonEta_HLT, MuonPhi_HLT;
+<   std::vector<double>  Triplet_relativeiso2, Triplet_IsoMu1, Triplet_IsoMu2, Triplet_IsoMu3;
+---
+>   std::vector<double> MuonPt_HLT,  MuonEta_HLT,  MuonPhi_HLT;
+262a267
+> 	//beamSpotHandle_  = consumes<edm::Handle<reco::BeamSpot> > (edm::InputTag("offlineBeamSpot"));
+267,268c272
+<         //tree_(0);
+<         //MuonPt(0);
+---
+> 
+293a298,307
+> float MiniAna2017Tree::dPtTriggerMatch(pat::Muon m, trigger::TriggerObjectCollection triggerObjects) {
+>   float dPtmin = 10000.;
+>   for (unsigned int i = 0 ; i < triggerObjects.size() ; i++) {
+>     float deltaPtRel = (triggerObjects[i].pt() - m.pt())/m.pt();
+>     //float deltaPtMin = sqrt( reco::deltaR2(triggerObjects[i].eta(), triggerObjects[i].phi(), m.eta(), m.phi()));
+>     //float deltaR = sqrt( pow(triggerObjects[i].eta() - m.eta(), 2) + pow(acos(cos(triggerObjects[i].phi() - m.phi())), 2));                 
+>     if (deltaPtRel < dPtmin) dPtmin = deltaPtRel;
+>   }
+>   return dPtmin;
+> }
+332,339d345
+< float MiniAna2017Tree::dPtTriggerMatch(pat::Muon m, trigger::TriggerObjectCollection triggerObjects) {
+<   float dPtmin = 10000.;
+<   for (unsigned int i = 0 ; i < triggerObjects.size() ; i++) {
+<     float deltaPtRel = (triggerObjects[i].pt() - m.pt())/m.pt();
+<     if (deltaPtRel < dPtmin) dPtmin = deltaPtRel;
+<   }
+<   return dPtmin;
+< }
+372c378
+<         
+---
+> 
+406c412,413
+< 	reco::BeamSpot beamSpot;
+---
+> 
+> 	/*	reco::BeamSpot beamSpot;
+408,409c415,416
+<         iEvent.getByToken(token_BeamSpot, beamSpotHandle);
+<         //const reco::BeamSpot& beamspot = *beamSpotHandle.product();                                                                                   
+---
+> 	iEvent.getByToken(beamSpotHandle_, beamSpotHandle);
+> 	*/
+410a418,422
+> 	reco::BeamSpot beamSpot;
+> 	edm::Handle<reco::BeamSpot> beamSpotHandle;
+> 	iEvent.getByToken(token_BeamSpot, beamSpotHandle);
+> 	const reco::BeamSpot& beamspot = *beamSpotHandle.product();
+> 	
+413,415c425,427
+<         if ( beamSpotHandle.isValid() )
+<           {
+<             beamSpot = *beamSpotHandle;
+---
+> 	if ( beamSpotHandle.isValid() )
+> 	  {
+> 	    beamSpot = *beamSpotHandle;
+417,418c429,430
+<           } else
+<           {
+---
+> 	  } else
+> 	  {
+420,424c432,433
+<               << "No beam spot available from EventSetup \n";
+<           }
+< 
+< 
+< 
+---
+> 	      << "No beam spot available from EventSetup \n";
+> 	  }
+436c445
+< 
+---
+> 	
+442c451,452
+< 		if(l1tName.find("DoubleMu") != string::npos || l1tName.find("TripleMu") != string::npos){
+---
+> 		if(l1tName.find("DoubleMu") != string::npos || l1tName.find("TripleMu") != string::npos || l1tName.find("SingleMu")){
+> 		  //cout<<"MC: L1 name="<<l1tName<<endl;
+457,458c467,468
+< 	      if(l1tName.find("DoubleMu") != string::npos || l1tName.find("TripleMu") != string::npos){
+< 		//cout<<"L1Seed="<<l1tName<<" decision="<<initialDecisions.at(i_l1t).second<<" prescale="<<(psAndVetos->prescale_table_)[columnN][i_l1t]<<endl;
+---
+> 	      if(l1tName.find("DoubleMu") != string::npos || l1tName.find("TripleMu") != string::npos || l1tName.find("SingleMu")){
+> 		//cout<<"Data: L1Seed="<<l1tName<<" decision="<<initialDecisions.at(i_l1t).second<<endl;
+476c486,487
+<     
+---
+> 
+> 
+479,482c490,493
+< 	edm::InputTag MuonFilterTag = edm::InputTag("hltTau3muTkVertexFilter", "", "HLT");
+<         size_t MuonFilterIndex = (*triggerSummary).filterIndex(MuonFilterTag); //find the index corresponding to the event                              
+<         if(MuonFilterIndex < (*triggerSummary).sizeFilters()) { //check if the trigger object is present                                                
+<           //save the trigger objetcs corresponding to muon leg                                                                                          
+---
+> 	edm::InputTag MuonFilterTag = edm::InputTag("hltdstau3muDisplaced3muFltr", "", "HLT");
+>         size_t MuonFilterIndex = (*triggerSummary).filterIndex(MuonFilterTag); //find the index corresponding to the event                                                   
+>         if(MuonFilterIndex < (*triggerSummary).sizeFilters()) { //check if the trigger object is present                                                                     
+>           //save the trigger objetcs corresponding to muon leg                                                                                                               
+495d505
+<  
+497a508,509
+>     
+>  
+631c643
+< 	    cout<<" Closest PV index "<<primaryvertex_index<<" x="<<(*vertices)[primaryvertex_index].x()<<" y="<<(*vertices)[primaryvertex_index].y()<<" z="<<(*vertices)[primaryvertex_index].z()<<endl;
+---
+> 	    //cout<<" Closest PV index "<<primaryvertex_index<<" x="<<(*vertices)[primaryvertex_index].x()<<" y="<<(*vertices)[primaryvertex_index].y()<<" z="<<(*vertices)[primaryvertex_index].z()<<endl;
+686c698
+<             edm::InputTag MuonFilterTag = edm::InputTag("hltTau3muTkVertexFilter", "", "HLT");
+---
+>             edm::InputTag MuonFilterTag = edm::InputTag("hltdstau3muDisplaced3muFltr", "", "HLT");
+693c705
+<                     MuonsObjects.push_back(foundObject);
+---
+>                     MuonsObjects.push_back(foundObject);		    
+700a713,714
+> 
+> 
+702c716,718
+<             Mu1_dRtriggerMatch.push_back(dR1);
+---
+> 
+> 
+> 	    Mu1_dRtriggerMatch.push_back(dR1);
+704a721,722
+> 
+> 
+710,720c728,737
+<                 bool isMatch1=false; bool isMatch2=false; bool isMatch3=false;
+<                 if( (mu1->simType() == reco::MatchedMuonFromHeavyFlavour) && (fabs(mu1->simMotherPdgId()) == 15) ){
+<                     isMatch1=true;
+< 
+<                 }
+<                 if( (mu2->simType() == reco::MatchedMuonFromHeavyFlavour) && (fabs(mu2->simMotherPdgId()) == 15) ){
+<                     isMatch2=true;
+<                 }
+<                 if( (mu3->simType() == reco::MatchedMuonFromHeavyFlavour) && (fabs(mu3->simMotherPdgId()) == 15) ){
+<                     isMatch3=true;
+<                 }
+---
+> 	      bool isMatch1=false; bool isMatch2=false; bool isMatch3=false;
+> 	      if( (mu1->simType() == reco::MatchedMuonFromHeavyFlavour) && (fabs(mu1->simMotherPdgId()) == 15) ){
+> 		isMatch1=true;
+> 	      }
+> 	      if( (mu2->simType() == reco::MatchedMuonFromHeavyFlavour) && (fabs(mu2->simMotherPdgId()) == 15) ){
+> 		isMatch2=true;
+> 	      }
+> 	      if( (mu3->simType() == reco::MatchedMuonFromHeavyFlavour) && (fabs(mu3->simMotherPdgId()) == 15) ){
+> 		isMatch3=true;
+> 	      }
+881d897
+< 
+883,884c899,900
+<             Triplet_relativeiso2.push_back(maxSumPtRelTracks);
+<             Triplet_IsoMu1.push_back(sumPtTrack1);
+---
+> 	    Triplet_relativeiso2.push_back(maxSumPtRelTracks);
+> 	    Triplet_IsoMu1.push_back(sumPtTrack1);
+888,891c904,905
+<                     //cout<<"Valid Vtx2="<<PVertex.isValid()<<endl;
+< 
+< 
+< 
+---
+>  
+>                     //Cout<<"Valid Vtx2="<<PVertex.isValid()<<endl;
+905a920,924
+> 		    
+> 		    //VertexDistance3D dist;
+> 		    //double fv_d3D = dist.distance(Vertex(fv), pvv).value(); // = dv_reco.Mag() ??
+> 		    //double fv_d3Dsig = dist.distance(Vertex(fv), pvv).significance();
+> 		    //double fv_ppdl3D = fv_d3D*fv_cosdphi3D*m3mu_reco/vtau.P();
+912,920d930
+< 		
+< 
+< 
+< 		    //VertexDistance3D dist;
+< 		    //double fv_d3D = dist.distance(Vertex(fv), pvv).value(); // = dv_reco.Mag() ??
+< 		    //double fv_d3Dsig = dist.distance(Vertex(fv), pvv).significance();
+< 		    //double fv_ppdl3D = fv_d3D*fv_cosdphi3D*m3mu_reco/vtau.P();
+< 
+<                     ////
+937a948
+> 
+940a952,953
+> 
+> 
+1051,1053c1064,1067
+<                     Mu2_dPtReltriggerMatch.push_back(-99);
+<                     Mu3_dPtReltriggerMatch.push_back(-99);
+<                     FlightDistBS_SV.push_back(-99);
+---
+> 		    Mu2_dPtReltriggerMatch.push_back(-99);
+> 		    Mu3_dPtReltriggerMatch.push_back(-99);
+> 
+> 		    FlightDistBS_SV.push_back(-99);
+1056c1070
+<                     Triplet_relativeiso2.push_back(-99);
+---
+> 		    Triplet_relativeiso2.push_back(-99);
+1061d1074
+< 
+1491a1505,1512
+> 
+> 	Mu1_dPtReltriggerMatch.clear();
+> 	Mu2_dPtReltriggerMatch.clear();
+> 	Mu3_dPtReltriggerMatch.clear();
+> 
+> 	FlightDistBS_SV.clear();
+>         FlightDistBS_SV_Err.clear();
+>         FlightDistBS_SV_Significance.clear();
+1571,1578d1591
+< 
+< 
+< 	Mu1_dPtReltriggerMatch.clear();
+< 	Mu2_dPtReltriggerMatch.clear();
+< 	Mu3_dPtReltriggerMatch.clear();
+< 	FlightDistBS_SV.clear();
+< 	FlightDistBS_SV_Err.clear();
+< 	FlightDistBS_SV_Significance.clear();
+1582a1596
+> 
+1585,1586c1599
+<         MuonPhi_HLT.clear();
+< 
+---
+> 	MuonPhi_HLT.clear();
+1738a1752
+>  	tree_->Branch("Mu1_dPtReltriggerMatch", &Mu1_dPtReltriggerMatch);
+1746,1747c1760,1762
+<         
+<         tree_->Branch("Mu3_Pt", &Mu3_Pt);
+---
+> 	tree_->Branch("Mu2_dPtReltriggerMatch", &Mu2_dPtReltriggerMatch);        
+>  
+>        tree_->Branch("Mu3_Pt", &Mu3_Pt);
+1752a1768
+> 	tree_->Branch("Mu3_dPtReltriggerMatch", &Mu3_dPtReltriggerMatch);
+1823d1838
+<         
+1827,1829c1842,1845
+<         tree_->Branch("Triplet_relativeiso2", &Triplet_relativeiso2);
+<         tree_->Branch("Triplet_IsoMu1", &Triplet_IsoMu1);
+<         tree_->Branch("Triplet_IsoMu2", &Triplet_IsoMu2);
+---
+>         
+> 	tree_->Branch("Triplet_relativeiso2", &Triplet_relativeiso2);
+> 	tree_->Branch("Triplet_IsoMu1", &Triplet_IsoMu1);
+> 	tree_->Branch("Triplet_IsoMu2", &Triplet_IsoMu2);
+1831,1836c1847,1851
+< 	tree_->Branch("MuonPt_HLT",&MuonPt_HLT);
+<         tree_->Branch("MuonEta_HLT",&MuonEta_HLT);
+<         tree_->Branch("MuonPhi_HLT",&MuonPhi_HLT);
+< 	tree_->Branch("Mu1_dPtReltriggerMatch", &Mu1_dPtReltriggerMatch);
+< 	tree_->Branch("Mu2_dPtReltriggerMatch", &Mu2_dPtReltriggerMatch);
+< 	tree_->Branch("Mu3_dPtReltriggerMatch", &Mu3_dPtReltriggerMatch);
+---
+> 
+> 	tree_->Branch("MuonPt_HLT", &MuonPt_HLT);
+> 	tree_->Branch("MuonEta_HLT", &MuonEta_HLT);
+> 	tree_->Branch("MuonPhi_HLT", &MuonPhi_HLT);
+> 
