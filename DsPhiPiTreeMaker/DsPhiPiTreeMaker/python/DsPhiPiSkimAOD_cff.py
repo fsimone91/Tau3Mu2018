@@ -35,18 +35,18 @@ looseMuons = cms.EDFilter("PATMuonSelector",
 
 TwoMuonsFilter = cms.EDFilter("CandViewCountFilter",
                              src = cms.InputTag("looseMuons"),
-                             minNumber = cms.uint32(2),
-                             filter = cms.bool(True)
+                              minNumber = cms.uint32(2),
+                             #filter = cms.bool(True)
 )
 
 
 ###create a track collection with generic kinematic cuts
 LooseTrack = cms.EDFilter("TrackSelector",
-                             src = cms.InputTag("generalTracks"),
-                             cut = cms.string('pt > 2 &&  abs(eta)<2.4 &&  (charge!=0) && hitPattern().trackerLayersWithMeasurement()>5 && hitPattern().pixelLayersWithMeasurement()>=1'),
-                           # cut = cms.string('pt > 0.5 &&  abs(eta)<2.4 &&  (charge!=0)'),
-                             filter = cms.bool(True)                                
-                             )
+                          src = cms.InputTag("generalTracks"),
+                          cut = cms.string('pt > 2 &&  abs(eta)<2.4 &&  (charge!=0) && hitPattern().trackerLayersWithMeasurement()>5 && hitPattern().pixelLayersWithMeasurement()>=1'),
+                          # cut = cms.string('pt > 0.5 &&  abs(eta)<2.4 &&  (charge!=0)'),
+                          filter = cms.bool(True)                                
+)
 
 ###cloning the previous collection into a collection of candidates
 LooseTrackCandidate = cms.EDProducer("ConcreteChargedCandidateProducer",
@@ -59,7 +59,7 @@ LooseTrackCandidate = cms.EDProducer("ConcreteChargedCandidateProducer",
 OneTrackFilter = cms.EDFilter("CandViewCountFilter",
                              src = cms.InputTag("LooseTrackCandidate"),
                              minNumber = cms.uint32(1),
-                             filter = cms.bool(True)
+                             #filter = cms.bool(True)
 )
 
 # Creating DiMuon Cand to make up the Phi resonance
@@ -72,10 +72,11 @@ DiMuonCand  = cms.EDProducer("CandViewShallowCloneCombiner",
 
 
 DiMuonCandFilter = cms.EDFilter("CandViewCountFilter",
-                                    src = cms.InputTag("DiMuonCand"),
-                                    minNumber = cms.uint32(1),
-                                    filter = cms.bool(True)
+                                src = cms.InputTag("DiMuonCand"),
+                                minNumber = cms.uint32(1),
+                                #filter = cms.bool(True)
 )
+
 
 DiMuonsVtxFit = cms.EDProducer("KalmanVertexFitCompositeCandProducer",
                                src = cms.InputTag("DiMuonCand"),
@@ -101,7 +102,7 @@ TwoMuonsOneTrackKalmanVtxFit = cms.EDProducer("KalmanVertexFitCompositeCandProdu
 TwoMuonsOneTrackCandFilter = cms.EDFilter("CandViewCountFilter",
                                     src = cms.InputTag("TwoMuonsOneTrackCand"),
                                     minNumber = cms.uint32(1),
-                                    filter = cms.bool(True)
+                                    #filter = cms.bool(True)
 )
 
 #TwoMuonsOneTrackVtxKalmanFit = cms.EDFilter("CompositeCandSelector",
@@ -147,7 +148,7 @@ PlotsAfterPhiPiCandSel = cms.EDAnalyzer('RecoMuonAnalyzer',
 
 
 TwoMuOneTrackSelSeq = cms.Sequence(InitialPlots *
-                               Tau3MuHLTFilter *
+                               #Tau3MuHLTFilter *
                                PatMuons *
                                PlotsAfterTrigger *
                                looseMuons *
