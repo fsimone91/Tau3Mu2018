@@ -187,7 +187,7 @@ private:
     std::vector<double>  Muon_vx,  Muon_vy,  Muon_vz;
     
     //MuonID
-  std::vector<double>  Muon_isGlobal,  Muon_isTracker,  Muon_isSoft,  Muon_isLoose, Muon_isTight,  Muon_isPF,  Muon_isRPCMuon,  Muon_isStandAloneMuon,  Muon_isTrackerMuon,  Muon_isCaloMuon,  Muon_isQualityValid,  Muon_isTimeValid,  Muon_isIsolationValid,  Muon_numberOfMatchedStations,  Muon_numberOfMatches, Muon_SoftMVAVal, Muon_LowPtMVA_Val;
+  std::vector<double>  Muon_isGlobal, Muon_isMedium,  Muon_isTracker,  Muon_isSoft,  Muon_isLoose, Muon_isTight,  Muon_isPF,  Muon_isRPCMuon,  Muon_isStandAloneMuon,  Muon_isTrackerMuon,  Muon_isCaloMuon,  Muon_isQualityValid,  Muon_isTimeValid,  Muon_isIsolationValid,  Muon_numberOfMatchedStations,  Muon_numberOfMatches, Muon_SoftMVAVal, Muon_LowPtMVA_Val;
     
     //MuonTime
     std::vector<double>  Muon_timeAtIpInOut,Muon_timeAtIpInOutErr;
@@ -225,6 +225,8 @@ private:
     std::vector<double>  RefittedPV_z;
     std::vector<double>  RefittedPV_NTracks;
     std::vector<int>     RefittedPV_isValid;
+    std::vector<double>  RefittedPV_Chi2, RefittedPV_nDOF;
+    std::vector<double>  PV_bis_Chi2, PV_bis_nDOF;
     
     //RefittedPV_Chi2.push_back(PVertex.);
     
@@ -236,6 +238,7 @@ private:
   std::vector<double>   FlightDistBS_SV,  FlightDistBS_SV_Err,  FlightDistBS_SV_Significance;
     
    std::vector<double> PV_x,  PV_y,  PV_z,  PV_NTracks;
+  std::vector<double> Vtx12_x, Vtx23_x, Vtx13_x, Vtx12_y, Vtx23_y, Vtx13_y, Vtx12_z, Vtx23_z, Vtx13_z, Vtx12_Chi2, Vtx23_Chi2, Vtx13_Chi2, Vtx12_nDOF, Vtx23_nDOF, Vtx13_nDOF;
   std::vector<int> NGoodTriplets;
     uint  evt, run, lumi, puN;
   std::vector<string>  Trigger_l1name;
@@ -245,7 +248,7 @@ private:
   std::vector<string>  Trigger_hltname;
   std::vector<int> Trigger_hltdecision;
   std::vector<double> MuonPt_HLT,  MuonEta_HLT,  MuonPhi_HLT;
-  std::vector<double> MuonPt_HLT2017, MuonEta_HLT2017, MuonPhi_HLT2017, MuonPt_HLT_BPMu7, MuonEta_HLT_BPMu7, MuonPhi_HLT_BPMu7, MuonPt_HLT_BPMu8, MuonEta_HLT_BPMu8, MuonPhi_HLT_BPMu8, MuonPt_HLT_BPMu8_IP6,  MuonEta_HLT_BPMu8_IP6, MuonPhi_HLT_BPMu8_IP6, MuonPt_HLT_BPMu8_IP5, MuonEta_HLT_BPMu8_IP5, MuonPhi_HLT_BPMu8_IP5,   MuonPt_HLT_BPMu9_IP0, MuonEta_HLT_BPMu9_IP0, MuonPhi_HLT_BPMu9_IP0, MuonPt_HLT_BPMu3_IP3, MuonEta_HLT_BPMu3_IP3, MuonPhi_HLT_BPMu3_IP3, MuonPt_HLT_BPMu3_IP4,MuonEta_HLT_BPMu3_IP4,MuonPhi_HLT_BPMu3_IP4,MuonPt_HLT_BPMu3_IP5, MuonEta_HLT_BPMu3_IP5,MuonPhi_HLT_BPMu3_IP5,MuonPt_HLT_BPMu3_IP6,MuonEta_HLT_BPMu3_IP6,MuonPhi_HLT_BPMu3_IP6,MuonPt_HLT_BPMu12_IP6,MuonEta_HLT_BPMu12_IP6,MuonPhi_HLT_BPMu12_IP6;
+  std::vector<double> MuonPt_HLT2017, MuonEta_HLT2017, MuonPhi_HLT2017, MuonPt_HLT_BPMu7, MuonEta_HLT_BPMu7, MuonPhi_HLT_BPMu7, MuonPt_HLT_BPMu8, MuonEta_HLT_BPMu8, MuonPhi_HLT_BPMu8, MuonPt_HLT_BPMu8_IP6,  MuonEta_HLT_BPMu8_IP6, MuonPhi_HLT_BPMu8_IP6, MuonPt_HLT_BPMu8_IP5, MuonEta_HLT_BPMu8_IP5, MuonPhi_HLT_BPMu8_IP5,   MuonPt_HLT_BPMu9_IP0, MuonEta_HLT_BPMu9_IP0, MuonPhi_HLT_BPMu9_IP0, MuonPt_HLT_BPMu9_IP3, MuonEta_HLT_BPMu9_IP3, MuonPhi_HLT_BPMu9_IP3, MuonPt_HLT_BPMu9_IP4,MuonEta_HLT_BPMu9_IP4,MuonPhi_HLT_BPMu9_IP4,MuonPt_HLT_BPMu9_IP5, MuonEta_HLT_BPMu9_IP5,MuonPhi_HLT_BPMu9_IP5,MuonPt_HLT_BPMu9_IP6,MuonEta_HLT_BPMu9_IP6,MuonPhi_HLT_BPMu9_IP6,MuonPt_HLT_BPMu12_IP6,MuonEta_HLT_BPMu12_IP6,MuonPhi_HLT_BPMu12_IP6;
 
   std::vector<float> Mu1_dRtriggerMatch_Mu8_IP5, Mu1_dRtriggerMatch_Mu8_IP6, Mu1_dRtriggerMatch_Mu9_IP0, Mu1_dRtriggerMatch_Mu9_IP3, Mu1_dRtriggerMaTch_Mu9_IP4, Mu1_dRtriggerMatch_Mu9_IP5, Mu1_dRtriggerMatch_Mu9_IP6, Mu1_dRtriggerMatch_Mu12_IP6,Mu1_dRtriggerMatch_Mu9_IP4;
   std::vector<float> Mu1_dRtriggerMatch_Mu7, Mu2_dRtriggerMatch_Mu7, Mu3_dRtriggerMatch_Mu7;
@@ -335,6 +338,9 @@ float MiniAna2017Tree::dPtTriggerMatch(pat::Muon m, trigger::TriggerObjectCollec
     // from primary event vertex refit
     bool tracksMatchByDeltaR(const reco::Track* trk1, const reco::Track* trk2)
     {
+//        cout << "+++ tracksMatchByDeltaR " << endl;
+//        cout<<" pv_t phi="<<trk1->phi()<<" sv_t phi="<<trk2->phi()<<endl;
+//        cout<<" pv_t eta="<<trk1->eta()<<" sv_t eta="<<trk2->eta()<<" deltaR(tk1, tk2)="<<reco::deltaR(*trk1, *trk2)<<endl;
         if ( reco::deltaR(*trk1, *trk2) < 1.e-2 && trk1->charge() == trk2->charge() ) return true;
         else return false;
     }
@@ -345,7 +351,10 @@ float MiniAna2017Tree::dPtTriggerMatch(pat::Muon m, trigger::TriggerObjectCollec
             //--- remove track from list of tracks included in primary event vertex refit
             //    if track matches by reference or in eta-phi
             //    any of the tracks associated to tau lepton decay "leg"
+//            uint cont = 0;
             for ( TransientTrackMap::iterator pvTrack = pvTracks_toRefit.begin(); pvTrack != pvTracks_toRefit.end(); ++pvTrack ) {
+//                cont ++;
+//                cout << "transientTrackMap n." << cont << endl;
                 if ( tracksMatchByDeltaR(pvTrack->first, *svTrack) ) {
                     pvTracks_toRefit.erase(pvTrack);
                     break;
@@ -670,26 +679,26 @@ float MiniAna2017Tree::dPtTriggerMatch(pat::Muon m, trigger::TriggerObjectCollec
 	  }
 
 	  for(uint t=0; t< MuonsObjects_BPMu9_IP3.size();t++){
-	    MuonPt_HLT_BPMu3_IP3.push_back(MuonsObjects_BPMu9_IP3.at(t).pt());
-	    MuonEta_HLT_BPMu3_IP3.push_back(MuonsObjects_BPMu9_IP3.at(t).eta());
-	    MuonPhi_HLT_BPMu3_IP3.push_back(MuonsObjects_BPMu9_IP3.at(t).phi());
+	    MuonPt_HLT_BPMu9_IP3.push_back(MuonsObjects_BPMu9_IP3.at(t).pt());
+	    MuonEta_HLT_BPMu9_IP3.push_back(MuonsObjects_BPMu9_IP3.at(t).eta());
+	    MuonPhi_HLT_BPMu9_IP3.push_back(MuonsObjects_BPMu9_IP3.at(t).phi());
 	  }
 	  for(uint t=0; t< MuonsObjects_BPMu9_IP4.size();t++){
-	    MuonPt_HLT_BPMu3_IP4.push_back(MuonsObjects_BPMu9_IP4.at(t).pt());
-	    MuonEta_HLT_BPMu3_IP4.push_back(MuonsObjects_BPMu9_IP4.at(t).eta());
-	    MuonPhi_HLT_BPMu3_IP4.push_back(MuonsObjects_BPMu9_IP4.at(t).phi());
+	    MuonPt_HLT_BPMu9_IP4.push_back(MuonsObjects_BPMu9_IP4.at(t).pt());
+	    MuonEta_HLT_BPMu9_IP4.push_back(MuonsObjects_BPMu9_IP4.at(t).eta());
+	    MuonPhi_HLT_BPMu9_IP4.push_back(MuonsObjects_BPMu9_IP4.at(t).phi());
 
 	  }
 
 	  for(uint t=0; t< MuonsObjects_BPMu9_IP5.size();t++){
-	    MuonPt_HLT_BPMu3_IP5.push_back(MuonsObjects_BPMu9_IP5.at(t).pt());
-	    MuonEta_HLT_BPMu3_IP5.push_back(MuonsObjects_BPMu9_IP5.at(t).eta());
-	    MuonPhi_HLT_BPMu3_IP5.push_back(MuonsObjects_BPMu9_IP5.at(t).phi());
+	    MuonPt_HLT_BPMu9_IP5.push_back(MuonsObjects_BPMu9_IP5.at(t).pt());
+	    MuonEta_HLT_BPMu9_IP5.push_back(MuonsObjects_BPMu9_IP5.at(t).eta());
+	    MuonPhi_HLT_BPMu9_IP5.push_back(MuonsObjects_BPMu9_IP5.at(t).phi());
 	  }
 	  for(uint t=0; t< MuonsObjects_BPMu9_IP6.size();t++){
-	    MuonPt_HLT_BPMu3_IP6.push_back(MuonsObjects_BPMu9_IP6.at(t).pt());
-	    MuonEta_HLT_BPMu3_IP6.push_back(MuonsObjects_BPMu9_IP6.at(t).eta());
-	    MuonPhi_HLT_BPMu3_IP6.push_back(MuonsObjects_BPMu9_IP6.at(t).phi());
+	    MuonPt_HLT_BPMu9_IP6.push_back(MuonsObjects_BPMu9_IP6.at(t).pt());
+	    MuonEta_HLT_BPMu9_IP6.push_back(MuonsObjects_BPMu9_IP6.at(t).eta());
+	    MuonPhi_HLT_BPMu9_IP6.push_back(MuonsObjects_BPMu9_IP6.at(t).phi());
 
 	  }
 
@@ -741,7 +750,7 @@ float MiniAna2017Tree::dPtTriggerMatch(pat::Muon m, trigger::TriggerObjectCollec
 	//  const reco::Vertex* eventVertex;
 
         PVCollection_Size = vertices->size();
-        //cout<<" PV size ="<<vertices->size()<<endl;
+        cout<<" PV size ="<<vertices->size()<<endl;
 
 	//std::vector<TransientTrackMap> pvTrackMap_refitVec;	
 	//for (reco::VertexCollection::const_iterator it = vertices.begin(); it != vertices.end() && VtxIt != vertices->size() ; ++it, ++VtxIt) {
@@ -819,15 +828,35 @@ float MiniAna2017Tree::dPtTriggerMatch(pat::Muon m, trigger::TriggerObjectCollec
 	      }
 	    }
 
-
+            cout << "Vertex chosen n. " << primaryvertex_index << endl;
 	    std::vector<reco::TransientTrack> pvTracks_original;
 	    TransientTrackMap pvTrackMap_refit;
+            uint count = 0;
 
 	    for ( reco::Vertex::trackRef_iterator pvTrack = (*vertices)[primaryvertex_index].tracks_begin(); pvTrack != (*vertices)[primaryvertex_index].tracks_end(); ++pvTrack ) {
+            count++;
+            cout << "Trk n." << count << endl;
+            
 	      reco::TransientTrack pvTrack_transient =theTransientTrackBuilder_->build(pvTrack->get());
 	      pvTracks_original.push_back(pvTrack_transient);
+            cout << "trk pt:"<<pvTrack_transient.track().pt() << "| eta:"<<pvTrack_transient.track().eta() << endl;
 	      pvTrackMap_refit.insert(std::make_pair(pvTrack->get(), pvTrack_transient));
 	    }
+            std::vector<reco::TransientTrack> pvTrack_refit_before;
+            for ( TransientTrackMap::iterator pvTrack = pvTrackMap_refit.begin();  pvTrack != pvTrackMap_refit.end(); ++pvTrack ) {
+                pvTrack_refit_before.push_back(pvTrack->second);}
+            cout << "pvTrack_refit_before.size() before: " << pvTrack_refit_before.size() << endl;
+            cout << "pvTracks_original.size() before: " << pvTracks_original.size() << endl;
+            
+            // PV before removing SV tracks
+            TransientVertex PVertex_bis;
+            bool PVertex_bis_fit;
+            if(pvTrack_refit_before.size() > 1){
+                PVertex_bis_fit = true;
+                KalmanVertexFitter PV_fitter_bis (true);
+                PVertex_bis = PV_fitter_bis.vertex(pvTrack_refit_before);
+            }
+            else PVertex_bis_fit = false;
 
 	    removeTracks(pvTrackMap_refit,  SVTrackRef);
 	    std::vector<reco::TransientTrack> pvTracks_refit;
@@ -845,16 +874,33 @@ float MiniAna2017Tree::dPtTriggerMatch(pat::Muon m, trigger::TriggerObjectCollec
 	    //  pvTracks_original.push_back(pvTrack_transient);
 	    //  pvTrackMap_refit.insert(std::make_pair(pvTrack->get(), pvTrack_transient));
 	    //}
-	    RefittedPV_NTracks.push_back(pvTracks_refit.size());   
+	    
 
             if(pvTracks_refit.size() >1){
-	      KalmanVertexFitter PV_fitter (true);
-	      TransientVertex PVertex = PV_fitter.vertex(pvTracks_refit);
-		
-	      RefittedPV_isValid.push_back(PVertex.isValid());
+                
+                cout << "pvTracks_refit.size() after: " << pvTracks_refit.size() << endl;
+                
+                KalmanVertexFitter PV_fitter (true);
+                TransientVertex PVertex = PV_fitter.vertex(pvTracks_refit);
+                
+                RefittedPV_isValid.push_back(PVertex.isValid());
+                RefittedPV_NTracks.push_back(pvTracks_refit.size());
+                RefittedPV_Chi2.push_back(PVertex.totalChiSquared());
+                RefittedPV_nDOF.push_back(PVertex.degreesOfFreedom());
+                
+                if(PVertex_bis_fit && PVertex_bis.isValid()){
+                    PV_bis_Chi2.push_back(PVertex_bis.totalChiSquared());
+                    cout << "PV_bis_Chi2: " << PVertex_bis.totalChiSquared() << endl;
+                    PV_bis_nDOF.push_back(PVertex_bis.degreesOfFreedom());
+                }
+                else{
+                    cout << "No Valid PV_bis" << endl;
+                    PV_bis_Chi2.push_back(-99);
+                    PV_bis_nDOF.push_back(-99);
+                }
                 
 	      //cout<<"Valid Vtx1="<<PVertex.isValid()<<endl;
-	      if(PVertex.isValid()){
+	      if(PVertex.isValid() &&  TauIt->vertexChi2() >0 ){
 
 		NTripl.push_back(1);
             
@@ -1043,6 +1089,78 @@ float MiniAna2017Tree::dPtTriggerMatch(pat::Muon m, trigger::TriggerObjectCollec
             Triplet_Phi.push_back(TauIt->phi());
             Triplet_Charge.push_back(TauIt->charge());
             //Matrix covariance to be added!!!!
+              
+              ////////////////////  Dimu vertices  ////////////////////
+              std::vector<reco::TransientTrack> SVTracks12_Vtx, SVTracks23_Vtx, SVTracks13_Vtx;
+              
+              SVTracks12_Vtx.push_back(transientTrack1);
+              SVTracks12_Vtx.push_back(transientTrack2);
+              SVTracks23_Vtx.push_back(transientTrack2);
+              SVTracks23_Vtx.push_back(transientTrack3);
+              SVTracks13_Vtx.push_back(transientTrack1);
+              SVTracks13_Vtx.push_back(transientTrack3);
+              
+              KalmanVertexFitter DiMu12_fitter (true);
+              TransientVertex DiMu12Vtx = DiMu12_fitter.vertex(SVTracks12_Vtx);
+              if(DiMu12Vtx.isValid()){
+                  Vtx12_Chi2.push_back(DiMu12Vtx.totalChiSquared());
+                  cout << "Vtx12_Chi2: " << DiMu12Vtx.totalChiSquared() << endl;
+                  Vtx12_nDOF.push_back(DiMu12Vtx.degreesOfFreedom());
+                  
+                  GlobalPoint DiMu12Pos (DiMu12Vtx.position());
+                  Vtx12_x.push_back(DiMu12Pos.x());
+                  cout <<"Vtx12_x: " <<DiMu12Pos.x() << endl;
+                  Vtx12_y.push_back(DiMu12Pos.y());
+                  Vtx12_z.push_back(DiMu12Pos.z());
+              }
+              else{
+                  Vtx12_Chi2.push_back(-99);
+                  Vtx12_nDOF.push_back(-99);
+                  Vtx12_x.push_back(-99);
+                  Vtx12_y.push_back(-99);
+                  Vtx12_z.push_back(-99);
+              }
+              KalmanVertexFitter DiMu23_fitter (true);
+              TransientVertex DiMu23Vtx = DiMu23_fitter.vertex(SVTracks23_Vtx);
+              if(DiMu23Vtx.isValid()){
+                  Vtx23_Chi2.push_back(DiMu23Vtx.totalChiSquared());
+                  cout << "Vtx23_Chi2: " << DiMu23Vtx.totalChiSquared() << endl;
+                  Vtx23_nDOF.push_back(DiMu23Vtx.degreesOfFreedom());
+                  
+                  GlobalPoint DiMu23Pos (DiMu23Vtx.position());
+                  Vtx23_x.push_back(DiMu23Pos.x());
+                  cout <<"Vtx23_x: " <<DiMu23Pos.x() << endl;
+                  Vtx23_y.push_back(DiMu23Pos.y());
+                  Vtx23_z.push_back(DiMu23Pos.z());
+              }
+              else{
+                  Vtx23_Chi2.push_back(-99);
+                  Vtx23_nDOF.push_back(-99);
+                  Vtx23_x.push_back(-99);
+                  Vtx23_y.push_back(-99);
+                  Vtx23_z.push_back(-99);
+              }
+              
+              KalmanVertexFitter DiMu13_fitter (true);
+              TransientVertex DiMu13Vtx = DiMu13_fitter.vertex(SVTracks13_Vtx);
+              if(DiMu13Vtx.isValid()){
+                  Vtx13_Chi2.push_back(DiMu13Vtx.totalChiSquared());
+                  cout << "Vtx13_Chi2: " << DiMu13Vtx.totalChiSquared() << endl;
+                  Vtx13_nDOF.push_back(DiMu13Vtx.degreesOfFreedom());
+                  
+                  GlobalPoint DiMu13Pos (DiMu13Vtx.position());
+                  Vtx13_x.push_back(DiMu13Pos.x());
+                  cout <<"Vtx13_x: " <<DiMu13Pos.x() << endl;
+                  Vtx13_y.push_back(DiMu13Pos.y());
+                  Vtx13_z.push_back(DiMu13Pos.z());
+              }
+              else{
+                  Vtx13_Chi2.push_back(-99);
+                  Vtx13_nDOF.push_back(-99);
+                  Vtx13_x.push_back(-99);
+                  Vtx13_y.push_back(-99);
+                  Vtx13_z.push_back(-99);
+              }
             
             //Refitted Vars
             //vector < TransientTrack > ttrks = TripletVtx.refittedTracks();
@@ -1243,65 +1361,76 @@ float MiniAna2017Tree::dPtTriggerMatch(pat::Muon m, trigger::TriggerObjectCollec
 	    //ip3d_poca=reco::Vertex::Point(pos3d.x(),pos3d.y(),pos3d.z());
       
 	      }else{
-		Mu1_Pt.push_back(-99);
-		  Mu1_Eta.push_back(-99);
-		  Mu1_Phi.push_back(-99);
-		  Mu1_TripletIndex.push_back(-99);
+              Mu1_Pt.push_back(-99);
+              Mu1_Eta.push_back(-99);
+              Mu1_Phi.push_back(-99);
+              Mu1_TripletIndex.push_back(-99);
 
-		  Mu2_Pt.push_back(-99);
-		  Mu2_Eta.push_back(-99);
-		  Mu2_Phi.push_back(-99);
-		  Mu2_TripletIndex.push_back(-99);
+              Mu2_Pt.push_back(-99);
+              Mu2_Eta.push_back(-99);
+              Mu2_Phi.push_back(-99);
+              Mu2_TripletIndex.push_back(-99);
 
-		  Mu3_Pt.push_back(-99);
-		  Mu3_Eta.push_back(-99);
-		  Mu3_Phi.push_back(-99);
-		  Mu3_TripletIndex.push_back(-99);
+              Mu3_Pt.push_back(-99);
+              Mu3_Eta.push_back(-99);
+              Mu3_Phi.push_back(-99);
+              Mu3_TripletIndex.push_back(-99);
 
+              TripletVtx_x.push_back(-99);
+              TripletVtx_y.push_back(-99);
+              TripletVtx_z.push_back(-99);
+              
+              TripletVtx_Chi2.push_back(-99);
+              TripletVtx_NDOF.push_back(-99);
 
+              Triplet_Mass.push_back(-99);
+              Triplet_Pt.push_back(-99);
+              Triplet_Eta.push_back(-99);
+              Triplet_Phi.push_back(-99);
+              Triplet_Charge.push_back(-99);
+              
+              Triplet_mindca_iso.push_back(-99);
+              Triplet_relativeiso.push_back(-99);
 
-		  TripletVtx_x.push_back(-99);
-		  TripletVtx_y.push_back(-99);
-		  TripletVtx_z.push_back(-99);
-		    
-		  TripletVtx_Chi2.push_back(-99);
-		  TripletVtx_NDOF.push_back(-99);
+              Mu1_NTracks03iso.push_back(-99);
+              Mu2_NTracks03iso.push_back(-99);
+              Mu3_NTracks03iso.push_back(-99);
+              RefittedPV_x.push_back(-99);
+              RefittedPV_y.push_back(-99);
+              RefittedPV_z.push_back(-99);
+              RefittedPV_NTracks.push_back(-99);
+              //RefittedPV_Chi2.push_back(PVertex.);
+              
+              Vtx12_Chi2.push_back(-99);
+              Vtx12_nDOF.push_back(-99);
+              Vtx12_x.push_back(-99);
+              Vtx12_y.push_back(-99);
+              Vtx12_z.push_back(-99);
+              Vtx23_Chi2.push_back(-99);
+              Vtx23_nDOF.push_back(-99);
+              Vtx23_x.push_back(-99);
+              Vtx23_y.push_back(-99);
+              Vtx23_z.push_back(-99);
+              Vtx13_Chi2.push_back(-99);
+              Vtx13_nDOF.push_back(-99);
+              Vtx13_x.push_back(-99);
+              Vtx13_y.push_back(-99);
+              Vtx13_z.push_back(-99);
 
-		  Triplet_Mass.push_back(-99);
-		  Triplet_Pt.push_back(-99);
-		  Triplet_Eta.push_back(-99);
-		  Triplet_Phi.push_back(-99);
-		  Triplet_Charge.push_back(-99);
-		  
-		  Triplet_mindca_iso.push_back(-99);
-		  Triplet_relativeiso.push_back(-99);
+                FlightDistPVSV.push_back(-99);
+                FlightDistPVSV_Err.push_back(-99);
+                FlightDistPVSV_Significance.push_back(-99);
+                FlightDistPVSV_chi2.push_back(-99);
+                dxy_mu1.push_back(-99);
+                dxy_mu2.push_back(-99);
+                dxy_mu3.push_back(-99);
 
-		  Mu1_NTracks03iso.push_back(-99);
-		  Mu2_NTracks03iso.push_back(-99);
-		  Mu3_NTracks03iso.push_back(-99);
-		  RefittedPV_x.push_back(-99);
-		  RefittedPV_y.push_back(-99);
-		  RefittedPV_z.push_back(-99);
-		  RefittedPV_NTracks.push_back(-99);
-                    //RefittedPV_Chi2.push_back(PVertex.);
-		  Mu1_dRtriggerMatch.push_back(-99);
-		  Mu2_dRtriggerMatch.push_back(-99);
-		  Mu3_dRtriggerMatch.push_back(-99);
-
-                    FlightDistPVSV.push_back(-99);
-                    FlightDistPVSV_Err.push_back(-99);
-                    FlightDistPVSV_Significance.push_back(-99);
-                    FlightDistPVSV_chi2.push_back(-99);
-                    dxy_mu1.push_back(-99);
-                    dxy_mu2.push_back(-99);
-                    dxy_mu3.push_back(-99);
-
-                    dxyErr_mu1.push_back(-99);
-                    dxyErr_mu2.push_back(-99);
-                    dxyErr_mu3.push_back(-99);
+                dxyErr_mu1.push_back(-99);
+                dxyErr_mu2.push_back(-99);
+                dxyErr_mu3.push_back(-99);
                   
-		    GenMatchMu1_SimPt.push_back(-99);
-                    GenMatchMu2_SimPt.push_back(-99);
+                GenMatchMu1_SimPt.push_back(-99);
+            GenMatchMu2_SimPt.push_back(-99);
                     GenMatchMu3_SimPt.push_back(-99);
 
                     GenMatchMu1_SimEta.push_back(-99);
@@ -1355,13 +1484,10 @@ float MiniAna2017Tree::dPtTriggerMatch(pat::Muon m, trigger::TriggerObjectCollec
 		    Mu1_dRtriggerMatch_Mu12_IP6.push_back(-99);
 
 		    DistXY_PVSV.push_back(-99);
-                    DistXY_significance_PVSV.push_back(-99);
-
+            DistXY_significance_PVSV.push_back(-99);
   
                 }
-                
             }
-            
         }
 	}
         NGoodTriplets.push_back(NTripl.size());
@@ -1411,6 +1537,7 @@ float MiniAna2017Tree::dPtTriggerMatch(pat::Muon m, trigger::TriggerObjectCollec
 
 	    //MuonID
 	    Muon_isGlobal.push_back(mu->isGlobalMuon());
+            Muon_isMedium.push_back(mu->isMediumMuon());
             Muon_isSoft.push_back(mu->isSoftMuon(PV));
             Muon_isLoose.push_back(mu->isLooseMuon());
             Muon_isTight.push_back(mu->isTightMuon(PV));
@@ -1717,6 +1844,7 @@ float MiniAna2017Tree::dPtTriggerMatch(pat::Muon m, trigger::TriggerObjectCollec
         
         //MuonID
         Muon_isGlobal.clear();
+        Muon_isMedium.clear();
         Muon_isSoft.clear();
         Muon_isLoose.clear();
         Muon_isTight.clear();
@@ -1813,6 +1941,21 @@ float MiniAna2017Tree::dPtTriggerMatch(pat::Muon m, trigger::TriggerObjectCollec
         PV_z.clear();
         PV_NTracks.clear();
         
+        Vtx12_x.clear();
+        Vtx23_x.clear();
+        Vtx13_x.clear();
+        Vtx12_y.clear();
+        Vtx23_y.clear();
+        Vtx13_y.clear();
+        Vtx12_z.clear();
+        Vtx23_z.clear();
+        Vtx13_z.clear();
+        Vtx12_Chi2.clear();
+        Vtx23_Chi2.clear();
+        Vtx13_Chi2.clear();
+        Vtx12_nDOF.clear();
+        Vtx23_nDOF.clear();
+        Vtx13_nDOF.clear();
 
         Mu1_Pt.clear();
         Mu1_Eta.clear();
@@ -1908,6 +2051,10 @@ float MiniAna2017Tree::dPtTriggerMatch(pat::Muon m, trigger::TriggerObjectCollec
         RefittedPV_NTracks.clear();
         RefittedPV_isValid.clear();
         //RefittedPV_Chi2.push_back(PVertex.);
+        RefittedPV_Chi2.clear();
+        RefittedPV_nDOF.clear();
+        PV_bis_Chi2.clear();
+        PV_bis_nDOF.clear();
         
         FlightDistPVSV.clear();
         FlightDistPVSV_Err.clear();
@@ -1958,18 +2105,18 @@ float MiniAna2017Tree::dPtTriggerMatch(pat::Muon m, trigger::TriggerObjectCollec
 	MuonPt_HLT_BPMu9_IP0.clear();
 	MuonEta_HLT_BPMu9_IP0.clear();
 	MuonPhi_HLT_BPMu9_IP0.clear();
-	MuonPt_HLT_BPMu3_IP3.clear();
-	MuonEta_HLT_BPMu3_IP3.clear();
-	MuonPhi_HLT_BPMu3_IP3.clear();
-	MuonPt_HLT_BPMu3_IP4.clear();
-	MuonEta_HLT_BPMu3_IP4.clear();
-	MuonPhi_HLT_BPMu3_IP4.clear();
-	MuonPt_HLT_BPMu3_IP5.clear();
-	MuonEta_HLT_BPMu3_IP5.clear();
-	MuonPhi_HLT_BPMu3_IP5.clear();
-	MuonPt_HLT_BPMu3_IP6.clear();
-	MuonEta_HLT_BPMu3_IP6.clear();
-	MuonPhi_HLT_BPMu3_IP6.clear();
+	MuonPt_HLT_BPMu9_IP3.clear();
+	MuonEta_HLT_BPMu9_IP3.clear();
+	MuonPhi_HLT_BPMu9_IP3.clear();
+	MuonPt_HLT_BPMu9_IP4.clear();
+	MuonEta_HLT_BPMu9_IP4.clear();
+	MuonPhi_HLT_BPMu9_IP4.clear();
+	MuonPt_HLT_BPMu9_IP5.clear();
+	MuonEta_HLT_BPMu9_IP5.clear();
+	MuonPhi_HLT_BPMu9_IP5.clear();
+	MuonPt_HLT_BPMu9_IP6.clear();
+	MuonEta_HLT_BPMu9_IP6.clear();
+	MuonPhi_HLT_BPMu9_IP6.clear();
 	MuonPt_HLT_BPMu12_IP6.clear();
 	MuonEta_HLT_BPMu12_IP6.clear();
 	MuonPhi_HLT_BPMu12_IP6.clear();
@@ -1985,7 +2132,7 @@ float MiniAna2017Tree::dPtTriggerMatch(pat::Muon m, trigger::TriggerObjectCollec
         Mu1_dRtriggerMatch_Mu12_IP6.clear();
 	Mu2_dRtriggerMatch_Mu7.clear();
         Mu2_dRtriggerMatch_Mu8.clear();
-	Mu2_dRtriggerMatch_Mu7.clear();
+	Mu3_dRtriggerMatch_Mu7.clear();
         Mu3_dRtriggerMatch_Mu8.clear();
 	Muon_Numberofvalidtrackerhits.clear();
 
@@ -2042,6 +2189,7 @@ float MiniAna2017Tree::dPtTriggerMatch(pat::Muon m, trigger::TriggerObjectCollec
         
         //MuonID
         tree_->Branch("Muon_isGlobal", &Muon_isGlobal);
+        tree_->Branch("Muon_isMedium", &Muon_isMedium);
         //tree_->Branch("Muon_isTracker", &Muon_isTracker);
         tree_->Branch("Muon_isSoft", &Muon_isSoft);
         tree_->Branch("Muon_isLoose", &Muon_isLoose);
@@ -2144,6 +2292,22 @@ float MiniAna2017Tree::dPtTriggerMatch(pat::Muon m, trigger::TriggerObjectCollec
         tree_->Branch("PV_z", &PV_z);
         tree_->Branch("PV_NTracks", &PV_NTracks);
         
+        tree_->Branch("Vtx12_x", &Vtx12_x);
+        tree_->Branch("Vtx23_x", &Vtx23_x);
+        tree_->Branch("Vtx13_x", &Vtx13_x);
+        tree_->Branch("Vtx12_y", &Vtx12_y);
+        tree_->Branch("Vtx23_y", &Vtx23_y);
+        tree_->Branch("Vtx13_y", &Vtx13_y);
+        tree_->Branch("Vtx12_z", &Vtx12_z);
+        tree_->Branch("Vtx23_z", &Vtx23_z);
+        tree_->Branch("Vtx13_z", &Vtx13_z);
+        tree_->Branch("Vtx12_Chi2", &Vtx12_Chi2);
+        tree_->Branch("Vtx23_Chi2", &Vtx23_Chi2);
+        tree_->Branch("Vtx13_Chi2", &Vtx13_Chi2);
+        tree_->Branch("Vtx12_nDOF", &Vtx12_nDOF);
+        tree_->Branch("Vtx23_nDOF", &Vtx23_nDOF);
+        tree_->Branch("Vtx13_nDOF", &Vtx13_nDOF);
+        
         tree_->Branch("TripletCollectionSize", &TripletCollectionSize);  
         tree_->Branch("Mu1_Pt",&Mu1_Pt);
         tree_->Branch("Mu1_Eta", &Mu1_Eta);
@@ -2234,7 +2398,11 @@ float MiniAna2017Tree::dPtTriggerMatch(pat::Muon m, trigger::TriggerObjectCollec
         tree_->Branch("RefittedPV_z", &RefittedPV_z);
         tree_->Branch("RefittedPV_NTracks", &RefittedPV_NTracks);
         tree_->Branch("RefittedPV_isValid", &RefittedPV_isValid);
-        //RefittedPV_Chi2.push_back(PVertex.);                                                                                                                                                     
+        //RefittedPV_Chi2.push_back(PVertex.);
+        tree_->Branch("RefittedPV_Chi2", &RefittedPV_Chi2);
+        tree_->Branch("RefittedPV_nDOF", &RefittedPV_nDOF);
+        tree_->Branch("PV_bis_Chi2", &PV_bis_Chi2);
+        tree_->Branch("PV_bis_nDOF", &PV_bis_nDOF);
         
         tree_->Branch("FlightDistPVSV", &FlightDistPVSV);
         tree_->Branch("FlightDistPVSV_Err", &FlightDistPVSV_Err);
@@ -2249,7 +2417,7 @@ float MiniAna2017Tree::dPtTriggerMatch(pat::Muon m, trigger::TriggerObjectCollec
 	tree_->Branch("Triplet_relativeiso2", &Triplet_relativeiso2);
 	tree_->Branch("Triplet_IsoMu1", &Triplet_IsoMu1);
 	tree_->Branch("Triplet_IsoMu2", &Triplet_IsoMu2);
-        tree_->Branch("Triplet_IsoMu3", &Triplet_IsoMu2);
+        tree_->Branch("Triplet_IsoMu3", &Triplet_IsoMu3);
 
 	tree_->Branch("MuonPt_HLT", &MuonPt_HLT);
 	tree_->Branch("MuonEta_HLT", &MuonEta_HLT);
@@ -2271,19 +2439,19 @@ float MiniAna2017Tree::dPtTriggerMatch(pat::Muon m, trigger::TriggerObjectCollec
 	  tree_->Branch("MuonPt_HLT_BPMu9_IP0", &MuonPt_HLT_BPMu9_IP0);
 	  tree_->Branch("MuonEta_HLT_BPMu9_IP0", &MuonEta_HLT_BPMu9_IP0);
 	  tree_->Branch("MuonPhi_HLT_BPMu9_IP0", &MuonPhi_HLT_BPMu9_IP0);
-	  tree_->Branch("MuonPt_HLT_BPMu3_IP3", &MuonPt_HLT_BPMu3_IP3);
-	  tree_->Branch("MuonEta_HLT_BPMu3_IP3", &MuonEta_HLT_BPMu3_IP3);
+	  tree_->Branch("MuonPt_HLT_BPMu9_IP3", &MuonPt_HLT_BPMu9_IP3);
+	  tree_->Branch("MuonEta_HLT_BPMu9_IP3", &MuonEta_HLT_BPMu9_IP3);
 
-	  tree_->Branch("MuonPhi_HLT_BPMu3_IP3", &MuonPhi_HLT_BPMu3_IP3);
-	  tree_->Branch("MuonPt_HLT_BPMu3_IP4", &MuonPt_HLT_BPMu3_IP4);
-	  tree_->Branch("MuonEta_HLT_BPMu3_IP4", &MuonEta_HLT_BPMu3_IP4);
-	  tree_->Branch("MuonPhi_HLT_BPMu3_IP4", &MuonPhi_HLT_BPMu3_IP4);
-	  tree_->Branch("MuonPt_HLT_BPMu3_IP5", &MuonPt_HLT_BPMu3_IP5);
-	  tree_->Branch("MuonEta_HLT_BPMu3_IP5", &MuonEta_HLT_BPMu3_IP5);
-	  tree_->Branch("MuonPhi_HLT_BPMu3_IP5", &MuonPhi_HLT_BPMu3_IP5);
-	  tree_->Branch("MuonPt_HLT_BPMu3_IP6", &MuonPt_HLT_BPMu3_IP6);
-	  tree_->Branch("MuonEta_HLT_BPMu3_IP6", &MuonEta_HLT_BPMu3_IP6);
-	  tree_->Branch("MuonPhi_HLT_BPMu3_IP6", &MuonPhi_HLT_BPMu3_IP6);
+	  tree_->Branch("MuonPhi_HLT_BPMu9_IP3", &MuonPhi_HLT_BPMu9_IP3);
+	  tree_->Branch("MuonPt_HLT_BPMu9_IP4", &MuonPt_HLT_BPMu9_IP4);
+	  tree_->Branch("MuonEta_HLT_BPMu9_IP4", &MuonEta_HLT_BPMu9_IP4);
+	  tree_->Branch("MuonPhi_HLT_BPMu9_IP4", &MuonPhi_HLT_BPMu9_IP4);
+	  tree_->Branch("MuonPt_HLT_BPMu9_IP5", &MuonPt_HLT_BPMu9_IP5);
+	  tree_->Branch("MuonEta_HLT_BPMu9_IP5", &MuonEta_HLT_BPMu9_IP5);
+	  tree_->Branch("MuonPhi_HLT_BPMu9_IP5", &MuonPhi_HLT_BPMu9_IP5);
+	  tree_->Branch("MuonPt_HLT_BPMu9_IP6", &MuonPt_HLT_BPMu9_IP6);
+	  tree_->Branch("MuonEta_HLT_BPMu9_IP6", &MuonEta_HLT_BPMu9_IP6);
+	  tree_->Branch("MuonPhi_HLT_BPMu9_IP6", &MuonPhi_HLT_BPMu9_IP6);
 	  tree_->Branch("MuonPt_HLT_BPMu12_IP6", &MuonPt_HLT_BPMu12_IP6);
 	  tree_->Branch("MuonEta_HLT_BPMu12_IP6", &MuonEta_HLT_BPMu12_IP6);
 	  tree_->Branch("MuonPhi_HLT_BPMu12_IP6", &MuonPhi_HLT_BPMu12_IP6);
