@@ -169,11 +169,11 @@ private:
     
     edm::Service<TFileService> fs;
     l1t::L1TGlobalUtil* gtUtil_;
-  TH1F *hEvents;
-  TH1F *hEventsAfterGoodCand;
-  //      TH1F *hEventsAfterGoodCand;
-  //    TH1F *hEventsAfterGoodCand;
-   edm::InputTag algInputTag_;
+    TH1F *hEvents;
+    TH1F *hEventsAfterGoodCand;
+    //      TH1F *hEventsAfterGoodCand;
+    //    TH1F *hEventsAfterGoodCand;
+    edm::InputTag algInputTag_;
 
     //tree
     TTree*      tree_;
@@ -187,7 +187,7 @@ private:
     std::vector<double>  Muon_vx,  Muon_vy,  Muon_vz;
     
     //MuonID
-  std::vector<double>  Muon_isGlobal, Muon_isMedium,  Muon_isTracker,  Muon_isSoft,  Muon_isLoose, Muon_isTight,  Muon_isPF,  Muon_isRPCMuon,  Muon_isStandAloneMuon,  Muon_isTrackerMuon,  Muon_isCaloMuon,  Muon_isQualityValid,  Muon_isTimeValid,  Muon_isIsolationValid,  Muon_numberOfMatchedStations,  Muon_numberOfMatches, Muon_SoftMVAVal, Muon_LowPtMVA_Val;
+    std::vector<double>  Muon_isGlobal, Muon_isMedium,  Muon_isTracker,  Muon_isSoft,  Muon_isLoose, Muon_isTight,  Muon_isPF,  Muon_isRPCMuon,  Muon_isStandAloneMuon,  Muon_isTrackerMuon,  Muon_isCaloMuon,  Muon_isQualityValid,  Muon_isTimeValid,  Muon_isIsolationValid,  Muon_numberOfMatchedStations,  Muon_numberOfMatches, Muon_SoftMVAVal, Muon_LowPtMVA_Val;
     
     //MuonTime
     std::vector<double>  Muon_timeAtIpInOut,Muon_timeAtIpInOutErr;
@@ -196,15 +196,19 @@ private:
     std::vector<double>  Muon_GLnormChi2, Muon_GLhitPattern_numberOfValidMuonHits,  Muon_trackerLayersWithMeasurement,  Muon_Numberofvalidpixelhits,  Muon_outerTrack_p,  Muon_outerTrack_eta,
     Muon_outerTrack_phi,  Muon_outerTrack_normalizedChi2,  Muon_outerTrack_muonStationsWithValidHits,  Muon_innerTrack_p,  Muon_innerTrack_eta,  Muon_innerTrack_phi,  Muon_innerTrack_normalizedChi2,  Muon_QInnerOuter;
     
-  std::vector<double>   Muon_combinedQuality_updatedSta,  Muon_combinedQuality_trkKink,  Muon_combinedQuality_glbKink,  Muon_combinedQuality_trkRelChi2,  Muon_combinedQuality_staRelChi2,  Muon_combinedQuality_chi2LocalPosition,  Muon_combinedQuality_chi2LocalMomentum,  Muon_combinedQuality_localDistance,  Muon_combinedQuality_globalDeltaEtaPhi,  Muon_combinedQuality_tightMatch,  Muon_combinedQuality_glbTrackProbability,  Muon_calEnergy_em,  Muon_calEnergy_emS9,  Muon_calEnergy_emS25,  Muon_calEnergy_had,  Muon_calEnergy_hadS9,  Muon_segmentCompatibility,  Muon_caloCompatibility,  Muon_ptErrOverPt, Muon_BestTrackPt,  Muon_BestTrackPtErr, Muon_BestTrackEta,  Muon_BestTrackEtaErr,  Muon_BestTrackPhi,  Muon_BestTrackPhiErr, Muon_innerTrack_ValidFraction, Muon_Numberofvalidtrackerhits, Muon_IP3D_BS, Muon_IP2D_BS, Muon_IP3D_PV, Muon_IP2D_PV,Muon_validMuonHitComb, Muon_DZ_PV;
-  std::vector<double>   Muon_SoftMVA_Val,  MuonLowPtMVA_Val;
-
-  std::vector<bool>  Muon_innerTrack_highPurity;
+    std::vector<double>   Muon_combinedQuality_updatedSta,  Muon_combinedQuality_trkKink,  Muon_combinedQuality_glbKink,  Muon_combinedQuality_trkRelChi2,  Muon_combinedQuality_staRelChi2,  Muon_combinedQuality_chi2LocalPosition,  Muon_combinedQuality_chi2LocalMomentum,  Muon_combinedQuality_localDistance,  Muon_combinedQuality_globalDeltaEtaPhi,  Muon_combinedQuality_tightMatch,  Muon_combinedQuality_glbTrackProbability,  Muon_calEnergy_em,  Muon_calEnergy_emS9,  Muon_calEnergy_emS25,  Muon_calEnergy_had,  Muon_calEnergy_hadS9,  Muon_segmentCompatibility,  Muon_caloCompatibility,  Muon_ptErrOverPt, Muon_BestTrackPt,  Muon_BestTrackPtErr, Muon_BestTrackEta,  Muon_BestTrackEtaErr,  Muon_BestTrackPhi,  Muon_BestTrackPhiErr, Muon_innerTrack_ValidFraction, Muon_Numberofvalidtrackerhits, Muon_IP3D_BS, Muon_IP2D_BS, Muon_IP3D_PV, Muon_IP2D_PV,Muon_validMuonHitComb, Muon_DZ_PV;
+    std::vector<double>   Muon_SoftMVA_Val,  MuonLowPtMVA_Val;
+    std::vector<bool>  Muon_innerTrack_highPurity;
 
     std::vector<int>  Muon_simPdgId, Muon_simMotherPdgId, Muon_simFlavour,  Muon_simType, Muon_simBX, Muon_simTpEvent, Muon_simMatchQuality;
     std::vector<double>  Mu1_Pt,  Mu1_Eta,  Mu1_Phi,  Mu2_Pt,  Mu2_Eta,  Mu2_Phi,  Mu3_Pt,  Mu3_Eta,  Mu3_Phi, GenMatchMu1_SimPt, GenMatchMu2_SimPt, GenMatchMu3_SimPt,GenMatchMu1_SimEta, GenMatchMu2_SimEta, GenMatchMu3_SimEta, GenMatchMu1_SimPhi, GenMatchMu2_SimPhi, GenMatchMu3_SimPhi,  GenMatchMu1_Pt,  GenMatchMu2_Pt,  GenMatchMu3_Pt,  GenMatchMu1_Eta,  GenMatchMu2_Eta,  GenMatchMu3_Eta,  GenMatchMu1_Phi,  GenMatchMu2_Phi,  GenMatchMu3_Phi;
+
+    std::vector<double> RefTrack1_Pt, RefTrack1_Eta, RefTrack1_Phi, RefTrack1_TripletIndex;
+    std::vector<double> RefTrack2_Pt, RefTrack2_Eta, RefTrack2_Phi, RefTrack2_TripletIndex;
+    std::vector<double> RefTrack3_Pt, RefTrack3_Eta, RefTrack3_Phi, RefTrack3_TripletIndex;
+
     std::vector<float> Mu1_dRtriggerMatch, Mu2_dRtriggerMatch, Mu3_dRtriggerMatch;
-  std::vector<float> Mu1_dPtReltriggerMatch, Mu2_dPtReltriggerMatch, Mu3_dPtReltriggerMatch;
+    std::vector<float> Mu1_dPtReltriggerMatch, Mu2_dPtReltriggerMatch, Mu3_dPtReltriggerMatch;
  
     std::vector<double>     Muon_emEt03, Muon_hadEt03, Muon_nJets03, Muon_nTracks03, Muon_sumPt03, Muon_emEt05,    Muon_hadEt05, Muon_nJets05, Muon_nTracks05, Muon_sumPt05,
     Muon_hadVetoEt03,Muon_emVetoEt03,    Muon_trackerVetoPt03,    Muon_hadVetoEt05,    Muon_emVetoEt05,    Muon_trackerVetoPt05;
@@ -217,12 +221,14 @@ private:
     
     int TripletCollectionSize, PVCollection_Size, MuonCollectionSize;
     std::vector<double>  TripletVtx_x,  TripletVtx_y,  TripletVtx_z,  TripletVtx_Chi2,  TripletVtx_NDOF,  Triplet_Mass,  Triplet_Pt,  Triplet_Eta,  Triplet_Phi, Triplet_Charge;
+    std::vector<std::vector<double>>  TripletVtx_cov;
     std::vector<double>     Triplet_relativeiso2, Triplet_IsoMu1, Triplet_IsoMu2,Triplet_IsoMu3;    
     std::vector<double> dxy_mu1, dxy_mu2, dxy_mu3, dxyErr_mu1, dxyErr_mu2, dxyErr_mu3; 
     
     std::vector<double>  RefittedPV_x;
     std::vector<double>  RefittedPV_y;
     std::vector<double>  RefittedPV_z;
+    std::vector<std::vector<double>>  RefittedPV_cov;
     std::vector<double>  RefittedPV_NTracks;
     std::vector<int>     RefittedPV_isValid;
     std::vector<double>  RefittedPV_Chi2, RefittedPV_nDOF;
@@ -235,25 +241,25 @@ private:
     std::vector<double>  FlightDistPVSV_Significance;
     std::vector<double>  FlightDistPVSV_chi2;
 
-  std::vector<double>   FlightDistBS_SV,  FlightDistBS_SV_Err,  FlightDistBS_SV_Significance;
+    std::vector<double>   FlightDistBS_SV,  FlightDistBS_SV_Err,  FlightDistBS_SV_Significance;
     
-   std::vector<double> PV_x,  PV_y,  PV_z,  PV_NTracks;
-  std::vector<double> Vtx12_x, Vtx23_x, Vtx13_x, Vtx12_y, Vtx23_y, Vtx13_y, Vtx12_z, Vtx23_z, Vtx13_z, Vtx12_Chi2, Vtx23_Chi2, Vtx13_Chi2, Vtx12_nDOF, Vtx23_nDOF, Vtx13_nDOF;
-  std::vector<int> NGoodTriplets;
+    std::vector<double> PV_x,  PV_y,  PV_z,  PV_NTracks;
+    std::vector<double> Vtx12_x, Vtx23_x, Vtx13_x, Vtx12_y, Vtx23_y, Vtx13_y, Vtx12_z, Vtx23_z, Vtx13_z, Vtx12_Chi2, Vtx23_Chi2, Vtx13_Chi2, Vtx12_nDOF, Vtx23_nDOF, Vtx13_nDOF;
+    std::vector<int> NGoodTriplets;
     uint  evt, run, lumi, puN;
-  std::vector<string>  Trigger_l1name;
-  std::vector<int> Trigger_l1decision;
-  std::vector<int> Trigger_l1prescale;
+    std::vector<string>  Trigger_l1name;
+    std::vector<int> Trigger_l1decision;
+    std::vector<int> Trigger_l1prescale;
 
-  std::vector<string>  Trigger_hltname;
-  std::vector<int> Trigger_hltdecision;
-  std::vector<double> MuonPt_HLT,  MuonEta_HLT,  MuonPhi_HLT;
-  std::vector<double> MuonPt_HLT2017, MuonEta_HLT2017, MuonPhi_HLT2017, MuonPt_HLT_BPMu7, MuonEta_HLT_BPMu7, MuonPhi_HLT_BPMu7, MuonPt_HLT_BPMu8, MuonEta_HLT_BPMu8, MuonPhi_HLT_BPMu8, MuonPt_HLT_BPMu8_IP6,  MuonEta_HLT_BPMu8_IP6, MuonPhi_HLT_BPMu8_IP6, MuonPt_HLT_BPMu8_IP5, MuonEta_HLT_BPMu8_IP5, MuonPhi_HLT_BPMu8_IP5,   MuonPt_HLT_BPMu9_IP0, MuonEta_HLT_BPMu9_IP0, MuonPhi_HLT_BPMu9_IP0, MuonPt_HLT_BPMu9_IP3, MuonEta_HLT_BPMu9_IP3, MuonPhi_HLT_BPMu9_IP3, MuonPt_HLT_BPMu9_IP4,MuonEta_HLT_BPMu9_IP4,MuonPhi_HLT_BPMu9_IP4,MuonPt_HLT_BPMu9_IP5, MuonEta_HLT_BPMu9_IP5,MuonPhi_HLT_BPMu9_IP5,MuonPt_HLT_BPMu9_IP6,MuonEta_HLT_BPMu9_IP6,MuonPhi_HLT_BPMu9_IP6,MuonPt_HLT_BPMu12_IP6,MuonEta_HLT_BPMu12_IP6,MuonPhi_HLT_BPMu12_IP6;
-
-  std::vector<float> Mu1_dRtriggerMatch_Mu8_IP5, Mu1_dRtriggerMatch_Mu8_IP6, Mu1_dRtriggerMatch_Mu9_IP0, Mu1_dRtriggerMatch_Mu9_IP3, Mu1_dRtriggerMaTch_Mu9_IP4, Mu1_dRtriggerMatch_Mu9_IP5, Mu1_dRtriggerMatch_Mu9_IP6, Mu1_dRtriggerMatch_Mu12_IP6,Mu1_dRtriggerMatch_Mu9_IP4;
-  std::vector<float> Mu1_dRtriggerMatch_Mu7, Mu2_dRtriggerMatch_Mu7, Mu3_dRtriggerMatch_Mu7;
-  std::vector<float> Mu1_dRtriggerMatch_Mu8, Mu2_dRtriggerMatch_Mu8, Mu3_dRtriggerMatch_Mu8;
-  std::vector<double>   DistXY_PVSV,DistXY_significance_PVSV;
+    std::vector<string>  Trigger_hltname;
+    std::vector<int> Trigger_hltdecision;
+    std::vector<double> MuonPt_HLT,  MuonEta_HLT,  MuonPhi_HLT;
+    std::vector<double> MuonPt_HLT2017, MuonEta_HLT2017, MuonPhi_HLT2017, MuonPt_HLT_BPMu7, MuonEta_HLT_BPMu7, MuonPhi_HLT_BPMu7, MuonPt_HLT_BPMu8, MuonEta_HLT_BPMu8, MuonPhi_HLT_BPMu8, MuonPt_HLT_BPMu8_IP6,  MuonEta_HLT_BPMu8_IP6, MuonPhi_HLT_BPMu8_IP6, MuonPt_HLT_BPMu8_IP5, MuonEta_HLT_BPMu8_IP5, MuonPhi_HLT_BPMu8_IP5,   MuonPt_HLT_BPMu9_IP0, MuonEta_HLT_BPMu9_IP0, MuonPhi_HLT_BPMu9_IP0, MuonPt_HLT_BPMu9_IP3, MuonEta_HLT_BPMu9_IP3, MuonPhi_HLT_BPMu9_IP3, MuonPt_HLT_BPMu9_IP4,MuonEta_HLT_BPMu9_IP4,MuonPhi_HLT_BPMu9_IP4,MuonPt_HLT_BPMu9_IP5, MuonEta_HLT_BPMu9_IP5,MuonPhi_HLT_BPMu9_IP5,MuonPt_HLT_BPMu9_IP6,MuonEta_HLT_BPMu9_IP6,MuonPhi_HLT_BPMu9_IP6,MuonPt_HLT_BPMu12_IP6,MuonEta_HLT_BPMu12_IP6,MuonPhi_HLT_BPMu12_IP6;
+  
+    std::vector<float> Mu1_dRtriggerMatch_Mu8_IP5, Mu1_dRtriggerMatch_Mu8_IP6, Mu1_dRtriggerMatch_Mu9_IP0, Mu1_dRtriggerMatch_Mu9_IP3, Mu1_dRtriggerMaTch_Mu9_IP4, Mu1_dRtriggerMatch_Mu9_IP5, Mu1_dRtriggerMatch_Mu9_IP6, Mu1_dRtriggerMatch_Mu12_IP6,Mu1_dRtriggerMatch_Mu9_IP4;
+    std::vector<float> Mu1_dRtriggerMatch_Mu7, Mu2_dRtriggerMatch_Mu7, Mu3_dRtriggerMatch_Mu7;
+    std::vector<float> Mu1_dRtriggerMatch_Mu8, Mu2_dRtriggerMatch_Mu8, Mu3_dRtriggerMatch_Mu8;
+    std::vector<double>   DistXY_PVSV,DistXY_significance_PVSV;
     //Synctree
     /*  TTree*      SyncTree_;
      std::vector<float>  allmuons_pt, leadmuon_pt, leadmuon_phi, leadmuon_eta;
@@ -776,16 +782,14 @@ float MiniAna2017Tree::dPtTriggerMatch(pat::Muon m, trigger::TriggerObjectCollec
         int TripletIndex =-99; uint trIn=0;
         for(edm::View<reco::CompositeCandidate>::const_iterator TauIt=Cand3Mu->begin(); TauIt!=Cand3Mu->end(), trIn<Cand3Mu->size(); ++TauIt, ++trIn){
 
-	  const Candidate * c1 = TauIt->daughter(0)->masterClone().get();
-	  const pat::Muon *mu1 = dynamic_cast<const pat::Muon *>(c1);
-	  
-	  const Candidate * c2 = TauIt->daughter(1)->masterClone().get();
-	  const pat::Muon *mu2 = dynamic_cast<const pat::Muon *>(c2);
-		
-	  const Candidate * c3 = TauIt->daughter(2)->masterClone().get();
-	  const pat::Muon *mu3 = dynamic_cast<const pat::Muon *>(c3);
-
-
+            const Candidate * c1 = TauIt->daughter(0)->masterClone().get();
+            const pat::Muon *mu1 = dynamic_cast<const pat::Muon *>(c1);
+           
+            const Candidate * c2 = TauIt->daughter(1)->masterClone().get();
+            const pat::Muon *mu2 = dynamic_cast<const pat::Muon *>(c2);
+         		
+            const Candidate * c3 = TauIt->daughter(2)->masterClone().get();
+            const pat::Muon *mu3 = dynamic_cast<const pat::Muon *>(c3);
 
             TrackRef trk1, trk2, trk3;
             if (mu1->isGlobalMuon()) { trk1 = mu1->get<TrackRef,reco::CombinedMuonTag>();}
@@ -809,23 +813,20 @@ float MiniAna2017Tree::dPtTriggerMatch(pat::Muon m, trigger::TriggerObjectCollec
             SVTrackRef.push_back(TrackRef2);
             SVTrackRef.push_back(TrackRef3);
 
-
-
             reco::Vertex TripletVtx = reco::Vertex(TauIt->vertex(), TauIt->vertexCovariance(), TauIt->vertexChi2(), TauIt->vertexNdof(), TauIt->numberOfDaughters() );
 	    double dphi_pv = -1.0;
 	    uint primaryvertex_index=0;
 	    TLorentzVector ThreeCandidate;
 	    ThreeCandidate.SetPtEtaPhiM(TauIt->pt(), TauIt->eta(), TauIt->phi(), TauIt->mass());
 
-
 	    for(uint VtxIt =0;VtxIt<vertices->size();VtxIt++ ){
-	      //cout<<"Vtx id="<<VtxIt<<" x="<<(*vertices)[VtxIt].x()<<endl;
-	      TVector3 Dv3D_reco(TripletVtx.x() - (*vertices)[VtxIt].x(), TripletVtx.y() - (*vertices)[VtxIt].y(), TripletVtx.z() - (*vertices)[VtxIt].z());
-	      double Cosdphi_3D = Dv3D_reco.Dot(ThreeCandidate.Vect())/(Dv3D_reco.Mag()*ThreeCandidate.Vect().Mag());
-	      if(Cosdphi_3D>dphi_pv){
-		dphi_pv = Cosdphi_3D;
-		primaryvertex_index=VtxIt;
-	      }
+	        //cout<<"Vtx id="<<VtxIt<<" x="<<(*vertices)[VtxIt].x()<<endl;
+	        TVector3 Dv3D_reco(TripletVtx.x() - (*vertices)[VtxIt].x(), TripletVtx.y() - (*vertices)[VtxIt].y(), TripletVtx.z() - (*vertices)[VtxIt].z());
+	        double Cosdphi_3D = Dv3D_reco.Dot(ThreeCandidate.Vect())/(Dv3D_reco.Mag()*ThreeCandidate.Vect().Mag());
+	        if(Cosdphi_3D>dphi_pv){
+                    dphi_pv = Cosdphi_3D;
+                    primaryvertex_index=VtxIt;
+	        }
 	    }
 
             cout << "Vertex chosen n. " << primaryvertex_index << endl;
@@ -834,13 +835,13 @@ float MiniAna2017Tree::dPtTriggerMatch(pat::Muon m, trigger::TriggerObjectCollec
             uint count = 0;
 
 	    for ( reco::Vertex::trackRef_iterator pvTrack = (*vertices)[primaryvertex_index].tracks_begin(); pvTrack != (*vertices)[primaryvertex_index].tracks_end(); ++pvTrack ) {
-            count++;
-            cout << "Trk n." << count << endl;
-            
-	      reco::TransientTrack pvTrack_transient =theTransientTrackBuilder_->build(pvTrack->get());
-	      pvTracks_original.push_back(pvTrack_transient);
-            cout << "trk pt:"<<pvTrack_transient.track().pt() << "| eta:"<<pvTrack_transient.track().eta() << endl;
-	      pvTrackMap_refit.insert(std::make_pair(pvTrack->get(), pvTrack_transient));
+                count++;
+                cout << "Trk n." << count << endl;
+
+                reco::TransientTrack pvTrack_transient =theTransientTrackBuilder_->build(pvTrack->get());
+	        pvTracks_original.push_back(pvTrack_transient);
+                cout << "trk pt:"<<pvTrack_transient.track().pt() << "| eta:"<<pvTrack_transient.track().eta() << endl;
+	        pvTrackMap_refit.insert(std::make_pair(pvTrack->get(), pvTrack_transient));
 	    }
             std::vector<reco::TransientTrack> pvTrack_refit_before;
             for ( TransientTrackMap::iterator pvTrack = pvTrackMap_refit.begin();  pvTrack != pvTrackMap_refit.end(); ++pvTrack ) {
@@ -861,7 +862,7 @@ float MiniAna2017Tree::dPtTriggerMatch(pat::Muon m, trigger::TriggerObjectCollec
 	    removeTracks(pvTrackMap_refit,  SVTrackRef);
 	    std::vector<reco::TransientTrack> pvTracks_refit;
             for ( TransientTrackMap::iterator pvTrack = pvTrackMap_refit.begin();  pvTrack != pvTrackMap_refit.end(); ++pvTrack ) {
-	      pvTracks_refit.push_back(pvTrack->second);}
+	        pvTracks_refit.push_back(pvTrack->second);}
 
 
 	    //cout<<" Closest PV index "<<primaryvertex_index<<" x="<<(*vertices)[primaryvertex_index].x()<<" y="<<(*vertices)[primaryvertex_index].y()<<" z="<<(*vertices)[primaryvertex_index].z()<<endl;
@@ -899,601 +900,618 @@ float MiniAna2017Tree::dPtTriggerMatch(pat::Muon m, trigger::TriggerObjectCollec
                     PV_bis_nDOF.push_back(-99);
                 }
                 
-	      //cout<<"Valid Vtx1="<<PVertex.isValid()<<endl;
-	      if(PVertex.isValid() &&  TauIt->vertexChi2() >0 ){
+	        //cout<<"Valid Vtx1="<<PVertex.isValid()<<endl;
+	        if(PVertex.isValid() &&  TauIt->vertexChi2() >0 ){
 
-		NTripl.push_back(1);
+		    NTripl.push_back(1);
+		    TripletIndex=trIn;
+		    //    if (!(TauIt->vertexChi2() < 20)) continue ;
+		    //    TripletsCounter.push_back(1);
             
-		TripletIndex=trIn;
-		//    if (!(TauIt->vertexChi2() < 20)) continue ;
-		//    TripletsCounter.push_back(1);
+		    //Daughter Kinematics at reco+gen level
             
-		//Daughter Kinematics at reco+gen level
-            
-            Mu1_Pt.push_back(mu1->pt());
-            Mu1_Eta.push_back(mu1->eta());
-            Mu1_Phi.push_back(mu1->phi());
-            Mu1_TripletIndex.push_back(TripletIndex);
-            
-            Mu2_Pt.push_back(mu2->pt());
-            Mu2_Eta.push_back(mu2->eta());
-            Mu2_Phi.push_back(mu2->phi());
-            Mu2_TripletIndex.push_back(TripletIndex);
-            
-            Mu3_Pt.push_back(mu3->pt());
-            Mu3_Eta.push_back(mu3->eta());
-            Mu3_Phi.push_back(mu3->phi());
-            Mu3_TripletIndex.push_back(TripletIndex);
-            //cout<<"Reco mu1 pt="<<mu1->pt()<<" mu2 pt="<<mu2->pt()<<" mu3 pt="<<mu3->pt()<<endl;
-            
-
-            //TransientVertex TransientTripletVtx = reco::Vertex(TauIt->vertex(), TauIt->vertexCovariance(), TauIt->vertexChi2(), TauIt->vertexNdof(), TauIt->numberOfDaughters() );
-            //cout<<" number of muons in triplet="<<TauIt->numberOfDaughters()<<endl;
-
-
-	    ///////////////Check Trigger Matching///////////////
-            float dR1 = 999., dR2 = 999., dR3 = 999.;
-	    float dPtRel1 = 999., dPtRel2 = 999., dPtRel3 = 999.;
-	    float dR1_2017 = 999., dR2_2017 = 999., dR3_2017 = 999.;
-            float dR1_Mu7=999.,dR2_Mu7 = 999., dR3_Mu7 = 999.;
-            float dR1_Mu8=999.,dR2_Mu8 = 999., dR3_Mu8 = 999.;
-            float dR1_Mu8_IP6=999., dR1_Mu12_IP6=999, dR1_Mu8_IP5=999.;
-            float dR1_Mu9_IP0=999., dR1_Mu9_IP3=999.,  dR1_Mu9_IP4=999., dR1_Mu9_IP5=999., dR1_Mu9_IP6=999.;
-            std::vector<trigger::TriggerObject> trgobjs = triggerSummary->getObjects();
-            trigger::TriggerObjectCollection MuonsObjects;
-            edm::InputTag MuonFilterTag = edm::InputTag("hltdstau3muDisplaced3muFltr", "", "HLT");
-            size_t MuonFilterIndex = (*triggerSummary).filterIndex(MuonFilterTag); //find the index corresponding to the event
-            if(MuonFilterIndex < (*triggerSummary).sizeFilters()) { //check if the trigger object is present
-            //save the trigger objetcs corresponding to muon leg
-                const trigger::Keys &KEYS = (*triggerSummary).filterKeys(MuonFilterIndex);
-                for (unsigned int ipart = 0; ipart < KEYS.size(); ipart++) {
-                    trigger::TriggerObject foundObject = (trgobjs)[KEYS[ipart]];
-                    MuonsObjects.push_back(foundObject);		    
-                }
-                dR1 = MiniAna2017Tree::dRtriggerMatch(*mu1, MuonsObjects);
-                dR2 = MiniAna2017Tree::dRtriggerMatch(*mu2, MuonsObjects);
-                dR3 = MiniAna2017Tree::dRtriggerMatch(*mu3, MuonsObjects);
-		dPtRel1 = MiniAna2017Tree::dPtTriggerMatch(*mu1, MuonsObjects);
-		dPtRel2 = MiniAna2017Tree::dPtTriggerMatch(*mu2, MuonsObjects);
-		dPtRel3 = MiniAna2017Tree::dPtTriggerMatch(*mu3, MuonsObjects);
-
-
-            }
-
-
-	    Mu1_dRtriggerMatch.push_back(dR1);
-            Mu2_dRtriggerMatch.push_back(dR2);
-            Mu3_dRtriggerMatch.push_back(dR3);
-
-
-	    Mu1_dPtReltriggerMatch.push_back(dPtRel1);
-            Mu2_dPtReltriggerMatch.push_back(dPtRel2);
-            Mu3_dPtReltriggerMatch.push_back(dPtRel3);
-
-
-
-	    if( isBParking){
-	      dR1_Mu8 =  MiniAna2017Tree::dRtriggerMatch(*mu1, MuonsObjects_BPMu8);
-	      dR2_Mu8 =   MiniAna2017Tree::dRtriggerMatch(*mu2, MuonsObjects_BPMu8);
-	      dR3_Mu8 =  MiniAna2017Tree::dRtriggerMatch(*mu3, MuonsObjects_BPMu8);
-	      Mu1_dRtriggerMatch_Mu8.push_back(dR1_Mu8);
-	      Mu2_dRtriggerMatch_Mu8.push_back(dR2_Mu8);
-	      Mu3_dRtriggerMatch_Mu8.push_back(dR3_Mu8);
-
-	      dR1_Mu7 =  MiniAna2017Tree::dRtriggerMatch(*mu1, MuonsObjects_BPMu7);
-	      dR2_Mu7 =  MiniAna2017Tree::dRtriggerMatch(*mu2, MuonsObjects_BPMu7);
-	      dR3_Mu7 =  MiniAna2017Tree::dRtriggerMatch(*mu3, MuonsObjects_BPMu7);
-
-	      Mu1_dRtriggerMatch_Mu7.push_back(dR1_Mu7);
-	      Mu2_dRtriggerMatch_Mu7.push_back(dR2_Mu7);
-	      Mu3_dRtriggerMatch_Mu7.push_back(dR3_Mu7);
-
-
-	      dR1_Mu8_IP5 =  MiniAna2017Tree::dRtriggerMatch(*mu1, MuonsObjects_BPMu8_IP5);
-
-	      Mu1_dRtriggerMatch_Mu8_IP5.push_back(dR1_Mu8_IP5);
-
-	      dR1_Mu8_IP6 =  MiniAna2017Tree::dRtriggerMatch(*mu1, MuonsObjects_BPMu8_IP6);
-
-	      Mu1_dRtriggerMatch_Mu8_IP6.push_back(dR1_Mu8_IP6);
-
-	      dR1_Mu9_IP0 =  MiniAna2017Tree::dRtriggerMatch(*mu1, MuonsObjects_BPMu9_IP0);
-
-	      Mu1_dRtriggerMatch_Mu9_IP0.push_back(dR1_Mu9_IP0);
-
-	      dR1_Mu9_IP3 =  MiniAna2017Tree::dRtriggerMatch(*mu1, MuonsObjects_BPMu9_IP3);
-
-	      Mu1_dRtriggerMatch_Mu9_IP3.push_back(dR1_Mu9_IP3);
-
-	      dR1_Mu9_IP4 =  MiniAna2017Tree::dRtriggerMatch(*mu1, MuonsObjects_BPMu9_IP4);
-
-	      Mu1_dRtriggerMatch_Mu9_IP4.push_back(dR1_Mu9_IP4);
-
-	      dR1_Mu9_IP5 =  MiniAna2017Tree::dRtriggerMatch(*mu1, MuonsObjects_BPMu9_IP5);
-
-	      Mu1_dRtriggerMatch_Mu9_IP5.push_back(dR1_Mu9_IP5);
-
-	      dR1_Mu9_IP6 =  MiniAna2017Tree::dRtriggerMatch(*mu1, MuonsObjects_BPMu9_IP6);
-
-	      Mu1_dRtriggerMatch_Mu9_IP6.push_back(dR1_Mu9_IP6);
-
-	      dR1_Mu12_IP6 =  MiniAna2017Tree::dRtriggerMatch(*mu1, MuonsObjects_BPMu12_IP6);
-
-	      Mu1_dRtriggerMatch_Mu12_IP6.push_back(dR1_Mu12_IP6);
-
-
-            }
-
-
-
-            if(isMc){
-	      bool isMatch1=false; bool isMatch2=false; bool isMatch3=false;
-	      if( (mu1->simType() == reco::MatchedMuonFromHeavyFlavour) && (fabs(mu1->simMotherPdgId()) == 15) ){
-		isMatch1=true;
-	      }
-	      if( (mu2->simType() == reco::MatchedMuonFromHeavyFlavour) && (fabs(mu2->simMotherPdgId()) == 15) ){
-		isMatch2=true;
-	      }
-	      if( (mu3->simType() == reco::MatchedMuonFromHeavyFlavour) && (fabs(mu3->simMotherPdgId()) == 15) ){
-		isMatch3=true;
-	      }
-                
-                //    cout<<TripletIndex<<"Triplet Mass:"<<TauIt->mass()<<" pt="<<TauIt->pt()<<" vtx.x="<<TauIt->vx()<<" vtx x="<<TripletVtx.x()<<" chi2="<<TauIt->vertexChi2()<<" ndof="<<TauIt->vertexNdof()<<endl;
-                // cout<<TripletIndex<<"--Muon 1 pt="<<mu1->pt()<<" Muon2 pt="<<mu2->pt()<<" Mu3 pt="<<mu3->pt()<<" "<<endl;
-                if( isMatch1 && isMatch2 && isMatch3) {
-		  //cout<<" Matched Triplets mass="<<TauIt->mass()<<endl;
-                    GenMatchMu1_SimPt.push_back(mu1->simPt());
-                    GenMatchMu2_SimPt.push_back(mu2->simPt());
-                    GenMatchMu3_SimPt.push_back(mu3->simPt());
+                    Mu1_Pt.push_back(mu1->pt());
+                    Mu1_Eta.push_back(mu1->eta());
+                    Mu1_Phi.push_back(mu1->phi());
+                    Mu1_TripletIndex.push_back(TripletIndex);
                     
-                    GenMatchMu1_SimEta.push_back(mu1->simEta());
-                    GenMatchMu2_SimEta.push_back(mu2->simEta());
-                    GenMatchMu3_SimEta.push_back(mu3->simEta());
+                    Mu2_Pt.push_back(mu2->pt());
+                    Mu2_Eta.push_back(mu2->eta());
+                    Mu2_Phi.push_back(mu2->phi());
+                    Mu2_TripletIndex.push_back(TripletIndex);
                     
-                    GenMatchMu1_SimPhi.push_back(mu1->simPhi());
-                    GenMatchMu2_SimPhi.push_back(mu2->simPhi());
-                    GenMatchMu3_SimPhi.push_back(mu3->simPhi());
+                    Mu3_Pt.push_back(mu3->pt());
+                    Mu3_Eta.push_back(mu3->eta());
+                    Mu3_Phi.push_back(mu3->phi());
+                    Mu3_TripletIndex.push_back(TripletIndex);
+                    //cout<<"Reco mu1 pt="<<mu1->pt()<<" mu2 pt="<<mu2->pt()<<" mu3 pt="<<mu3->pt()<<endl;
+            
+
+                    //Refitted vars related to SV
+                    std::vector<reco::TransientTrack> Ttracks;
+                    Ttracks.push_back(transientTrack1);
+                    Ttracks.push_back(transientTrack2);
+                    Ttracks.push_back(transientTrack3);
+                    KalmanVertexFitter SVfitter (true);
+                    TransientVertex SVertex_ref = SVfitter.vertex(Ttracks);
+                    vector < TransientTrack > ttrks = SVertex_ref.refittedTracks();
+                    cout<<"ttrks.size() :"<<ttrks.size()<<endl;
+
+                    if(SVertex_ref.isValid() && SVertex_ref.hasRefittedTracks() && ttrks.size()>2){
+                        reco::Track SVTrack1 =ttrks.at(0).track();
+                        reco::Track SVTrack2 =ttrks.at(1).track();
+                        reco::Track SVTrack3 =ttrks.at(2).track();
+
+                   //     cout<<"SVTrack1.pt() "<<SVTrack1.pt()<<" SVTrack1.eta() "<<SVTrack1.eta()<<" SVTrack1.phi() "<<SVTrack1.phi()<<endl;
+                   //     cout<<"Track1.pt() "<<Track1.pt()<<" Track1.eta() "<<Track1.eta()<<" Track1.phi() "<<Track1.phi()<<endl;
+                   //     cout<<"SVTrack2.pt() "<<SVTrack2.pt()<<" SVTrack2.eta() "<<SVTrack2.eta()<<" SVTrack2.phi() "<<SVTrack2.phi()<<endl;
+                   //     cout<<"Track2.pt() "<<Track2.pt()<<" Track2.eta() "<<Track2.eta()<<" Track2.phi() "<<Track2.phi()<<endl;
+                   //     cout<<"SVTrack3.pt() "<<SVTrack3.pt()<<" SVTrack3.eta() "<<SVTrack3.eta()<<" SVTrack3.phi() "<<SVTrack3.phi()<<endl;
+                   //     cout<<"Track3.pt() "<<Track3.pt()<<" Track3.eta() "<<Track3.eta()<<" Track3.phi() "<<Track3.phi()<<endl;
+                   //     cout<<"mu1->pt() "<<mu1->pt()<<" mu2->pt() "<<mu2->pt()<<" mu3->pt() "<<mu3->pt()<<endl;
+
+                        RefTrack1_Pt.push_back(SVTrack1.pt()); RefTrack1_Eta.push_back(SVTrack1.eta()); RefTrack1_Phi.push_back(SVTrack1.phi()); RefTrack1_TripletIndex.push_back(TripletIndex);
+                        RefTrack2_Pt.push_back(SVTrack2.pt()); RefTrack2_Eta.push_back(SVTrack2.eta()); RefTrack2_Phi.push_back(SVTrack2.phi()); RefTrack2_TripletIndex.push_back(TripletIndex);
+                        RefTrack3_Pt.push_back(SVTrack3.pt()); RefTrack3_Eta.push_back(SVTrack3.eta()); RefTrack3_Phi.push_back(SVTrack3.phi()); RefTrack3_TripletIndex.push_back(TripletIndex);
+                    } else {
+                        RefTrack1_Pt.push_back(-99); RefTrack1_Eta.push_back(-99); RefTrack1_Phi.push_back(-99); RefTrack1_TripletIndex.push_back(-99);
+                        RefTrack2_Pt.push_back(-99); RefTrack2_Eta.push_back(-99); RefTrack2_Phi.push_back(-99); RefTrack2_TripletIndex.push_back(-99);
+                        RefTrack3_Pt.push_back(-99); RefTrack3_Eta.push_back(-99); RefTrack3_Phi.push_back(-99); RefTrack3_TripletIndex.push_back(-99);
+                    }
+
+                    //TransientVertex TransientTripletVtx = reco::Vertex(TauIt->vertex(), TauIt->vertexCovariance(), TauIt->vertexChi2(), TauIt->vertexNdof(), TauIt->numberOfDaughters() );
+                    //cout<<" number of muons in triplet="<<TauIt->numberOfDaughters()<<endl;
+
+
+	            ///////////////Check Trigger Matching///////////////
+                    float dR1 = 999., dR2 = 999., dR3 = 999.;
+	            float dPtRel1 = 999., dPtRel2 = 999., dPtRel3 = 999.;
+	            float dR1_2017 = 999., dR2_2017 = 999., dR3_2017 = 999.;
+                    float dR1_Mu7=999.,dR2_Mu7 = 999., dR3_Mu7 = 999.;
+                    float dR1_Mu8=999.,dR2_Mu8 = 999., dR3_Mu8 = 999.;
+                    float dR1_Mu8_IP6=999., dR1_Mu12_IP6=999, dR1_Mu8_IP5=999.;
+                    float dR1_Mu9_IP0=999., dR1_Mu9_IP3=999.,  dR1_Mu9_IP4=999., dR1_Mu9_IP5=999., dR1_Mu9_IP6=999.;
+                    std::vector<trigger::TriggerObject> trgobjs = triggerSummary->getObjects();
+                    trigger::TriggerObjectCollection MuonsObjects;
+                    edm::InputTag MuonFilterTag = edm::InputTag("hltdstau3muDisplaced3muFltr", "", "HLT");
+                    size_t MuonFilterIndex = (*triggerSummary).filterIndex(MuonFilterTag); //find the index corresponding to the event
+                    if(MuonFilterIndex < (*triggerSummary).sizeFilters()) { //check if the trigger object is present
+                    //save the trigger objetcs corresponding to muon leg
+                        const trigger::Keys &KEYS = (*triggerSummary).filterKeys(MuonFilterIndex);
+                        for (unsigned int ipart = 0; ipart < KEYS.size(); ipart++) {
+                            trigger::TriggerObject foundObject = (trgobjs)[KEYS[ipart]];
+                            MuonsObjects.push_back(foundObject);		    
+                        }
+                        dR1 = MiniAna2017Tree::dRtriggerMatch(*mu1, MuonsObjects);
+                        dR2 = MiniAna2017Tree::dRtriggerMatch(*mu2, MuonsObjects);
+                        dR3 = MiniAna2017Tree::dRtriggerMatch(*mu3, MuonsObjects);
+	                dPtRel1 = MiniAna2017Tree::dPtTriggerMatch(*mu1, MuonsObjects);
+	                dPtRel2 = MiniAna2017Tree::dPtTriggerMatch(*mu2, MuonsObjects);
+	                dPtRel3 = MiniAna2017Tree::dPtTriggerMatch(*mu3, MuonsObjects);
+                    }
+
+
+	            Mu1_dRtriggerMatch.push_back(dR1);
+                    Mu2_dRtriggerMatch.push_back(dR2);
+                    Mu3_dRtriggerMatch.push_back(dR3);
+
+	            Mu1_dPtReltriggerMatch.push_back(dPtRel1);
+                    Mu2_dPtReltriggerMatch.push_back(dPtRel2);
+                    Mu3_dPtReltriggerMatch.push_back(dPtRel3);
+
+	            if( isBParking){
+	                dR1_Mu8 =  MiniAna2017Tree::dRtriggerMatch(*mu1, MuonsObjects_BPMu8);
+	                dR2_Mu8 =   MiniAna2017Tree::dRtriggerMatch(*mu2, MuonsObjects_BPMu8);
+	                dR3_Mu8 =  MiniAna2017Tree::dRtriggerMatch(*mu3, MuonsObjects_BPMu8);
+	                Mu1_dRtriggerMatch_Mu8.push_back(dR1_Mu8);
+	                Mu2_dRtriggerMatch_Mu8.push_back(dR2_Mu8);
+	                Mu3_dRtriggerMatch_Mu8.push_back(dR3_Mu8);
+
+	                dR1_Mu7 =  MiniAna2017Tree::dRtriggerMatch(*mu1, MuonsObjects_BPMu7);
+	                dR2_Mu7 =  MiniAna2017Tree::dRtriggerMatch(*mu2, MuonsObjects_BPMu7);
+	                dR3_Mu7 =  MiniAna2017Tree::dRtriggerMatch(*mu3, MuonsObjects_BPMu7);
+
+	                Mu1_dRtriggerMatch_Mu7.push_back(dR1_Mu7);
+	                Mu2_dRtriggerMatch_Mu7.push_back(dR2_Mu7);
+	                Mu3_dRtriggerMatch_Mu7.push_back(dR3_Mu7);
+
+
+	                dR1_Mu8_IP5 =  MiniAna2017Tree::dRtriggerMatch(*mu1, MuonsObjects_BPMu8_IP5);
+	                Mu1_dRtriggerMatch_Mu8_IP5.push_back(dR1_Mu8_IP5);
+
+	                dR1_Mu8_IP6 =  MiniAna2017Tree::dRtriggerMatch(*mu1, MuonsObjects_BPMu8_IP6);
+	                Mu1_dRtriggerMatch_Mu8_IP6.push_back(dR1_Mu8_IP6);
+
+	                dR1_Mu9_IP0 =  MiniAna2017Tree::dRtriggerMatch(*mu1, MuonsObjects_BPMu9_IP0);
+	                Mu1_dRtriggerMatch_Mu9_IP0.push_back(dR1_Mu9_IP0);
+
+	                dR1_Mu9_IP3 =  MiniAna2017Tree::dRtriggerMatch(*mu1, MuonsObjects_BPMu9_IP3);
+	                Mu1_dRtriggerMatch_Mu9_IP3.push_back(dR1_Mu9_IP3);
+
+	                dR1_Mu9_IP4 =  MiniAna2017Tree::dRtriggerMatch(*mu1, MuonsObjects_BPMu9_IP4);
+	                Mu1_dRtriggerMatch_Mu9_IP4.push_back(dR1_Mu9_IP4);
+
+	                dR1_Mu9_IP5 =  MiniAna2017Tree::dRtriggerMatch(*mu1, MuonsObjects_BPMu9_IP5);
+	                Mu1_dRtriggerMatch_Mu9_IP5.push_back(dR1_Mu9_IP5);
+
+	                dR1_Mu9_IP6 =  MiniAna2017Tree::dRtriggerMatch(*mu1, MuonsObjects_BPMu9_IP6);
+	                Mu1_dRtriggerMatch_Mu9_IP6.push_back(dR1_Mu9_IP6);
+
+	                dR1_Mu12_IP6 =  MiniAna2017Tree::dRtriggerMatch(*mu1, MuonsObjects_BPMu12_IP6);
+	                Mu1_dRtriggerMatch_Mu12_IP6.push_back(dR1_Mu12_IP6);
+                    }
+
+                    if(isMc){
+	                bool isMatch1=false; bool isMatch2=false; bool isMatch3=false;
+	                if( (mu1->simType() == reco::MatchedMuonFromHeavyFlavour) && (fabs(mu1->simMotherPdgId()) == 15) ){
+	                    isMatch1=true;
+	                }
+	                if( (mu2->simType() == reco::MatchedMuonFromHeavyFlavour) && (fabs(mu2->simMotherPdgId()) == 15) ){
+	                    isMatch2=true;
+	                }
+	                if( (mu3->simType() == reco::MatchedMuonFromHeavyFlavour) && (fabs(mu3->simMotherPdgId()) == 15) ){
+	                    isMatch3=true;
+	                }
+                          
+                        // cout<<TripletIndex<<"Triplet Mass:"<<TauIt->mass()<<" pt="<<TauIt->pt()<<" vtx.x="<<TauIt->vx()<<" vtx x="<<TripletVtx.x()<<" chi2="<<TauIt->vertexChi2()<<" ndof="<<TauIt->vertexNdof()<<endl;
+                        // cout<<TripletIndex<<"--Muon 1 pt="<<mu1->pt()<<" Muon2 pt="<<mu2->pt()<<" Mu3 pt="<<mu3->pt()<<" "<<endl;
+                        if( isMatch1 && isMatch2 && isMatch3) {
+	                    //cout<<" Matched Triplets mass="<<TauIt->mass()<<endl;
+                            GenMatchMu1_SimPt.push_back(mu1->simPt());
+                            GenMatchMu2_SimPt.push_back(mu2->simPt());
+                            GenMatchMu3_SimPt.push_back(mu3->simPt());
+                            
+                            GenMatchMu1_SimEta.push_back(mu1->simEta());
+                            GenMatchMu2_SimEta.push_back(mu2->simEta());
+                            GenMatchMu3_SimEta.push_back(mu3->simEta());
+                            
+                            GenMatchMu1_SimPhi.push_back(mu1->simPhi());
+                            GenMatchMu2_SimPhi.push_back(mu2->simPhi());
+                            GenMatchMu3_SimPhi.push_back(mu3->simPhi());
+                            
+                            GenMatchMu1_Pt.push_back(mu1->pt());
+                            GenMatchMu2_Pt.push_back(mu2->pt());
+                            GenMatchMu3_Pt.push_back(mu3->pt());
+                            
+                            GenMatchMu1_Eta.push_back(mu1->eta());
+                            GenMatchMu2_Eta.push_back(mu2->eta());
+                            GenMatchMu3_Eta.push_back(mu3->eta());
+                            
+                            GenMatchMu1_Phi.push_back(mu1->phi());
+                            GenMatchMu2_Phi.push_back(mu2->phi());
+                            GenMatchMu3_Phi.push_back(mu3->phi());
+                        }
+                        //GenVtx vars to be added
+                    }
                     
-                    GenMatchMu1_Pt.push_back(mu1->pt());
-                    GenMatchMu2_Pt.push_back(mu2->pt());
-                    GenMatchMu3_Pt.push_back(mu3->pt());
+                    //Triplets Vars
+                    TripletVtx_x.push_back(TauIt->vx());
+                    TripletVtx_y.push_back(TauIt->vy());
+                    TripletVtx_z.push_back(TauIt->vz());
                     
-                    GenMatchMu1_Eta.push_back(mu1->eta());
-                    GenMatchMu2_Eta.push_back(mu2->eta());
-                    GenMatchMu3_Eta.push_back(mu3->eta());
+                    TripletVtx_Chi2.push_back(TauIt->vertexChi2());
+                    TripletVtx_NDOF.push_back(TauIt->vertexNdof());
                     
-                    GenMatchMu1_Phi.push_back(mu1->phi());
-                    GenMatchMu2_Phi.push_back(mu2->phi());
-                    GenMatchMu3_Phi.push_back(mu3->phi());
+                    Triplet_Mass.push_back(TauIt->mass());
+                    Triplet_Pt.push_back(TauIt->pt());
+                    Triplet_Eta.push_back(TauIt->eta());
+                    Triplet_Phi.push_back(TauIt->phi());
+                    Triplet_Charge.push_back(TauIt->charge());
+                      
+                    ////////////////////  Dimu vertices  ////////////////////
+                    std::vector<reco::TransientTrack> SVTracks12_Vtx, SVTracks23_Vtx, SVTracks13_Vtx;
                     
+                    SVTracks12_Vtx.push_back(transientTrack1);
+                    SVTracks12_Vtx.push_back(transientTrack2);
+                    SVTracks23_Vtx.push_back(transientTrack2);
+                    SVTracks23_Vtx.push_back(transientTrack3);
+                    SVTracks13_Vtx.push_back(transientTrack1);
+                    SVTracks13_Vtx.push_back(transientTrack3);
                     
-                }
-                
-                
-                //GenVtx vars to be added
-            }
-            
-            //Triplets Vars
-            
-            
-            TripletVtx_x.push_back(TauIt->vx());
-            TripletVtx_y.push_back(TauIt->vy());
-            TripletVtx_z.push_back(TauIt->vz());
-            
-            TripletVtx_Chi2.push_back(TauIt->vertexChi2());
-            TripletVtx_NDOF.push_back(TauIt->vertexNdof());
-            
-            Triplet_Mass.push_back(TauIt->mass());
-            Triplet_Pt.push_back(TauIt->pt());
-            Triplet_Eta.push_back(TauIt->eta());
-            Triplet_Phi.push_back(TauIt->phi());
-            Triplet_Charge.push_back(TauIt->charge());
-            //Matrix covariance to be added!!!!
-              
-              ////////////////////  Dimu vertices  ////////////////////
-              std::vector<reco::TransientTrack> SVTracks12_Vtx, SVTracks23_Vtx, SVTracks13_Vtx;
-              
-              SVTracks12_Vtx.push_back(transientTrack1);
-              SVTracks12_Vtx.push_back(transientTrack2);
-              SVTracks23_Vtx.push_back(transientTrack2);
-              SVTracks23_Vtx.push_back(transientTrack3);
-              SVTracks13_Vtx.push_back(transientTrack1);
-              SVTracks13_Vtx.push_back(transientTrack3);
-              
-              KalmanVertexFitter DiMu12_fitter (true);
-              TransientVertex DiMu12Vtx = DiMu12_fitter.vertex(SVTracks12_Vtx);
-              if(DiMu12Vtx.isValid()){
-                  Vtx12_Chi2.push_back(DiMu12Vtx.totalChiSquared());
-                  cout << "Vtx12_Chi2: " << DiMu12Vtx.totalChiSquared() << endl;
-                  Vtx12_nDOF.push_back(DiMu12Vtx.degreesOfFreedom());
-                  
-                  GlobalPoint DiMu12Pos (DiMu12Vtx.position());
-                  Vtx12_x.push_back(DiMu12Pos.x());
-                  cout <<"Vtx12_x: " <<DiMu12Pos.x() << endl;
-                  Vtx12_y.push_back(DiMu12Pos.y());
-                  Vtx12_z.push_back(DiMu12Pos.z());
-              }
-              else{
-                  Vtx12_Chi2.push_back(-99);
-                  Vtx12_nDOF.push_back(-99);
-                  Vtx12_x.push_back(-99);
-                  Vtx12_y.push_back(-99);
-                  Vtx12_z.push_back(-99);
-              }
-              KalmanVertexFitter DiMu23_fitter (true);
-              TransientVertex DiMu23Vtx = DiMu23_fitter.vertex(SVTracks23_Vtx);
-              if(DiMu23Vtx.isValid()){
-                  Vtx23_Chi2.push_back(DiMu23Vtx.totalChiSquared());
-                  cout << "Vtx23_Chi2: " << DiMu23Vtx.totalChiSquared() << endl;
-                  Vtx23_nDOF.push_back(DiMu23Vtx.degreesOfFreedom());
-                  
-                  GlobalPoint DiMu23Pos (DiMu23Vtx.position());
-                  Vtx23_x.push_back(DiMu23Pos.x());
-                  cout <<"Vtx23_x: " <<DiMu23Pos.x() << endl;
-                  Vtx23_y.push_back(DiMu23Pos.y());
-                  Vtx23_z.push_back(DiMu23Pos.z());
-              }
-              else{
-                  Vtx23_Chi2.push_back(-99);
-                  Vtx23_nDOF.push_back(-99);
-                  Vtx23_x.push_back(-99);
-                  Vtx23_y.push_back(-99);
-                  Vtx23_z.push_back(-99);
-              }
-              
-              KalmanVertexFitter DiMu13_fitter (true);
-              TransientVertex DiMu13Vtx = DiMu13_fitter.vertex(SVTracks13_Vtx);
-              if(DiMu13Vtx.isValid()){
-                  Vtx13_Chi2.push_back(DiMu13Vtx.totalChiSquared());
-                  cout << "Vtx13_Chi2: " << DiMu13Vtx.totalChiSquared() << endl;
-                  Vtx13_nDOF.push_back(DiMu13Vtx.degreesOfFreedom());
-                  
-                  GlobalPoint DiMu13Pos (DiMu13Vtx.position());
-                  Vtx13_x.push_back(DiMu13Pos.x());
-                  cout <<"Vtx13_x: " <<DiMu13Pos.x() << endl;
-                  Vtx13_y.push_back(DiMu13Pos.y());
-                  Vtx13_z.push_back(DiMu13Pos.z());
-              }
-              else{
-                  Vtx13_Chi2.push_back(-99);
-                  Vtx13_nDOF.push_back(-99);
-                  Vtx13_x.push_back(-99);
-                  Vtx13_y.push_back(-99);
-                  Vtx13_z.push_back(-99);
-              }
-            
-            //Refitted Vars
-            //vector < TransientTrack > ttrks = TripletVtx.refittedTracks();
-            
-            ////
+                    KalmanVertexFitter DiMu12_fitter (true);
+                    TransientVertex DiMu12Vtx = DiMu12_fitter.vertex(SVTracks12_Vtx);
+                    if(DiMu12Vtx.isValid()){
+                        Vtx12_Chi2.push_back(DiMu12Vtx.totalChiSquared());
+                        cout << "Vtx12_Chi2: " << DiMu12Vtx.totalChiSquared() << endl;
+                        Vtx12_nDOF.push_back(DiMu12Vtx.degreesOfFreedom());
+                        
+                        GlobalPoint DiMu12Pos (DiMu12Vtx.position());
+                        Vtx12_x.push_back(DiMu12Pos.x());
+                        cout <<"Vtx12_x: " <<DiMu12Pos.x() << endl;
+                        Vtx12_y.push_back(DiMu12Pos.y());
+                        Vtx12_z.push_back(DiMu12Pos.z());
+                    }
+                    else{
+                        Vtx12_Chi2.push_back(-99);
+                        Vtx12_nDOF.push_back(-99);
+                        Vtx12_x.push_back(-99);
+                        Vtx12_y.push_back(-99);
+                        Vtx12_z.push_back(-99);
+                    }
+                    KalmanVertexFitter DiMu23_fitter (true);
+                    TransientVertex DiMu23Vtx = DiMu23_fitter.vertex(SVTracks23_Vtx);
+                    if(DiMu23Vtx.isValid()){
+                        Vtx23_Chi2.push_back(DiMu23Vtx.totalChiSquared());
+                        cout << "Vtx23_Chi2: " << DiMu23Vtx.totalChiSquared() << endl;
+                        Vtx23_nDOF.push_back(DiMu23Vtx.degreesOfFreedom());
+                        
+                        GlobalPoint DiMu23Pos (DiMu23Vtx.position());
+                        Vtx23_x.push_back(DiMu23Pos.x());
+                        cout <<"Vtx23_x: " <<DiMu23Pos.x() << endl;
+                        Vtx23_y.push_back(DiMu23Pos.y());
+                        Vtx23_z.push_back(DiMu23Pos.z());
+                    }
+                    else{
+                        Vtx23_Chi2.push_back(-99);
+                        Vtx23_nDOF.push_back(-99);
+                        Vtx23_x.push_back(-99);
+                        Vtx23_y.push_back(-99);
+                        Vtx23_z.push_back(-99);
+                    }
+                    
+                    KalmanVertexFitter DiMu13_fitter (true);
+                    TransientVertex DiMu13Vtx = DiMu13_fitter.vertex(SVTracks13_Vtx);
+                    if(DiMu13Vtx.isValid()){
+                        Vtx13_Chi2.push_back(DiMu13Vtx.totalChiSquared());
+                        cout << "Vtx13_Chi2: " << DiMu13Vtx.totalChiSquared() << endl;
+                        Vtx13_nDOF.push_back(DiMu13Vtx.degreesOfFreedom());
+                        
+                        GlobalPoint DiMu13Pos (DiMu13Vtx.position());
+                        Vtx13_x.push_back(DiMu13Pos.x());
+                        cout <<"Vtx13_x: " <<DiMu13Pos.x() << endl;
+                        Vtx13_y.push_back(DiMu13Pos.y());
+                        Vtx13_z.push_back(DiMu13Pos.z());
+                    }
+                    else{
+                        Vtx13_Chi2.push_back(-99);
+                        Vtx13_nDOF.push_back(-99);
+                        Vtx13_x.push_back(-99);
+                        Vtx13_y.push_back(-99);
+                        Vtx13_z.push_back(-99);
+                    }
+                    
+                    //Refitted Vars
+                    //vector < TransientTrack > ttrks = TripletVtx.refittedTracks();
+                    
+                    ////
+
+	            /*
+	            typedef std::vector<reco::TransientTrack> TTVect;
+	            std::vector<TTVect> TTVectContainer;
+	            for (uint k=0; k<pvTrackMap_refitVec.size(); k++){
+	              removeTracks( pvTrackMap_refitVec.at(k),  SVTrackRef);
+	              cout<<" k="<<k<<" size after TrackRemoval="<<pvTrackMap_refitVec.at(k)
+	              //std::vector<reco::TransientTrack> pvTracks_refitTmp;
+	              //for ( TransientTrackMap::iterator pvTrack = pvTrackMap_refitVec.at(k).begin();  pvTrack != pvTrackMap_refitVec.at(k).end(); ++pvTrack ) {
+	              //pvTracks_refitTmp.push_back(pvTrack->second);
+	              //}  
+	              //cout<<" pvTracks_refitTmp size"<<pvTracks_refitTmp.size()<<endl;
+	              //TTVectContainer.push_back(pvTracks_refitTmp);
+	            }
+	            //cout<<"TTVectContainer size "<<TTVectContainer.size()<<endl;
+	            */
 
 
-	    /*
-	    typedef std::vector<reco::TransientTrack> TTVect;
-	    std::vector<TTVect> TTVectContainer;
-	    for (uint k=0; k<pvTrackMap_refitVec.size(); k++){
-	      removeTracks( pvTrackMap_refitVec.at(k),  SVTrackRef);
-	      cout<<" k="<<k<<" size after TrackRemoval="<<pvTrackMap_refitVec.at(k)
-	      //std::vector<reco::TransientTrack> pvTracks_refitTmp;
-	      //for ( TransientTrackMap::iterator pvTrack = pvTrackMap_refitVec.at(k).begin();  pvTrack != pvTrackMap_refitVec.at(k).end(); ++pvTrack ) {
-	      //pvTracks_refitTmp.push_back(pvTrack->second);
-	      //}  
-	      //cout<<" pvTracks_refitTmp size"<<pvTracks_refitTmp.size()<<endl;
-	      //TTVectContainer.push_back(pvTracks_refitTmp);
-	    }
-	    //cout<<"TTVectContainer size "<<TTVectContainer.size()<<endl;
-	    */
+	            //KalmanVertexFitter PV_fitter (true);
+	            //TransientVertex PVertex = PV_fitter.vertex(pvTracks_refit);
+
+	            /////////////PV Refit//////////////////////////////
+	            //cout<<" pvTrackMap_refit size "<<pvTrackMap_refit.size()<<endl;
+
+                    /*for(uint i=0; i<pvTracks_refit.size(); i++){
+                     TrackRef tr = TrackRef(pvTracks_refit, i);
+                     //reco::Track pvTr=pvTracks_refit.at(i).track();
+                     //TrackRef pvTrRef = pvTr.get<TrackRef>();
+                     cout<<i<<"PV track ID="<<tr.id()<<endl;
+                     }*/
+	            /////////////PV Refit//////////////////////////////
+
+                    //Defining ISO VAR related to the triplet
+                    math::XYZPoint SVertexPoint = math::XYZPoint(TripletVtx.x(), TripletVtx.y(), TripletVtx.z());
+                    TLorentzVector LV1=TLorentzVector( mu1->px(), mu1->py(), mu1->pz(), mu1->energy() );
+                    TLorentzVector LV2=TLorentzVector( mu2->px(), mu2->py(), mu2->pz(), mu2->energy() );
+                    TLorentzVector LV3=TLorentzVector( mu3->px(), mu3->py(), mu3->pz(), mu3->energy() );
+                    TLorentzVector LVTau = LV1 + LV2 + LV3;
 
 
-	    //KalmanVertexFitter PV_fitter (true);
-	    //TransientVertex PVertex = PV_fitter.vertex(pvTracks_refit);
+                    edm::View<reco::Track>::const_iterator trIt  = trackCollection->begin();
+                    edm::View<reco::Track>::const_iterator trEnd = trackCollection->end();
 
+                    int nTracks03_mu1=0, nTracks03_mu2=0, nTracks03_mu3=0;
+                    double mindist=9999;
+                    double sumPtTrack1=0, sumPtTrack2=0, sumPtTrack3=0, maxSumPtTracks=0;
+                    for (; trIt != trEnd; ++trIt) {
+                       const reco::Track track = (*trIt);
+                       if(  (track.pt()>1) && (fabs(track.eta())<2.4) && (track.hitPattern().trackerLayersWithMeasurement()>5) && (track.hitPattern().pixelLayersWithMeasurement()>1)  ){
+                           double dR1 = dR(Track1.eta(), track.eta(), Track1.phi(), track.phi() );
+                           double dR2 = dR(Track2.eta(), track.eta(), Track2.phi(), track.phi() );
+                           double dR3 = dR(Track3.eta(), track.eta(), Track3.phi(), track.phi() );
+                           //if (dR1 == 0 || dR2 == 0 || dR3 == 0) { 
+	                   //cout<<"Skip muon track"<<endl; 
+	                   if (dR1 < 0.01 || dR2 < 0.01 || dR3 < 0.01) { 
+	                       continue;}
+                           double dz = abs(track.dz(SVertexPoint));
+                           double dxy = abs(track.dxy(SVertexPoint));
+                           double dca_fv = sqrt(dz*dz+dxy*dxy);
+                           if(dca_fv<mindist && dca_fv>0) { 
+	                     mindist = dca_fv;
+	                     //cout<<" MinDist="<<dca_fv<<endl; 
+	                   }
+	                   
+                           //for eack track having pt>1, excluded the muon tracks,
+                           //for each muon in the triplet, if deltaR<0.3 and the DCA is smaller than 1 mm
+                           //the pt of the track is added -> I will take the largest total pt from the three muons
+                           if (dca_fv < 0.1) {
+                               if (dR1<0.3) {
+                                  sumPtTrack1+=track.pt();
+                                  nTracks03_mu1++;
+                               }
+                               if (dR2<0.3) {
+                                  sumPtTrack2+=track.pt();
+                                  nTracks03_mu2++;
+                               }
+                               if (dR3<0.3) {
+                                  sumPtTrack3+=track.pt();
+                                  nTracks03_mu3++;
+                               }
+                           }
+                       }
+                    }
+                    Triplet_mindca_iso.push_back(mindist);
+                    maxSumPtTracks = std::max(sumPtTrack1, std::max(sumPtTrack2,sumPtTrack3));
+	            //cout<<TripletIndex<<" TauMass "<<TauIt->mass()<<" SumPt Tracks in cone="<<maxSumPtTracks<<" TauPt="<<TauIt->pt()<<endl;
+                    double relativeiso = maxSumPtTracks/LVTau.Pt();
+                    Triplet_relativeiso.push_back(relativeiso);
+                    
+                    Mu1_NTracks03iso.push_back(nTracks03_mu1);
+                    Mu2_NTracks03iso.push_back(nTracks03_mu2);
+                    Mu3_NTracks03iso.push_back(nTracks03_mu3);
 
-
-
-
-	    /////////////PV Refit//////////////////////////////
-	    //cout<<" pvTrackMap_refit size "<<pvTrackMap_refit.size()<<endl;
-
-            /*for(uint i=0; i<pvTracks_refit.size(); i++){
-             TrackRef tr = TrackRef(pvTracks_refit, i);
-             //reco::Track pvTr=pvTracks_refit.at(i).track();
-             //TrackRef pvTrRef = pvTr.get<TrackRef>();
-             cout<<i<<"PV track ID="<<tr.id()<<endl;
-             }*/
-	    /////////////PV Refit//////////////////////////////
-
-            //Defining ISO VAR related to the triplet
-            math::XYZPoint SVertexPoint = math::XYZPoint(TripletVtx.x(), TripletVtx.y(), TripletVtx.z());
-            TLorentzVector LV1=TLorentzVector( mu1->px(), mu1->py(), mu1->pz(), mu1->energy() );
-            TLorentzVector LV2=TLorentzVector( mu2->px(), mu2->py(), mu2->pz(), mu2->energy() );
-            TLorentzVector LV3=TLorentzVector( mu3->px(), mu3->py(), mu3->pz(), mu3->energy() );
-            TLorentzVector LVTau = LV1 + LV2 + LV3;
-
-
-            edm::View<reco::Track>::const_iterator trIt  = trackCollection->begin();
-            edm::View<reco::Track>::const_iterator trEnd = trackCollection->end();
-
-            int nTracks03_mu1=0, nTracks03_mu2=0, nTracks03_mu3=0;
-            double mindist=9999;
-            double sumPtTrack1=0, sumPtTrack2=0, sumPtTrack3=0, maxSumPtTracks=0;
-            for (; trIt != trEnd; ++trIt) {
-               const reco::Track track = (*trIt);
-               if(  (track.pt()>1) && (fabs(track.eta())<2.4) && (track.hitPattern().trackerLayersWithMeasurement()>5) && (track.hitPattern().pixelLayersWithMeasurement()>1)  ){
-                  double dR1 = dR(Track1.eta(), track.eta(), Track1.phi(), track.phi() );
-                  double dR2 = dR(Track2.eta(), track.eta(), Track2.phi(), track.phi() );
-                  double dR3 = dR(Track3.eta(), track.eta(), Track3.phi(), track.phi() );
-                  //if (dR1 == 0 || dR2 == 0 || dR3 == 0) { 
-		  //cout<<"Skip muon track"<<endl; 
-		  if (dR1 < 0.01 || dR2 < 0.01 || dR3 < 0.01) { 
-		    continue;}
-                  double dz = abs(track.dz(SVertexPoint));
-                  double dxy = abs(track.dxy(SVertexPoint));
-                  double dca_fv = sqrt(dz*dz+dxy*dxy);
-                  if(dca_fv<mindist && dca_fv>0) { 
-		    
-		    mindist = dca_fv;
-		    //	    cout<<" MinDist="<<dca_fv<<endl; 
-		  }
-		  
-                  //for eack track having pt>1, excluded the muon tracks,
-                  //for each muon in the triplet, if deltaR<0.3 and the DCA is smaller than 1 mm
-                  //the pt of the track is added -> I will take the largest total pt from the three muons
-                  if (dca_fv < 0.1) {
-                     if (dR1<0.3) {
-                        sumPtTrack1+=track.pt();
-                        nTracks03_mu1++;
-                     }
-                     if (dR2<0.3) {
-                        sumPtTrack2+=track.pt();
-                        nTracks03_mu2++;
-                     }
-                     if (dR3<0.3) {
-                        sumPtTrack3+=track.pt();
-                        nTracks03_mu3++;
-                     }
-                  }
-               }
-            }
-            Triplet_mindca_iso.push_back(mindist);
-            maxSumPtTracks = std::max(sumPtTrack1, std::max(sumPtTrack2,sumPtTrack3));
-	    //cout<<TripletIndex<<" TauMass "<<TauIt->mass()<<" SumPt Tracks in cone="<<maxSumPtTracks<<" TauPt="<<TauIt->pt()<<endl;
-            double relativeiso = maxSumPtTracks/LVTau.Pt();
-            Triplet_relativeiso.push_back(relativeiso);
-            
-            Mu1_NTracks03iso.push_back(nTracks03_mu1);
-            Mu2_NTracks03iso.push_back(nTracks03_mu2);
-            Mu3_NTracks03iso.push_back(nTracks03_mu3);
-
-	    double sumPtTrackRel1=0, sumPtTrackRel2=0, sumPtTrackRel3=0, maxSumPtRelTracks =0;
-            sumPtTrackRel1=sumPtTrack1/LV1.Pt();
-            sumPtTrackRel2=sumPtTrack2/LV2.Pt();
-            sumPtTrackRel3=sumPtTrack3/LV3.Pt();
-	    maxSumPtRelTracks = std::max(sumPtTrackRel1, std::max(sumPtTrackRel2,sumPtTrackRel3));
-	    Triplet_relativeiso2.push_back(maxSumPtRelTracks);
-	    Triplet_IsoMu1.push_back(sumPtTrack1);
-            Triplet_IsoMu2.push_back(sumPtTrack2);
-            Triplet_IsoMu3.push_back(sumPtTrack3);
+	            double sumPtTrackRel1=0, sumPtTrackRel2=0, sumPtTrackRel3=0, maxSumPtRelTracks =0;
+                    sumPtTrackRel1=sumPtTrack1/LV1.Pt();
+                    sumPtTrackRel2=sumPtTrack2/LV2.Pt();
+                    sumPtTrackRel3=sumPtTrack3/LV3.Pt();
+	            maxSumPtRelTracks = std::max(sumPtTrackRel1, std::max(sumPtTrackRel2,sumPtTrackRel3));
+	            Triplet_relativeiso2.push_back(maxSumPtRelTracks);
+	            Triplet_IsoMu1.push_back(sumPtTrack1);
+                    Triplet_IsoMu2.push_back(sumPtTrack2);
+                    Triplet_IsoMu3.push_back(sumPtTrack3);
 
  
-	    //Cout<<"Valid Vtx2="<<PVertex.isValid()<<endl;
-	    //CachingVertex<5> fittedVertex = vertexFitter.vertex(tracksToVertex);
-	    GlobalPoint PVertexPos  (PVertex.position());
-	    GlobalPoint SVertexPos  (TripletVtx.x(), TripletVtx.y(), TripletVtx.z());
-	    //cout<<" PV Coord after refit="<<PVertexPos.x()<<" y="<<PVertexPos.y()<<" z="<<PVertexPos.z()<<endl;
-	    double FlightDist = TMath::Sqrt( pow(( PVertexPos.x() -SVertexPos.x()),2)+ pow(( PVertexPos.y() -SVertexPos.y()),2) + pow(( PVertexPos.z() -SVertexPos.z()),2));
+	            //Cout<<"Valid Vtx2="<<PVertex.isValid()<<endl;
+	            //CachingVertex<5> fittedVertex = vertexFitter.vertex(tracksToVertex);
+	            GlobalPoint PVertexPos  (PVertex.position());
+	            GlobalPoint SVertexPos  (TripletVtx.x(), TripletVtx.y(), TripletVtx.z());
+	            //cout<<" PV Coord after refit="<<PVertexPos.x()<<" y="<<PVertexPos.y()<<" z="<<PVertexPos.z()<<endl;
+	            double FlightDist = TMath::Sqrt( pow(( PVertexPos.x() -SVertexPos.x()),2)+ pow(( PVertexPos.y() -SVertexPos.y()),2) + pow(( PVertexPos.z() -SVertexPos.z()),2));
+                            
+	            VertexDistance3D vertTool;
+	            VertexState PVstate(PVertex.position(),PVertex.positionError());
+	            //VertexState SVstate(SVertexPos,TripletVtx.position());
+	            double distance = vertTool.distance(PVstate, TripletVtx).value();
+	            double dist_err = vertTool.distance(PVstate, TripletVtx).error();
+	            double dist_sign =vertTool.distance(PVstate, TripletVtx).significance();
+	            double chi2 = vertTool.compatibility(PVstate, TripletVtx);
+                            
+	            
+	            //VertexDistance3D dist;
+	            //double fv_d3D = dist.distance(Vertex(fv), pvv).value(); // = dv_reco.Mag() ??
+	            //double fv_d3Dsig = dist.distance(Vertex(fv), pvv).significance();
+	            //double fv_ppdl3D = fv_d3D*fv_cosdphi3D*m3mu_reco/vtau.P();
+	            
+	            VertexState BSstate(beamSpot);
+	            VertexDistanceXY vertTool2D;
+	            double BSdistance2D = vertTool2D.distance(BSstate, TripletVtx).value();
+	            double BSdist_err2D = vertTool2D.distance(BSstate, TripletVtx).error();
+	            double BSdist_sign2D =vertTool2D.distance(BSstate, TripletVtx).significance();
+	            
+	            PV_x.push_back( (*vertices)[primaryvertex_index].x());
+	            PV_y.push_back( (*vertices)[primaryvertex_index].y());
+	            PV_z.push_back( (*vertices)[primaryvertex_index].z());
+	            PV_NTracks.push_back(pvTracks_original.size());
+
+                    std::vector<double> PV_cov;
+                    for (int i = 0; i < 3; i++) {
+                        for (int j = i; j < 3; j++) {
+                            PV_cov.push_back(PVertex.positionError().matrix()[i][j]);
+                        }
+                    }
+                    std::vector<double> SV_cov;
+                    for (int i = 0; i < 3; i++) {
+                        for (int j = i; j < 3; j++) {
+                            SV_cov.push_back(TripletVtx.error()[i][j]);
+                        }
+                    }	    
                     
-	    VertexDistance3D vertTool;
-	    VertexState PVstate(PVertex.position(),PVertex.positionError());
-	    //VertexState SVstate(SVertexPos,TripletVtx.position());
-	    double distance = vertTool.distance(PVstate, TripletVtx).value();
-	    double dist_err = vertTool.distance(PVstate, TripletVtx).error();
-	    double dist_sign =vertTool.distance(PVstate, TripletVtx).significance();
-	    double chi2 = vertTool.compatibility(PVstate, TripletVtx);
+	            RefittedPV_x.push_back(PVertexPos.x());
+	            RefittedPV_y.push_back(PVertexPos.y());
+	            RefittedPV_z.push_back(PVertexPos.z());
+                    RefittedPV_cov.push_back(PV_cov);
+	            //RefittedPV_NTracks.push_back(pvTracks_refit.size());
+	            //RefittedPV_Chi2.push_back(PVertex.);
                     
-	    
-	    //VertexDistance3D dist;
-	    //double fv_d3D = dist.distance(Vertex(fv), pvv).value(); // = dv_reco.Mag() ??
-	    //double fv_d3Dsig = dist.distance(Vertex(fv), pvv).significance();
-	    //double fv_ppdl3D = fv_d3D*fv_cosdphi3D*m3mu_reco/vtau.P();
-	    
-	    VertexState BSstate(beamSpot);
-	    VertexDistanceXY vertTool2D;
-	    double BSdistance2D = vertTool2D.distance(BSstate, TripletVtx).value();
-	    double BSdist_err2D = vertTool2D.distance(BSstate, TripletVtx).error();
-	    double BSdist_sign2D =vertTool2D.distance(BSstate, TripletVtx).significance();
-	    
-	    PV_x.push_back( (*vertices)[primaryvertex_index].x());
-	    PV_y.push_back( (*vertices)[primaryvertex_index].y());
-	    PV_z.push_back( (*vertices)[primaryvertex_index].z());
-	    PV_NTracks.push_back(pvTracks_original.size());
-	    
-            
-	    RefittedPV_x.push_back(PVertexPos.x());
-	    RefittedPV_y.push_back(PVertexPos.y());
-	    RefittedPV_z.push_back(PVertexPos.z());
-	    //RefittedPV_NTracks.push_back(pvTracks_refit.size());
-	    //RefittedPV_Chi2.push_back(PVertex.);
-            
-	    FlightDistPVSV.push_back(distance);
-	    FlightDistPVSV_Err.push_back(dist_err);
-	    FlightDistPVSV_Significance.push_back(dist_sign);
-	    FlightDistPVSV_chi2.push_back(chi2);
-	    
-	    FlightDistBS_SV.push_back(BSdistance2D);
-	    FlightDistBS_SV_Err.push_back(BSdist_err2D);
-	    FlightDistBS_SV_Significance.push_back(BSdist_sign2D);
-	    
-	    VertexDistanceXY vdistXY;
-            Measurement1D distXY = vdistXY.distance(TripletVtx, PVertex);
+                    TripletVtx_cov.push_back(SV_cov);
 
-            // cout<<"the displacement="<<distXY.value()<<" signif="<<distXY.significance()<<endl;                                                    
-            DistXY_PVSV.push_back(distXY.value());
-            DistXY_significance_PVSV.push_back(distXY.significance());
-	    
+	            FlightDistPVSV.push_back(distance);
+	            FlightDistPVSV_Err.push_back(dist_err);
+	            FlightDistPVSV_Significance.push_back(dist_sign);
+	            FlightDistPVSV_chi2.push_back(chi2);
+	            
+	            FlightDistBS_SV.push_back(BSdistance2D);
+	            FlightDistBS_SV_Err.push_back(BSdist_err2D);
+	            FlightDistBS_SV_Significance.push_back(BSdist_sign2D);
+	            
+	            VertexDistanceXY vdistXY;
+                    Measurement1D distXY = vdistXY.distance(TripletVtx, PVertex);
+
+                    // cout<<"the displacement="<<distXY.value()<<" signif="<<distXY.significance()<<endl;                                                    
+                    DistXY_PVSV.push_back(distXY.value());
+                    DistXY_significance_PVSV.push_back(distXY.significance());
+	            
 
 
-	    //Add dxy info
-	    GlobalVector dir1(mu1->px(), mu1->py(),  mu1->pz()); //To compute sign of IP
-	    GlobalVector dir2(mu2->px(), mu2->py(),  mu2->pz()); //To compute sign of IP
-	    GlobalVector dir3(mu3->px(), mu3->py(),  mu3->pz()); //To compute sign of IP
-	    std::pair<bool,Measurement1D> signed_IP2D_mu1 = IPTools::signedTransverseImpactParameter(transientTrack1, dir1, PVertex);
-	    std::pair<bool,Measurement1D> signed_IP2D_mu2 = IPTools::signedTransverseImpactParameter(transientTrack2, dir2, PVertex);
-	    std::pair<bool,Measurement1D> signed_IP2D_mu3 = IPTools::signedTransverseImpactParameter(transientTrack3, dir3, PVertex);
-	    //cout<<" IP mu1="<<signed_IP2D_mu1.second.value()<<" IP mu2="<<signed_IP2D_mu2.second.value()<<" IP mu3="<<signed_IP2D_mu3.second.value()<<endl;
-	    dxy_mu1.push_back(signed_IP2D_mu1.second.value());
-	    dxy_mu2.push_back(signed_IP2D_mu2.second.value());
-	    dxy_mu3.push_back(signed_IP2D_mu3.second.value());
-	    
-	    dxyErr_mu1.push_back(signed_IP2D_mu1.second.error());
-	    dxyErr_mu2.push_back(signed_IP2D_mu2.second.error());
-	    dxyErr_mu3.push_back(signed_IP2D_mu3.second.error());
-	    //std::pair<bool,Measurement1D> signed_IP3D_mu1 = IPTools::signedImpactParameter3D(transientTrack1, dir1, PVertex);
-	    //std::pair<bool,Measurement1D> signed_IP3D_mu2 = IPTools::signedImpactParameter3D(transientTrack2, dir2, PVertex);
-	    //std::pair<bool,Measurement1D> signed_IP3D_mu3 = IPTools::signedImpactParameter3D(transientTrack3, dir3, PVertex);
-	    //ip3d=signed_IP3D.second.value();
-	    //ip3d_err=signed_IP3D.second.error();
-	    //TransverseImpactPointExtrapolator extrapolator(transTrk.field());
-	    //GlobalPoint pos  = extrapolator.extrapolate(transTrk.impactPointState(), RecoVertex::convertPos(PV->position())).globalPosition();
-	    //poca=reco::Vertex::Point(pos.x(),pos.y(),pos.z());
-	    //AnalyticalImpactPointExtrapolator extrapolator3D(transTrk.field());
-	    //GlobalPoint pos3d = extrapolator3D.extrapolate(transTrk.impactPointState(),RecoVertex::convertPos(PV->position())).globalPosition();
-	    //ip3d_poca=reco::Vertex::Point(pos3d.x(),pos3d.y(),pos3d.z());
+	            //Add dxy info
+	            GlobalVector dir1(mu1->px(), mu1->py(),  mu1->pz()); //To compute sign of IP
+	            GlobalVector dir2(mu2->px(), mu2->py(),  mu2->pz()); //To compute sign of IP
+	            GlobalVector dir3(mu3->px(), mu3->py(),  mu3->pz()); //To compute sign of IP
+	            std::pair<bool,Measurement1D> signed_IP2D_mu1 = IPTools::signedTransverseImpactParameter(transientTrack1, dir1, PVertex);
+	            std::pair<bool,Measurement1D> signed_IP2D_mu2 = IPTools::signedTransverseImpactParameter(transientTrack2, dir2, PVertex);
+	            std::pair<bool,Measurement1D> signed_IP2D_mu3 = IPTools::signedTransverseImpactParameter(transientTrack3, dir3, PVertex);
+	            //cout<<" IP mu1="<<signed_IP2D_mu1.second.value()<<" IP mu2="<<signed_IP2D_mu2.second.value()<<" IP mu3="<<signed_IP2D_mu3.second.value()<<endl;
+	            dxy_mu1.push_back(signed_IP2D_mu1.second.value());
+	            dxy_mu2.push_back(signed_IP2D_mu2.second.value());
+	            dxy_mu3.push_back(signed_IP2D_mu3.second.value());
+	            
+	            dxyErr_mu1.push_back(signed_IP2D_mu1.second.error());
+	            dxyErr_mu2.push_back(signed_IP2D_mu2.second.error());
+	            dxyErr_mu3.push_back(signed_IP2D_mu3.second.error());
+	            //std::pair<bool,Measurement1D> signed_IP3D_mu1 = IPTools::signedImpactParameter3D(transientTrack1, dir1, PVertex);
+	            //std::pair<bool,Measurement1D> signed_IP3D_mu2 = IPTools::signedImpactParameter3D(transientTrack2, dir2, PVertex);
+	            //std::pair<bool,Measurement1D> signed_IP3D_mu3 = IPTools::signedImpactParameter3D(transientTrack3, dir3, PVertex);
+	            //ip3d=signed_IP3D.second.value();
+	            //ip3d_err=signed_IP3D.second.error();
+	            //TransverseImpactPointExtrapolator extrapolator(transTrk.field());
+	            //GlobalPoint pos  = extrapolator.extrapolate(transTrk.impactPointState(), RecoVertex::convertPos(PV->position())).globalPosition();
+	            //poca=reco::Vertex::Point(pos.x(),pos.y(),pos.z());
+	            //AnalyticalImpactPointExtrapolator extrapolator3D(transTrk.field());
+	            //GlobalPoint pos3d = extrapolator3D.extrapolate(transTrk.impactPointState(),RecoVertex::convertPos(PV->position())).globalPosition();
+	            //ip3d_poca=reco::Vertex::Point(pos3d.x(),pos3d.y(),pos3d.z());
       
-	      }else{
-              Mu1_Pt.push_back(-99);
-              Mu1_Eta.push_back(-99);
-              Mu1_Phi.push_back(-99);
-              Mu1_TripletIndex.push_back(-99);
+	            }else{
+                        Mu1_Pt.push_back(-99);
+                        Mu1_Eta.push_back(-99);
+                        Mu1_Phi.push_back(-99);
+                        Mu1_TripletIndex.push_back(-99);
 
-              Mu2_Pt.push_back(-99);
-              Mu2_Eta.push_back(-99);
-              Mu2_Phi.push_back(-99);
-              Mu2_TripletIndex.push_back(-99);
+                        Mu2_Pt.push_back(-99);
+                        Mu2_Eta.push_back(-99);
+                        Mu2_Phi.push_back(-99);
+                        Mu2_TripletIndex.push_back(-99);
 
-              Mu3_Pt.push_back(-99);
-              Mu3_Eta.push_back(-99);
-              Mu3_Phi.push_back(-99);
-              Mu3_TripletIndex.push_back(-99);
+                        Mu3_Pt.push_back(-99);
+                        Mu3_Eta.push_back(-99);
+                        Mu3_Phi.push_back(-99);
+                        Mu3_TripletIndex.push_back(-99);
 
-              TripletVtx_x.push_back(-99);
-              TripletVtx_y.push_back(-99);
-              TripletVtx_z.push_back(-99);
-              
-              TripletVtx_Chi2.push_back(-99);
-              TripletVtx_NDOF.push_back(-99);
+                        TripletVtx_x.push_back(-99);
+                        TripletVtx_y.push_back(-99);
+                        TripletVtx_z.push_back(-99);
+                        
+                        TripletVtx_Chi2.push_back(-99);
+                        TripletVtx_NDOF.push_back(-99);
 
-              Triplet_Mass.push_back(-99);
-              Triplet_Pt.push_back(-99);
-              Triplet_Eta.push_back(-99);
-              Triplet_Phi.push_back(-99);
-              Triplet_Charge.push_back(-99);
-              
-              Triplet_mindca_iso.push_back(-99);
-              Triplet_relativeiso.push_back(-99);
+                        Triplet_Mass.push_back(-99);
+                        Triplet_Pt.push_back(-99);
+                        Triplet_Eta.push_back(-99);
+                        Triplet_Phi.push_back(-99);
+                        Triplet_Charge.push_back(-99);
+                        
+                        Triplet_mindca_iso.push_back(-99);
+                        Triplet_relativeiso.push_back(-99);
 
-              Mu1_NTracks03iso.push_back(-99);
-              Mu2_NTracks03iso.push_back(-99);
-              Mu3_NTracks03iso.push_back(-99);
-              RefittedPV_x.push_back(-99);
-              RefittedPV_y.push_back(-99);
-              RefittedPV_z.push_back(-99);
-              RefittedPV_NTracks.push_back(-99);
-              //RefittedPV_Chi2.push_back(PVertex.);
-              
-              Vtx12_Chi2.push_back(-99);
-              Vtx12_nDOF.push_back(-99);
-              Vtx12_x.push_back(-99);
-              Vtx12_y.push_back(-99);
-              Vtx12_z.push_back(-99);
-              Vtx23_Chi2.push_back(-99);
-              Vtx23_nDOF.push_back(-99);
-              Vtx23_x.push_back(-99);
-              Vtx23_y.push_back(-99);
-              Vtx23_z.push_back(-99);
-              Vtx13_Chi2.push_back(-99);
-              Vtx13_nDOF.push_back(-99);
-              Vtx13_x.push_back(-99);
-              Vtx13_y.push_back(-99);
-              Vtx13_z.push_back(-99);
+                        Mu1_NTracks03iso.push_back(-99);
+                        Mu2_NTracks03iso.push_back(-99);
+                        Mu3_NTracks03iso.push_back(-99);
+                        RefittedPV_x.push_back(-99);
+                        RefittedPV_y.push_back(-99);
+                        RefittedPV_z.push_back(-99);
+                        std::vector<double>cov; for(int i=0; i<6; i++) cov.push_back(-99);
+                        RefittedPV_cov.push_back(cov);
+                        TripletVtx_cov.push_back(cov);
+                        RefittedPV_NTracks.push_back(-99);
+                        //RefittedPV_Chi2.push_back(PVertex.);
+                        
+                        Vtx12_Chi2.push_back(-99);
+                        Vtx12_nDOF.push_back(-99);
+                        Vtx12_x.push_back(-99);
+                        Vtx12_y.push_back(-99);
+                        Vtx12_z.push_back(-99);
+                        Vtx23_Chi2.push_back(-99);
+                        Vtx23_nDOF.push_back(-99);
+                        Vtx23_x.push_back(-99);
+                        Vtx23_y.push_back(-99);
+                        Vtx23_z.push_back(-99);
+                        Vtx13_Chi2.push_back(-99);
+                        Vtx13_nDOF.push_back(-99);
+                        Vtx13_x.push_back(-99);
+                        Vtx13_y.push_back(-99);
+                        Vtx13_z.push_back(-99);
 
-                FlightDistPVSV.push_back(-99);
-                FlightDistPVSV_Err.push_back(-99);
-                FlightDistPVSV_Significance.push_back(-99);
-                FlightDistPVSV_chi2.push_back(-99);
-                dxy_mu1.push_back(-99);
-                dxy_mu2.push_back(-99);
-                dxy_mu3.push_back(-99);
+                        FlightDistPVSV.push_back(-99);
+                        FlightDistPVSV_Err.push_back(-99);
+                        FlightDistPVSV_Significance.push_back(-99);
+                        FlightDistPVSV_chi2.push_back(-99);
+                        dxy_mu1.push_back(-99);
+                        dxy_mu2.push_back(-99);
+                        dxy_mu3.push_back(-99);
 
-                dxyErr_mu1.push_back(-99);
-                dxyErr_mu2.push_back(-99);
-                dxyErr_mu3.push_back(-99);
-                  
-                GenMatchMu1_SimPt.push_back(-99);
-            GenMatchMu2_SimPt.push_back(-99);
-                    GenMatchMu3_SimPt.push_back(-99);
+                        dxyErr_mu1.push_back(-99);
+                        dxyErr_mu2.push_back(-99);
+                        dxyErr_mu3.push_back(-99);
+                          
+                        GenMatchMu1_SimPt.push_back(-99);
+                        GenMatchMu2_SimPt.push_back(-99);
+                        GenMatchMu3_SimPt.push_back(-99);
 
-                    GenMatchMu1_SimEta.push_back(-99);
-                    GenMatchMu2_SimEta.push_back(-99);
-                    GenMatchMu3_SimEta.push_back(-99);
+                        GenMatchMu1_SimEta.push_back(-99);
+                        GenMatchMu2_SimEta.push_back(-99);
+                        GenMatchMu3_SimEta.push_back(-99);
 
-                    GenMatchMu1_SimPhi.push_back(-99);
-                    GenMatchMu2_SimPhi.push_back(-99);
-                    GenMatchMu3_SimPhi.push_back(-99);
+                        GenMatchMu1_SimPhi.push_back(-99);
+                        GenMatchMu2_SimPhi.push_back(-99);
+                        GenMatchMu3_SimPhi.push_back(-99);
 
-                    GenMatchMu1_Pt.push_back(-99);
-                    GenMatchMu2_Pt.push_back(-99);
-                    GenMatchMu3_Pt.push_back(-99);
+                        GenMatchMu1_Pt.push_back(-99);
+                        GenMatchMu2_Pt.push_back(-99);
+                        GenMatchMu3_Pt.push_back(-99);
 
-                    GenMatchMu1_Eta.push_back(-99);
-                    GenMatchMu2_Eta.push_back(-99);
-                    GenMatchMu3_Eta.push_back(-99);
+                        GenMatchMu1_Eta.push_back(-99);
+                        GenMatchMu2_Eta.push_back(-99);
+                        GenMatchMu3_Eta.push_back(-99);
 
-                    GenMatchMu1_Phi.push_back(-99);
-                    GenMatchMu2_Phi.push_back(-99);
-                    GenMatchMu3_Phi.push_back(-99);
+                        GenMatchMu1_Phi.push_back(-99);
+                        GenMatchMu2_Phi.push_back(-99);
+                        GenMatchMu3_Phi.push_back(-99);
 
-		    Mu1_dPtReltriggerMatch.push_back(-99);
-		    Mu2_dPtReltriggerMatch.push_back(-99);
-		    Mu3_dPtReltriggerMatch.push_back(-99);
+		        Mu1_dPtReltriggerMatch.push_back(-99);
+		        Mu2_dPtReltriggerMatch.push_back(-99);
+		        Mu3_dPtReltriggerMatch.push_back(-99);
 
-		    FlightDistBS_SV.push_back(-99);
-                    FlightDistBS_SV_Err.push_back(-99);
-                    FlightDistBS_SV_Significance.push_back(-99);
-		    Triplet_relativeiso2.push_back(-99);
-                    Triplet_IsoMu1.push_back(-99);
-                    Triplet_IsoMu2.push_back(-99);
-                    Triplet_IsoMu3.push_back(-99);
+		        FlightDistBS_SV.push_back(-99);
+                        FlightDistBS_SV_Err.push_back(-99);
+                        FlightDistBS_SV_Significance.push_back(-99);
+		        Triplet_relativeiso2.push_back(-99);
+                        Triplet_IsoMu1.push_back(-99);
+                        Triplet_IsoMu2.push_back(-99);
+                        Triplet_IsoMu3.push_back(-99);
 
-		    Mu1_dRtriggerMatch_Mu7.push_back(-99);
-		    Mu2_dRtriggerMatch_Mu7.push_back(-99);
-		    Mu3_dRtriggerMatch_Mu7.push_back(-99);
+		        Mu1_dRtriggerMatch_Mu7.push_back(-99);
+		        Mu2_dRtriggerMatch_Mu7.push_back(-99);
+		        Mu3_dRtriggerMatch_Mu7.push_back(-99);
 
 
-		    Mu1_dRtriggerMatch_Mu8.push_back(-99);
-		    Mu2_dRtriggerMatch_Mu8.push_back(-99);
-		    Mu3_dRtriggerMatch_Mu8.push_back(-99);
+		        Mu1_dRtriggerMatch_Mu8.push_back(-99);
+		        Mu2_dRtriggerMatch_Mu8.push_back(-99);
+		        Mu3_dRtriggerMatch_Mu8.push_back(-99);
 
-		    Mu1_dRtriggerMatch_Mu8_IP5.push_back(-99);
-		    Mu1_dRtriggerMatch_Mu8_IP6.push_back(-99);
-		    Mu1_dRtriggerMatch_Mu9_IP0.push_back(-99);
-		    Mu1_dRtriggerMatch_Mu9_IP3.push_back(-99);
-		    Mu1_dRtriggerMatch_Mu9_IP4.push_back(-99);
-		    Mu1_dRtriggerMatch_Mu9_IP5.push_back(-99);
-		    Mu1_dRtriggerMatch_Mu9_IP6.push_back(-99);
-		    Mu1_dRtriggerMatch_Mu12_IP6.push_back(-99);
+		        Mu1_dRtriggerMatch_Mu8_IP5.push_back(-99);
+		        Mu1_dRtriggerMatch_Mu8_IP6.push_back(-99);
+		        Mu1_dRtriggerMatch_Mu9_IP0.push_back(-99);
+		        Mu1_dRtriggerMatch_Mu9_IP3.push_back(-99);
+		        Mu1_dRtriggerMatch_Mu9_IP4.push_back(-99);
+		        Mu1_dRtriggerMatch_Mu9_IP5.push_back(-99);
+		        Mu1_dRtriggerMatch_Mu9_IP6.push_back(-99);
+		        Mu1_dRtriggerMatch_Mu12_IP6.push_back(-99);
 
-		    DistXY_PVSV.push_back(-99);
-            DistXY_significance_PVSV.push_back(-99);
-  
+		        DistXY_PVSV.push_back(-99);
+                        DistXY_significance_PVSV.push_back(-99);
+                    }
                 }
             }
         }
-	}
         NGoodTriplets.push_back(NTripl.size());
 	if(NTripl.size()>0) hEventsAfterGoodCand->Fill(1);
 	//    cout<<"***Number of Muons="<<muons->size()<<endl; uint k=0;
-        
         
         std::vector<int> MuFilter;
         vector<pat::Muon>    MyMu, MyMu2, SyncMu;
@@ -1501,7 +1519,6 @@ float MiniAna2017Tree::dPtTriggerMatch(pat::Muon m, trigger::TriggerObjectCollec
         MuonCollectionSize = muons->size();
 	uint k=0;        
         for(edm::View<pat::Muon>::const_iterator mu=muons->begin(); mu!=muons->end(), k<muons->size(); ++mu, ++k){
-            
             
             MuFilter.push_back(1);
             MyMu.push_back(*mu);
@@ -1983,6 +2000,21 @@ float MiniAna2017Tree::dPtTriggerMatch(pat::Muon m, trigger::TriggerObjectCollec
 	Mu2_dPtReltriggerMatch.clear();
 	Mu3_dPtReltriggerMatch.clear();
 
+        RefTrack1_Pt.clear();
+        RefTrack1_Eta.clear();
+        RefTrack1_Phi.clear();
+        RefTrack1_TripletIndex.clear();
+
+        RefTrack2_Pt.clear();
+        RefTrack2_Eta.clear();
+        RefTrack2_Phi.clear();
+        RefTrack2_TripletIndex.clear();
+
+        RefTrack3_Pt.clear();
+        RefTrack3_Eta.clear();
+        RefTrack3_Phi.clear();
+        RefTrack3_TripletIndex.clear();
+
 	FlightDistBS_SV.clear();
         FlightDistBS_SV_Err.clear();
         FlightDistBS_SV_Significance.clear();
@@ -2031,6 +2063,7 @@ float MiniAna2017Tree::dPtTriggerMatch(pat::Muon m, trigger::TriggerObjectCollec
         
         TripletVtx_Chi2.clear();
         TripletVtx_NDOF.clear();
+        TripletVtx_cov.clear();
         
         Triplet_Mass.clear();
         Triplet_Pt.clear();
@@ -2048,6 +2081,7 @@ float MiniAna2017Tree::dPtTriggerMatch(pat::Muon m, trigger::TriggerObjectCollec
         RefittedPV_x.clear();
         RefittedPV_y.clear();
         RefittedPV_z.clear();
+        RefittedPV_cov.clear();
         RefittedPV_NTracks.clear();
         RefittedPV_isValid.clear();
         //RefittedPV_Chi2.push_back(PVertex.);
@@ -2327,7 +2361,7 @@ float MiniAna2017Tree::dPtTriggerMatch(pat::Muon m, trigger::TriggerObjectCollec
         tree_->Branch("Mu2_TripletIndex", &Mu2_TripletIndex); 
 	tree_->Branch("Mu2_dPtReltriggerMatch", &Mu2_dPtReltriggerMatch);        
  
-       tree_->Branch("Mu3_Pt", &Mu3_Pt);
+        tree_->Branch("Mu3_Pt", &Mu3_Pt);
         tree_->Branch("Mu3_Eta",&Mu3_Eta);
         tree_->Branch("Mu3_Phi", &Mu3_Phi);
         tree_->Branch("Mu3_NTracks03iso", &Mu3_NTracks03iso); 
@@ -2342,6 +2376,18 @@ float MiniAna2017Tree::dPtTriggerMatch(pat::Muon m, trigger::TriggerObjectCollec
 	tree_->Branch("dxyErr_mu2", &dxyErr_mu2);
 	tree_->Branch("dxyErr_mu3", &dxyErr_mu3);
 
+        tree_->Branch("RefTrack1_Pt",           &RefTrack1_Pt);
+        tree_->Branch("RefTrack1_Eta",          &RefTrack1_Eta);
+        tree_->Branch("RefTrack1_Phi",          &RefTrack1_Phi);
+        tree_->Branch("RefTrack1_TripletIndex", &RefTrack1_TripletIndex);
+        tree_->Branch("RefTrack2_Pt",           &RefTrack2_Pt);
+        tree_->Branch("RefTrack2_Eta",          &RefTrack2_Eta);
+        tree_->Branch("RefTrack2_Phi",          &RefTrack2_Phi);
+        tree_->Branch("RefTrack2_TripletIndex", &RefTrack2_TripletIndex);
+        tree_->Branch("RefTrack3_Pt",           &RefTrack3_Pt);
+        tree_->Branch("RefTrack3_Eta",          &RefTrack3_Eta);
+        tree_->Branch("RefTrack3_Phi",          &RefTrack3_Phi);
+        tree_->Branch("RefTrack3_TripletIndex", &RefTrack3_TripletIndex);
 
         /*  tree_->Branch("Mu1_SimPt", &Mu1_SimPt);
          tree_->Branch("Mu1_SimEta", &Mu1_SimEta);
@@ -2383,6 +2429,7 @@ float MiniAna2017Tree::dPtTriggerMatch(pat::Muon m, trigger::TriggerObjectCollec
         
         tree_->Branch("TripletVtx_Chi2", &TripletVtx_Chi2);
         tree_->Branch("TripletVtx_NDOF", &TripletVtx_NDOF);
+        tree_->Branch("TripletVtx_cov", &TripletVtx_cov);
         
         tree_->Branch("Triplet_Mass", &Triplet_Mass);
         tree_->Branch("Triplet_Pt", &Triplet_Pt);
@@ -2396,6 +2443,7 @@ float MiniAna2017Tree::dPtTriggerMatch(pat::Muon m, trigger::TriggerObjectCollec
         tree_->Branch("RefittedPV_x", &RefittedPV_x);
         tree_->Branch("RefittedPV_y", &RefittedPV_y);
         tree_->Branch("RefittedPV_z", &RefittedPV_z);
+        tree_->Branch("RefittedPV_cov", &RefittedPV_cov);
         tree_->Branch("RefittedPV_NTracks", &RefittedPV_NTracks);
         tree_->Branch("RefittedPV_isValid", &RefittedPV_isValid);
         //RefittedPV_Chi2.push_back(PVertex.);

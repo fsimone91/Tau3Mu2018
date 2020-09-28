@@ -16,7 +16,7 @@ process.load('Configuration.StandardSequences.EndOfProcess_cff')
 process.load("SkimTools.SkimTau3Mu.Tau3MuSkimAOD_cff")
 
 #process.GlobalTag.globaltag = '94X_mc2017_realistic_v14'
-process.GlobalTag.globaltag = '102X_upgrade2018_realistic_v20' #
+process.GlobalTag.globaltag = '102X_upgrade2018_realistic_v21' #2018 MC
 process.maxEvents = cms.untracked.PSet( input = cms.untracked.int32(-1) )
 
 
@@ -42,6 +42,7 @@ process.TFileService = cms.Service("TFileService",
 process.TreeMakerBkg = cms.EDAnalyzer("MiniAna2017Tree",
                                       isMcLabel = cms.untracked.bool(True),
                                       isAnaLabel = cms.untracked.bool(True),
+                                      isBParkingLabel = cms.untracked.bool(False),        
                                       muonLabel=cms.InputTag("looseMuons"),
                                       #VertexLabel=cms.InputTag("offlinePrimaryVerticesWithBS"),
                                       VertexLabel=cms.InputTag("offlinePrimaryVertices"),

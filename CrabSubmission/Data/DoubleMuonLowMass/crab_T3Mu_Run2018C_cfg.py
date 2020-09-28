@@ -7,7 +7,7 @@ config.General.transferOutputs = True
 config.General.transferLogs = False
 
 config.JobType.pluginName = 'Analysis'
-config.JobType.psetName = '/lustrehome/venditti/Tau3Mu2018_final/CMSSW_10_2_1/src/SkimTools/SkimTau3Mu/test/run_Data2017_PatAndTree_cfg.py'
+config.JobType.psetName = '/lustrehome/fsimone/AOD_ntuplizer/CMSSW_10_2_18/src/SkimTools/SkimTau3Mu/test/run_Data2018AC_PatAndTree_cfg.py'
 
 
 config.Data.inputDataset = '/DoubleMuonLowMass/Run2018C-17Sep2018-v1/AOD'
